@@ -20,6 +20,7 @@ void	readfromprompt(t_envir *env)
 	if (ft_strnstr(new_comm, "exit", 4) && new_comm[4] == '\0')
 		exit(0);
 	exec_comm(new_comm, env);
+	add_history(new_comm);
 }
 
 static char	**get_paths(char **envp)
