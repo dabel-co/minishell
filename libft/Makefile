@@ -3,86 +3,116 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
+#    By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/10 18:37:53 by vguttenb          #+#    #+#              #
-#    Updated: 2021/12/01 18:25:22 by vguttenb         ###   ########.fr        #
+#    Created: 2021/04/08 10:36:13 by dabel-co          #+#    #+#              #
+#    Updated: 2021/12/16 12:54:01 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-CFLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra 
+AR = ar rc
+CC = cc
+OBJ_DIR = obj
+OBJB_DIR = obj
+OBJE_DIR = obj
+OBJP_DIR = obj
+SRC_DIR = src
+SRCP_DIR = src/printf
+SRC = 	atoi \
+		bzero \
+		memcpy \
+		memset \
+		memccpy \
+		memchr \
+		memmove \
+		memcmp \
+		strlen \
+		isalpha \
+		isalnum \
+		isdigit \
+		isascii \
+		isprint \
+		toupper \
+		tolower \
+		strchr \
+		strrchr \
+		strncmp \
+		strlcpy \
+		strlcat \
+		strnstr \
+		calloc \
+		strdup \
+		substr \
+		strjoin \
+		strtrim \
+		split \
+		itoa \
+		strmapi \
+		putchar_fd \
+		putstr_fd \
+		putendl_fd \
+		putnbr_fd \
 
-CC = gcc
+PRINTF = printf \
+		send \
+		utils \
+		int \
+		x \
+		char \
 
-SRCS = 		ft_memset.c\
-			ft_bzero.c\
-			ft_memcpy.c\
-			ft_memccpy.c\
-			ft_memmove.c\
-			ft_memchr.c\
-			ft_memcmp.c\
-			ft_strlen.c\
-			ft_isalpha.c\
-			ft_isdigit.c\
-			ft_isalnum.c\
-			ft_isascii.c\
-			ft_isprint.c\
-			ft_toupper.c\
-			ft_tolower.c\
-			ft_strchr.c\
-			ft_strrchr.c\
-			ft_strncmp.c\
-			ft_strlcpy.c\
-			ft_strlcat.c\
-			ft_strnstr.c\
-			ft_atoi.c\
-			ft_calloc.c\
-			ft_strdup.c\
-			ft_substr.c\
-			ft_strjoin.c\
-			ft_strtrim.c\
-			ft_split.c\
-			ft_itoa.c\
-			ft_strmapi.c\
-			ft_putchar_fd.c\
-			ft_putstr_fd.c\
-			ft_putendl_fd.c\
-			ft_putnbr_fd.c\
+BONUS = lstnew \
+		lstadd_front \
+		lstsize \
+		lstlast \
+		lstadd_back \
+		lstdelone \
+		lstclear \
+		lstiter \
+		lstmap \
 
-BONUS =		ft_lstnew.c\
-			ft_lstadd_front.c\
-			ft_lstsize.c\
-			ft_lstlast.c\
-			ft_lstadd_back.c\
-			ft_lstdelone.c\
-			ft_lstclear.c\
-			ft_lstiter.c\
-			ft_lstmap.c\
+EXTRA = atoi_pointer \
+		isnumber \
+		lst_repeat \
+		lst_order \
 
-OBJS = $(SRCS:.c=.o)
+C = $(addprefix src/ft_, $(addsuffix .c, $(SRC)))
+O = $(addprefix $(OBJ_DIR)/ft_, $(addsuffix .o, $(SRC)))
+CPRINTF = $(addprefix src/printf/ft_, $(addsuffix .c, $(PRINTF)))
+OPRINTF = $(addprefix $(OBJP_DIR)/ft_, $(addsuffix .o, $(PRINTF)))
+Cbonus = $(addprefix src/ft_, $(addsuffix .c, $(BONUS)))
+Obonus = $(addprefix $(OBJB_DIR)/ft_, $(addsuffix .o, $(BONUS)))
+Cextra = $(addprefix src/ft_, $(addsuffix .c, $(EXTRA)))
+Oextra = $(addprefix $(OBJE_DIR)/ft_, $(addsuffix .o, $(EXTRA)))
 
-BONUSO = $(BONUS:.c=.o)
+$(NAME) : create_dir $(O) $(OPRINTF)
+	@$(AR) $(NAME) $(O) $(OPRINTF)
 
-$(NAME): $(OBJS)
-		$(CC) $(CFLAGS) -c $(SRCS)
-		ar rc $(NAME) $(OBJS)
-		ranlib $(NAME)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(FLAGS) -c $< -o $@
 
+$(OBJB_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+$(OBJE_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+$(OBJP_DIR)/%.o: $(SRCP_DIR)/%.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+bonus : $(NAME) $(Obonus)
+	@$(AR) $(NAME) $(O) $(Obonus)
+extra : bonus $(Oextra) 
+	@$(AR) $(NAME) $(O) $(Obonus) $(Oextra)
+create_dir : 
+	@mkdir -p obj
+clean:
+	@rm -rf $(OBJ_DIR)
+fclean: clean
+	@rm -f $(NAME)
 all: $(NAME)
 
-clean:
-			rm -rf $(OBJS)
-			rm -rf $(BONUSO)
-
-fclean:		clean
-			rm -rf $(NAME)
-
-bonus:		$(NAME) $(BONUSO)
-			ar rcs $(NAME) $(BONUSO)
-
 re: fclean all
-
-.PHONY:				all clean fclean re
-			
+.PHONY : all clean fclean bonus extra
