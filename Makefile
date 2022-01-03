@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/03 12:47:43 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/01/03 13:41:27 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)
 
 $(NAME) :	check_libft
-	@$(CC) $(FLAGS) $(READLINE) $(C) ./libft/libft.a -o $(NAME)
+	$(CC) $(FLAGS) $(C) -o $(NAME) $(READLINE) ./libft/libft.a
 check_libft :
 	@if test -d libft; then ( cd libft ; git pull ) ; else git clone https://github.com/dabel-co/libft.git; fi
 	@make extra -C ./libft

@@ -51,8 +51,6 @@ static void	get_execord(char *command, char **paths, t_execord *exec_order)
 	char		**complus;
 	char		*last_bar;
 
-
-	//printf("%s\n", command);
 	complus = ft_split(command, ' ');
 	last_bar = ft_strrchr(complus[0], '/');
 	if (last_bar)

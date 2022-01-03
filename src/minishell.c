@@ -16,7 +16,7 @@ void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
 
-	new_comm = readline("Minishell$ ");
+	new_comm = readline("Newminishell@whodis$ ");
 	if (ft_strnstr(new_comm, "exit", 4) && new_comm[4] == '\0')
 		exit(0);
 	exec_comm(new_comm, env);
