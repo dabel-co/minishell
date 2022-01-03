@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 12:31:30 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:29:52 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env.paths = get_paths(envp);
 	env.envp = envp;
+	printf("%s\n", argv[1]);
+	ft_cd(argv[1]);
 	while (1)
 		readfromprompt(&env);
 }
