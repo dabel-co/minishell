@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 13:54:45 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:10:11 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,33 @@ void	readfromprompt(t_envir *env)
 		exit(0);
 	exec_comm(new_comm, env);
 	add_history(new_comm);
+}
+
+static char	**get_env(char **envp)
+{
+	char	**env;
+	int		i;
+	int		p;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	env = (char **)malloc((i + 1) * sizeof(char *));
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		p = 0;
+		env[i] = (char *)malloc((ft_strlen(envp[i]) + 1) * sizeof(char));
+		while (envp[i][p] != '\0')
+		{
+			env[i][p] = envp[i][p];
+			p++;
+		}
+		env[i][p] = '\0';
+		i++;
+	}
+	env[i] = NULL;
+	return (env);
 }
 
 static char	**get_paths(char **envp)
@@ -51,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env.paths = get_paths(envp);
-	env.envp = envp;
+	env.e_envp = get_env(envp);
 	while (1)
 		readfromprompt(&env);
 }

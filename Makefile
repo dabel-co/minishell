@@ -6,12 +6,12 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/03 13:41:27 by marvin           ###   ########.fr        #
+#    Updated: 2022/01/03 17:10:53 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
 CC = cc
 READLINE = -lreadline
 FILES =	minishell \

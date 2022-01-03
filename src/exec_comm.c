@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 17:14:39 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 12:35:43 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/03 16:09:31 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	exec_comm(char *comm, t_envir *env)
 			ft_putendl_fd(exec_order.argsum[0], 1);
 		}
 		else
-			exec(&exec_order, env->envp);
+			exec(&exec_order, env->e_envp);
 		execfree(&exec_order);
 	}
 }
