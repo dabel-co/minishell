@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 17:14:39 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/02 17:14:39 by marvin           ###   ########.fr       */
+/*   Updated: 2022/01/03 12:35:43 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	exec_comm(char *comm, t_envir *env)
 	t_execord	exec_order;
 
 	if (!comm || !comm[0])
-		ft_putstr_fd("minishell: empty argument", 1);
+		ft_putstr_fd("", 1);
 	else
 	{
 		get_execord(comm, env->paths, &exec_order);
 		if (!exec_order.comm)
 		{
-			ft_putstr_fd("minishell: ", 1);
+			ft_putstr_fd("Minishell: ", 1);
 			if (exec_order.free)
 				ft_putstr_fd("command not found: ", 1);
 			else

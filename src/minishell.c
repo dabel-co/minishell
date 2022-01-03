@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/02 16:54:59 by marvin           ###   ########.fr       */
+/*   Updated: 2022/01/03 12:31:30 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
 
-	new_comm = readline("newminishell@whodis> ");
+	new_comm = readline("Minishell$ ");
 	if (ft_strnstr(new_comm, "exit", 4) && new_comm[4] == '\0')
 		exit(0);
 	exec_comm(new_comm, env);
