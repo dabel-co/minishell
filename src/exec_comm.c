@@ -14,19 +14,26 @@
 
 void	exec(t_execord *execorder, char **envp)
 {
+	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
+		ft_cd(execorder->argsum[1]);
+	else if (ft_strnstr(execorder->argsum[0], "echo", 4) && !execorder->argsum[0][4])
+		ft_echo(execorder->argsum);
+	else if (ft_strnstr(execorder->argsum[0], "pwd", 3) && !execorder->argsum[0][3])
+		ft_pwd();
+	else if (execve(execorder->comm, execorder->argsum, envp) < 0)
+		perror(execorder->argsum[0]);
+	exit (0);
+}
+
+void	set_exec(t_execord *execorder, char **envp)
+{
 	pid_t		pidC;
 
 	pidC = fork();
 	if (pidC == -1)
 		perror("fork");
 	else if (pidC == 0)
-	{
-		if (execve(execorder->comm, execorder->argsum, envp) < 0)
-		{
-			perror(execorder->argsum[0]);
-			exit (0);
-		}
-	}
+		exec(execorder, envp);
 	else
 		waitpid(pidC, NULL, 0);
 }
@@ -91,7 +98,7 @@ void	exec_comm(char *comm, t_envir *env)
 			ft_putendl_fd(exec_order.argsum[0], 1);
 		}
 		else
-			exec(&exec_order, env->e_envp);
+			set_exec(&exec_order, env->e_envp);
 		execfree(&exec_order);
 	}
 }

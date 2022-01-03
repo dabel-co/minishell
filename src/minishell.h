@@ -39,5 +39,7 @@ char	*search_comm(char *comm, char **paths);
 int		ft_cd(char *path);
 int 	*ft_pwd(void);
 int		ft_echo(char **argv);
+char	**ord_split(char *comm_line);
+void	exec_line(char *comm_line, t_envir *env);
 
 #endif

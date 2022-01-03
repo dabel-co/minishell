@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/03 17:10:53 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/01/03 20:55:28 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ FILES =	minishell \
 		exec_comm \
 		search_comm \
 		utils \
+		ord_split \
+		exec_line
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)
