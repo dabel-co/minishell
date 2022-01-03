@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 13:31:09 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/03 14:12:52 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_execord
 typedef struct s_envir
 {
 	char	**paths;
-	char	**envp;
+	char	**e_envp;
 }				t_envir;
 
 void	exec_comm(char *comm, t_envir *env);
