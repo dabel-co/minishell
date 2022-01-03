@@ -6,20 +6,27 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 12:45:23 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/03 12:46:54 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:30:28 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_pwd(void)
+int	ft_cd(char *path)
+{
+	chdir(path);
+	return (0);
+}
+
+int	*ft_pwd(void)
 {
 	char	*dir;
 
 	dir = NULL;
 	dir = getcwd(dir, 0);
-	//getcwd allocates memory, will need to free this later outside
-	return (dir);
+	ft_putendl_fd(dir, STDOUT_FILENO);
+	free(dir);
+	return (0);
 }
 
 int	ft_echo(char **argv)
