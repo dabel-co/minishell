@@ -26,6 +26,7 @@ typedef struct s_execord
 	char	*comm;
 	char	**argsum;
 	char	free;
+	int		in_fd;
 }				t_execord;
 
 typedef struct s_envir
