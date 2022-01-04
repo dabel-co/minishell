@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/04 18:26:25 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/04 18:36:11 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	find_env(char *env, char *str)
 	int	i;
 
 	i = 0;
+	i = 0;
+	printf("TEST\n");
 	while (str[i])
 	{
 		if (str[i] != env[i])
@@ -32,56 +34,50 @@ static char	**new_env(char **env, int size, char *str)
 {
 	int i;
 	int p;
-	int	s;
 	char **aux;
-
+//add path thingy
 	i = 0;
-	s = 0;
+	printf("TEST\n");
 	aux = (char **)malloc((size) * sizeof(char *));
-	while (env[s])
+	while (env[i])
 	{
 		p = 0;
-		if (!find_env(env[s], str))
-			s++;
-		aux[i] = (char *)malloc((ft_strlen(env[s]) + 1) * sizeof(char));
-		while (env[s][p] != '\0')
+		aux[i] = (char *)malloc((ft_strlen(env[i]) + 1) * sizeof(char));
+		while (env[i][p] != '\0')
 		{
-			aux[i][p] = env[s][p];
+			aux[i][p] = env[i][p];
 			p++;
 		}
 		aux[i][p] = '\0';
 		i++;
-		s++;
 	}
-	aux[i] = NULL; 
+	aux[i] = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+	p = 0;
+	while (str[p] != '\0')
+	{
+		aux[i][p] = str[p];
+		p++;
+	}
+	aux[i + 1] = NULL; 
 	return (aux);
 }
 
-int	ft_env(char **str, int mode)
+void	ft_export(t_envir *env, char *str)
 {
+	ft_env(env->e_envp, 0);
+	printf("\n");
 	int i;
-	
-	i = 0;
-	while (str[i])
-	{
-		if (mode == 0)
-			ft_putendl_fd(str[i], STDOUT_FILENO);
-		i++;
-	}
-	return (i);
-}
-
-void	ft_unset(t_envir *env, char *str)
-{
-	int	i;
 	char **aux;
-	
+
 	i = 0;
-	while (find_env(env->e_envp[i], str))
+	printf("TEST\n");
+	while (env->e_envp[i] && find_env(env->e_envp[i], str))
 		i++;
-	if (env->e_envp[i] == NULL)
-		return ;
-	aux = new_env(env->e_envp, ft_env(env->e_envp, 1), str);
+	printf("TESTAAA\n");
+	if (env->e_envp[i] != NULL)
+		ft_unset(env, str);
+	printf("TEST\n");
+	aux = new_env(env->e_envp, ft_env(env->e_envp, 1) + 2, str);
 	i = 0;
 	while (env->e_envp[i])
 	{
@@ -90,4 +86,6 @@ void	ft_unset(t_envir *env, char *str)
 	}
 	free(env->e_envp);
 	env->e_envp = aux;
+	ft_env(env->e_envp, 0);
+	printf("\n");
 }
