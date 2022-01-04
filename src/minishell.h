@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 14:12:52 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/04 11:56:46 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ int 	*ft_pwd(void);
 int		ft_echo(char **argv);
 char	**ord_split(char *comm_line);
 void	exec_line(char *comm_line, t_envir *env);
+void	ft_env(char **str);
+void	ft_unset(t_envir *env, char *str);
 
 #endif
