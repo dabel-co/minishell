@@ -6,34 +6,18 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/04 18:26:25 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:56:36 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	find_env(char *env, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != env[i])
-			return (-1);
-		i++;
-	}
-	if (env[i] == '=')
-			return (0);
-	return (-1);
-}
-
 static char	**new_env(char **env, int size, char *str)
 {
-	int i;
-	int p;
-	int	s;
-	char **aux;
+	int		i;
+	int		p;
+	int		s;
+	char	**aux;
 
 	i = 0;
 	s = 0;
@@ -53,14 +37,14 @@ static char	**new_env(char **env, int size, char *str)
 		i++;
 		s++;
 	}
-	aux[i] = NULL; 
+	aux[i] = NULL;
 	return (aux);
 }
 
 int	ft_env(char **str, int mode)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (str[i])
 	{
@@ -73,9 +57,9 @@ int	ft_env(char **str, int mode)
 
 void	ft_unset(t_envir *env, char *str)
 {
-	int	i;
-	char **aux;
-	
+	int		i;
+	char	**aux;
+
 	i = 0;
 	while (find_env(env->e_envp[i], str))
 		i++;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/04 18:16:53 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:01:21 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void	exec_line(char *comm_line, t_envir *env);
 int		ft_env(char **str, int mode);
 void	ft_unset(t_envir *env, char *str);
 void	ft_export(t_envir *env, char *str);
+int		find_env(char *env, char *str);
 
 #endif
