@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/11 16:25:10 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:59:48 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	**get_env(char **envp)
 	return (env);
 }
 
-static char	**get_paths(char **envp)
+char	**get_paths(char **envp)
 {
 	int		i;
 	char	*paths;
@@ -79,13 +79,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env.paths = get_paths(envp);
 	env.e_envp = get_env(envp);
-	printf("=====================================\n");
-	ft_env(env.e_envp, 0);
-	printf("=====================================\n");
-	ft_export(&env, "USER=");
-	printf("=====================================\n");
-	ft_env(env.e_envp, 0);
-	printf("=====================================\n");
 	while (1)
 		readfromprompt(&env);
 }

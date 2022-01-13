@@ -6,20 +6,34 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/11 16:46:47 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:50:22 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	update_paths(t_envir *env)
+{
+	int	i;
+
+	i = 0;
+	while (env->paths[i])
+	{
+		free(env->paths[i]);
+		i++;
+	}
+	free(env->paths[i]);
+	env->paths = get_paths(env->e_envp);
+}
 
 int	find_env(char *env, char *str)
 {
 	int	i;
 
 	i = 0;
-	while (env[i] == str[i] && str[i] != '=')
+	while (env[i] == str[i] && str[i] != '=' && env[i] != '\0')
 		i++;
-	if (env[i] == '=')
+	if (env[i] == '=' || (env[i] == '\0' && str[i] == '='))
 		return (0);
 	return (-1);
 }
@@ -67,7 +81,7 @@ void	ft_export(t_envir *env, char *str)
 {
 	int		i;
 	char	**aux;
-	//if (str! || ft_check_for_equal(str)
+
 	i = 0;
 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
 		i++;
@@ -82,4 +96,6 @@ void	ft_export(t_envir *env, char *str)
 	}
 	free(env->e_envp);
 	env->e_envp = aux;
+	if (ft_strncmp("PATH=", str, 5))
+		update_paths(env);
 }
