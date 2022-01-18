@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/13 15:52:07 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/01/18 11:41:38 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,12 @@ READLINE = -lreadline
 FILES =	minishell \
 		exec_comm \
 		search_comm \
-		utils \
+		cd_pwd \
+		echo \
 		ord_split \
 		exec_line \
-		env_utils \
+		unset \
+		env \
 		export \
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
@@ -33,8 +35,11 @@ check_libft :
 	@make extra -C ./libft
 clean:
 	rm -f $(NAME)
+	rm -rf minishell.dSYM
 fclean: clean
 	make fclean -C ./libft
+g : fclean
+	rm -rf ./libft
 re: clean all
 
 .PHONY : all clean fclean re check_libft

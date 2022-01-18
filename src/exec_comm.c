@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 17:14:39 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/13 15:51:02 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:41:40 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exec(t_execord *execorder, char **envp)
 {
+	//send env stuff here
 	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
 		ft_cd(execorder->argsum[1]);
 	else if (ft_strnstr(execorder->argsum[0], "echo", 4) && !execorder->argsum[0][4])

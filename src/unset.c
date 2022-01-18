@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/13 15:50:20 by dabel-co         ###   ########.fr       */
+/*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
+/*   Updated: 2022/01/18 11:40:04 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,6 @@ static char	**new_env(char **env, int size, char *str)
 	}
 	aux[i] = NULL;
 	return (aux);
-}
-
-int	ft_env(char **str, int mode)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (mode == 2)
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		if ((mode == 0 && ft_strchr(str[i], '=')) || mode == 2)
-			ft_putendl_fd(str[i], STDOUT_FILENO);
-		i++;
-	}
-	return (i);
 }
 
 void	ft_unset(t_envir *env, char *str)

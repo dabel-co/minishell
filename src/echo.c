@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 12:45:23 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/09 13:00:38 by dabel-co         ###   ########.fr       */
+/*   Created: 2022/01/18 11:39:15 by dabel-co          #+#    #+#             */
+/*   Updated: 2022/01/18 11:39:21 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_cd(char *path)
-{
-	chdir(path);
-	return (0);
-}
-
-int	*ft_pwd(void)
-{
-	char	*dir;
-
-	dir = NULL;
-	dir = getcwd(dir, 0);
-	ft_putendl_fd(dir, STDOUT_FILENO);
-	free(dir);
-	return (0);
-}
 
 int	ft_echo(char **argv)
 {
