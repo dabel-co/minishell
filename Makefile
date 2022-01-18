@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/18 11:41:38 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/01/18 14:51:13 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ READLINE = -lreadline
 FILES =	minishell \
 		exec_comm \
 		search_comm \
-		cd_pwd \
+		pwd \
+		cd \
 		echo \
 		ord_split \
 		exec_line \

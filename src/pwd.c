@@ -6,16 +6,15 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/18 12:40:21 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/18 15:47:34 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	*dir;
-
 	dir = NULL;
 	dir = getcwd(dir, 0);
 	ft_putendl_fd(dir, STDOUT_FILENO);

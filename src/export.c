@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/18 11:35:39 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/18 15:47:03 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	find_env(char *env, char *str)
 	int	i;
 
 	i = 0;
+	if (!env || !str)
+		return (-1);
 	while (env[i] == str[i] && str[i] != '=' && env[i] != '\0')
 		i++;
 	if (env[i] == '=' || (env[i] == '\0' && str[i] == '='))

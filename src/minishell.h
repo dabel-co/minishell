@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 12:39:24 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/18 15:47:39 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_envir
 
 void	exec_comm(char *comm, t_envir *env);
 char	*search_comm(char *comm, char **paths);
-int		ft_cd(char *path);
-int		*ft_pwd(void);
+int		ft_cd(char *path, t_envir *env);
+int		ft_pwd(void);
 int		ft_echo(char **argv);
 char	**ord_split(char *comm_line);
 void	exec_line(char *comm_line, t_envir *env);
