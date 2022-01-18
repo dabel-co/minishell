@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 15:47:41 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/18 16:32:35 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,28 @@ char	**get_paths(char **envp)
 	return (result);
 }
 
+static void update_shlvl(t_envir *env)
+{
+	int	shlvl;
+	int	i;
+	char *x;
+	char *aux;
+
+	i = 0;
+	shlvl = 0;
+	while (find_env(env->e_envp[i], "SHLVL="))
+		i++;
+	while (env->e_envp[i][shlvl] != '=')
+		shlvl++;
+	shlvl = ft_atoi(&env->e_envp[i][++shlvl]);
+	shlvl++;
+	x = ft_itoa(shlvl);
+	aux = ft_strjoin("SHLVL=", x);
+	ft_export(env, aux);
+	free(x);
+	free(aux);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envir	env;
@@ -79,10 +101,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env.paths = get_paths(envp);
 	env.e_envp = get_env(envp);
-	ft_env(env.e_envp, 0);
-	ft_pwd();
-	ft_cd("..", &env);
-	ft_pwd();
+	update_shlvl(&env);
 	ft_env(env.e_envp, 0);
 	while (1)
 		readfromprompt(&env);
