@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_redir.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
+/*   Updated: 2022/01/19 17:11:28 by vguttenb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	syntax_err_msg(char err)
@@ -111,18 +123,18 @@ int		take_input(char **comm, char *input)
 	keyword = ft_substr(input, start, (ind - start));
 	if (input[1] == '<')
 		fd = tty_fd(keyword);
-	else
+	else/* if (!execord->ignore)*/
 		fd = file_fd(keyword);
-	ft_putendl_fd(*comm, 1);
+	/*ft_putendl_fd(*comm, 1);
 	ft_putendl_fd(input, 1);
-	ft_putendl_fd(keyword, 1);
+	ft_putendl_fd(keyword, 1);*/
 	free(keyword);
 	keyword = ft_strcrop(*comm, (input - *comm), (&input[ind] - input));
-	//free(*comm);
+	free(*comm);
 	*comm = keyword;
-	ft_putendl_fd(*comm, 1);
+	/*ft_putendl_fd(*comm, 1);
 	ft_putnbr_fd(fd, 1);
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', 1);*/
 	return(fd);
 }
 
@@ -144,25 +156,17 @@ int	take_all_input(char **comm, char *mode, int old_fd)
 	return (take_all_input(comm, mode, old_fd));
 }
 
-int	input_redir(char **comm/* estructura */)
+int	input_redir(char **comm, int rfd/* estructura */)
 {
 	int		input_num;
-	int		fd;
 
-	fd = 0;
+	rfd = 0;
 	input_num = syntax_err(*comm);
 	if (!input_num)
-		return(fd);
-	close(fd);
-	fd = take_all_input(comm, "<<", 0);
-	fd = take_all_input(comm, "<", fd);
-	return(fd);
-}
-
-int	main(int argc, char **argv)
-{
-	int	fd;
-
-	fd = input_redir(&argv[argc - 1]);
-	ft_putnbr_fd(fd, 1);
+		return(rfd);
+	if (rfd);
+		close(rfd);
+	rfd = take_all_input(comm, "<<", 0);
+	rfd = take_all_input(comm, "<", rfd);
+	return(rfd);
 }

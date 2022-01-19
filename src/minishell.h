@@ -53,5 +53,6 @@ void	ft_export(t_envir *env, char *str);
 int		find_env(char *env, char *str);
 char	**get_paths(char **envp);
 void	update_paths(t_envir *env);
+int		input_redir(char **comm, int rfd);
 
 #endif
