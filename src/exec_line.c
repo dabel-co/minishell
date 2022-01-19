@@ -86,7 +86,7 @@ int	file_in_fd(char *comm, t_execord *exec_order)
 	filename = ft_substr(comm, first, ind - first);
 	fd = open(filename, O_RDONLY);
 	if (fd > 0 && !exec_order->ignore_fd)
-		return (fd)
+		return (fd);
 	exec_order->ignore = 1;
 	perror(open);
 	free(filename);
@@ -123,7 +123,7 @@ char	*get_in_fd(char *comm, t_execord *exec_order, int rfd)
 	f_input = strrchr(comm, '<');
 	if (!f_input)
 		return (rfd);
-	if (f_input > comm && *(f_input - sizeof(char) == '<')
+	if (f_input > comm && *(f_input - sizeof(char)) == '<')
 		f_input -= sizeof(char);
 	input = ft_strnstr(comm, "<<", ft_strlen(comm));
 	while(input && input < f_input)
@@ -142,7 +142,7 @@ void	exec_pipe(char *comm, int rfd, int *pip)
 {
 	t_execord	exec_order;
 
-	exec_order->ignore = 0;
+	exec_order.ignore = 0;
 	comm = get_in_fd(comm, &exec_order, rfd);
 	comm = get_out_fd(comm, &exec_order, pip[WR_END]);
 
@@ -180,7 +180,7 @@ void	exec_line(char *comm_line, t_envir *env)
 	else
 	{
 		orders = ft_split(comm_line, '|');
-		exec_manage(orders);
-		//print_array(orders);
+		//exec_manage(orders);
+		print_array(orders);
 	}
 }

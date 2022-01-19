@@ -15,11 +15,15 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "../libft/src/libft.h"
+
+# define RD_END	0
+# define WR_END	1
 
 typedef struct s_execord
 {
@@ -27,8 +31,7 @@ typedef struct s_execord
 	char	**argsum;
 	char	free;
 	int		in_fd;
-	char	ignore_open;
-	char	ignore_fd;
+	char	ignore;
 }				t_execord;
 
 typedef struct s_envir
