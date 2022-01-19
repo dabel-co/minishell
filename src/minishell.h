@@ -27,6 +27,8 @@ typedef struct s_execord
 	char	**argsum;
 	char	free;
 	int		in_fd;
+	char	ignore_open;
+	char	ignore_fd;
 }				t_execord;
 
 typedef struct s_envir
