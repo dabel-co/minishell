@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 15:47:39 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:37:29 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ void	ft_export(t_envir *env, char *str);
 int		find_env(char *env, char *str);
 char	**get_paths(char **envp);
 void	update_paths(t_envir *env);
-
+char	*expand(char *str, t_envir *env);
 #endif
