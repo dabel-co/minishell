@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/19 17:11:28 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:46:29 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	tty_fd(char *limiter)
 	return (pip[RD_END]);
 }
 
-int	file_fd(char *filename/*, t_execord *exec_order*/)
+int	file_rd_fd(char *filename/*, t_execord *exec_order*/)
 {
 	int		fd;
 
@@ -124,7 +124,7 @@ int		take_input(char **comm, char *input)
 	if (input[1] == '<')
 		fd = tty_fd(keyword);
 	else/* if (!execord->ignore)*/
-		fd = file_fd(keyword);
+		fd = file_rd_fd(keyword);
 	/*ft_putendl_fd(*comm, 1);
 	ft_putendl_fd(input, 1);
 	ft_putendl_fd(keyword, 1);*/
@@ -150,7 +150,7 @@ int	take_all_input(char **comm, char *mode, int old_fd)
 	if (input == last_input && old_fd == 0)
 		return (take_input(comm, input));
 	else if (input)
-		ft_putnbr_fd(take_input(comm, input), 1);//close(take_input(&comm, input));
+		close(take_input(comm, input));
 	else
 		return (old_fd);
 	return (take_all_input(comm, mode, old_fd));
@@ -159,8 +159,7 @@ int	take_all_input(char **comm, char *mode, int old_fd)
 int	input_redir(char **comm, int rfd/* estructura */)
 {
 	int		input_num;
-
-	rfd = 0;
+	
 	input_num = syntax_err(*comm);
 	if (!input_num)
 		return(rfd);
