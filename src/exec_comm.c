@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	exec(t_execord *execorder, char **envp)
+void	exec(t_execord *execorder, t_envir *env)
 {
 	//send env stuff here and fix cd thingy
 	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
@@ -21,12 +21,12 @@ void	exec(t_execord *execorder, char **envp)
 		ft_echo(execorder->argsum);
 	else if (ft_strnstr(execorder->argsum[0], "pwd", 3) && !execorder->argsum[0][3])
 		ft_pwd();
-	else if (execve(execorder->comm, execorder->argsum, envp) < 0)
+	else if (execve(execorder->comm, execorder->argsum, env->e_envp) < 0)
 		perror(execorder->argsum[0]);
 	exit (0);
 }
 
-void	set_exec(t_execord *execorder, char **envp)
+void	set_exec(t_execord *execorder, t_envir *env)
 {
 	pid_t		pidC;
 
@@ -34,7 +34,7 @@ void	set_exec(t_execord *execorder, char **envp)
 	if (pidC == -1)
 		perror("fork");
 	else if (pidC == 0)
-		exec(execorder, envp);
+		exec(execorder, env);
 	else
 		waitpid(pidC, NULL, 0);
 }
@@ -99,7 +99,7 @@ void	exec_comm(char *comm, t_envir *env)
 			ft_putendl_fd(exec_order.argsum[0], 1);
 		}
 		else
-			set_exec(&exec_order, env->e_envp);
+			set_exec(&exec_order, env);
 		execfree(&exec_order);
 	}
 }
