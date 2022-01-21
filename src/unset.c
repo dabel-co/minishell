@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/18 11:40:04 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/21 08:31:51 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static char	*new_env_aux(char *env)
 static char	**new_env(char **env, int size, char *str)
 {
 	int		i;
-	int		p;
 	int		s;
 	char	**aux;
 
@@ -41,7 +40,6 @@ static char	**new_env(char **env, int size, char *str)
 	aux = (char **)malloc((size) * sizeof(char *));
 	while (env[s])
 	{
-		p = 0;
 		if (!find_env(env[s], str))
 			s++;
 		if (env[s])

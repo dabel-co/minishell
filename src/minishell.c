@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/19 17:37:32 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/21 08:30:05 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	main(int argc, char **argv, char **envp)
 	env.paths = get_paths(envp);
 	env.e_envp = get_env(envp);
 	update_shlvl(&env);
-	expand("$Apple_PubSub_Socket_Render", &env), &env);;
 	//ft_env(env.e_envp, 0);
 	while (1)
 		readfromprompt(&env);
