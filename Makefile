@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/19 17:13:38 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/01/21 11:48:22 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ FLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 CC = cc
 READLINE = -lreadline
 FILES =	minishell \
-		exec_comm \
 		search_comm \
 		pwd \
 		cd \
@@ -25,7 +24,11 @@ FILES =	minishell \
 		env \
 		export \
 		expand \
-#		exec_line
+		input_redir \
+		output_redir \
+		exec_line \
+		ft_strcrop \
+#		exec_comm \
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

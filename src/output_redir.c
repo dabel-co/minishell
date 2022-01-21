@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   output_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 17:19:58 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/19 17:53:16 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:49:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	syntax_err_msg(char err)
+void	syntax_err_msg_out(char err)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 1);
 	ft_putchar_fd(err, 1);
@@ -20,7 +20,7 @@ void	syntax_err_msg(char err)
 	exit(0);
 }
 
-int	syntax_err(char *comm)
+int	syntax_err_out(char *comm)
 {
 	int	ret;
 
@@ -33,11 +33,11 @@ int	syntax_err(char *comm)
 			if (*comm == '>')
 				comm += 1;
 			if (!*comm)
-				syntax_err_msg(*comm);
+				syntax_err_msg_out(*comm);
 			while(*comm == ' ')
 				comm += 1;
 			if (!*comm || *comm == '<' || *comm == '>' || *comm == '\n')
-				syntax_err_msg(*comm);
+				syntax_err_msg_out(*comm);
 		}
 	}
 	return (ret);
@@ -50,7 +50,8 @@ int	file_wr_fd(char *filename, int mode)
 	fd = open(filename, O_CREAT | O_WRONLY | mode, 0666);
 	if (fd > 0)
 		return (fd);
-	perror(open);
+	perror("open");
+	return(0);
 	//salir por patas
 }
 
@@ -103,10 +104,10 @@ int	output_redir(char **comm, int wfd/* estructura */)
 {
 	int		output_num;
 
-	output_num = syntax_err(*comm);
+	output_num = syntax_err_out(*comm);
 	if (!output_num)
 		return(wfd);
-	if (wfd);
+	if (wfd)
 		close(wfd);
 	wfd = take_all_output(comm, 0);
 	return(wfd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/19 17:46:29 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:44:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,6 @@ int	syntax_err(char *comm)
 	return (ret);
 }
 
-char	*ft_strcrop(char const *str, unsigned int start, size_t len)
-{
-	char				*ret;
-	unsigned int		ind;
-
-	ret = (char *)malloc(sizeof(char) * (ft_strlen(str) - len + 1));
-	ind = 0;
-	while (ind < start)
-	{
-		ret[ind] = str[ind];
-		ind++;
-	}
-	while (str[ind + len])
-	{
-		ret[ind] = str[ind + len];
-		ind++;
-	}
-	ret[ind] = '\0';
-	return (ret);
-}
-
 static int	tty_fd(char *limiter)
 {
 	int		pip[2];
@@ -76,10 +55,10 @@ static int	tty_fd(char *limiter)
 	{
 		keeper = NULL;
 		write(1, "> ", 2);
-		while (!sec_strchr(keeper, '\n'))
+		while (!ft_strchr(keeper, '\n'))
 		{
 			read(0, &buffer[0], 1);
-			keeper = gnl_strjoin(keeper, buffer);
+			keeper = ft_strjoin_free(keeper, buffer);
 		}
 		if (ft_strnstr(keeper, limiter, ft_strlen(limiter))
 			&& keeper[ft_strlen(limiter)] == '\n')
@@ -92,6 +71,15 @@ static int	tty_fd(char *limiter)
 	return (pip[RD_END]);
 }
 
+static int	null_fd(void)
+{
+	int	fd[2];
+
+	pipe(fd);
+	close(fd[WR_END]);
+	return (fd[RD_END]);
+}
+
 int	file_rd_fd(char *filename/*, t_execord *exec_order*/)
 {
 	int		fd;
@@ -100,7 +88,7 @@ int	file_rd_fd(char *filename/*, t_execord *exec_order*/)
 	if (fd > 0/* && !exec_order->ignore_fd*/)
 		return (fd);
 	//exec_order->ignore = 1;
-	perror(open);
+	perror("open");
 	//free(filename);
 	return (null_fd());
 }
@@ -163,7 +151,7 @@ int	input_redir(char **comm, int rfd/* estructura */)
 	input_num = syntax_err(*comm);
 	if (!input_num)
 		return(rfd);
-	if (rfd);
+	if (rfd)
 		close(rfd);
 	rfd = take_all_input(comm, "<<", 0);
 	rfd = take_all_input(comm, "<", rfd);

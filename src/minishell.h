@@ -55,4 +55,8 @@ char	**get_paths(char **envp);
 void	update_paths(t_envir *env);
 char	*expand(char *str, t_envir *env);
 int		input_redir(char **comm, int rfd);
+int		output_redir(char **comm, int wfd);
+char	*ft_strcrop(char const *str, unsigned int start, size_t len);
+void	exec_line(char *comm_line, t_envir *env);
+
 #endif
