@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/21 11:48:22 by marvin           ###   ########.fr        #
+#    Updated: 2022/01/26 16:45:56 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ FILES =	minishell \
 		input_redir \
 		output_redir \
 		exec_line \
-		ft_strcrop \
 #		exec_comm \
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))

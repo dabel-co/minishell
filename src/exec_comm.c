@@ -6,13 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 17:14:39 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 16:37:07 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/26 16:48:38 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec(t_execord *execorder, t_envir *env)
+/*void	exec(t_execord *execorder, t_envir *env)
 {
 	//send env stuff here and fix cd thingy
 	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
@@ -24,7 +24,7 @@ void	exec(t_execord *execorder, t_envir *env)
 	else if (execve(execorder->comm, execorder->argsum, env->e_envp) < 0)
 		perror(execorder->argsum[0]);
 	exit (0);
-}
+} */
 
 void	set_exec(t_execord *execorder, t_envir *env)
 {

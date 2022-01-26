@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/18 14:45:44 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:23:14 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,22 @@ static void	execfree(t_execord *exec_order)
 
 void	exec(t_execord *execorder, t_envir *env)
 {
-	//send env stuff here and fix cd thingy
 	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
-		write(1, "a", 1);
+	{
+		printf("---%s\n", execorder->argsum[1]);
+		ft_cd(execorder->argsum[1], env);
+	}
 	else if (ft_strnstr(execorder->argsum[0], "echo", 4) && !execorder->argsum[0][4])
 		ft_echo(execorder->argsum);
 	else if (ft_strnstr(execorder->argsum[0], "pwd", 3) && !execorder->argsum[0][3])
+	{
+		printf("holaaaaaaaaaa\n");
 		ft_pwd();
+	}
+	else if (ft_strnstr(execorder->argsum[0], "export", 6) && !execorder->argsum[0][6])
+		ft_export(env, execorder->argsum[1]);
+	else if (ft_strnstr(execorder->argsum[0], "unset", 5) && !execorder->argsum[0][5])
+		ft_unset(env, execorder->argsum[1]);
 	else if (execve(execorder->comm, execorder->argsum, env->e_envp) < 0)
 		perror(execorder->argsum[0]);
 	exit (0);

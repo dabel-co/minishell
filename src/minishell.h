@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/19 17:38:53 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:12:48 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "../libft/src/libft.h"
+# include <errno.h>
 
 # define RD_END	0
 # define WR_END	1
@@ -56,7 +57,6 @@ void	update_paths(t_envir *env);
 char	*expand(char *str, t_envir *env);
 int		input_redir(char **comm, int rfd);
 int		output_redir(char **comm, int wfd);
-char	*ft_strcrop(char const *str, unsigned int start, size_t len);
 void	exec_line(char *comm_line, t_envir *env);
-
+void	exec(t_execord *execorder, t_envir *env);
 #endif

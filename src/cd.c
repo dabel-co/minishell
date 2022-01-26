@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:04 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/18 15:47:37 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:23:13 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	ft_cd(char *path, t_envir *env)
 	dir = getcwd(dir, 0);
 	aux = ft_strjoin("OLDPWD=", dir);
 	ft_export(env, aux);
-	chdir(path);
+	printf("%d\n", chdir(path));
+	printf("%s\n", strerror(errno));
 	free(dir);
 	free(aux);
 	dir = NULL;
@@ -29,6 +30,8 @@ int	ft_cd(char *path, t_envir *env)
 	dir = getcwd(dir, 0);
 	aux = ft_strjoin("PWD=", dir);
 	ft_export(env, aux);
+	ft_env(env->e_envp, 0);
+	//printf("%s\n", aux);
 	free(dir);
 	free(aux);
 	return (0);
