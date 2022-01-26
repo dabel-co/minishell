@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:45:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/26 15:32:22 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:43:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ char	*search_comm(char *comm, char **paths)
 	{
 		ret = ft_strjoin(paths[i], "/");
 		ret = strjoin_free(ret, comm);
+		//ft_putnbr_fd(access(ret, F_OK), 1);
+		//ft_putstr_fd(" -> ", 1);
+		//ft_putstr_fd(ret, 1);
 		if (access(ret, F_OK) > -1)
 			return (ret);
 		free(ret);

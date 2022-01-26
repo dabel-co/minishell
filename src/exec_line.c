@@ -145,12 +145,12 @@ void	exec_manage(char **orders, t_envir *env)
 			close(pip[ind % 2][WR_END]);
 			return ;
 		}
-		exec_pipe(orders[ind], env, pip[ind % 2 + 1][RD_END], pip[ind % 2]);
+		exec_pipe(orders[ind], env, pip[(ind + 1) % 2][RD_END], pip[ind % 2]);
 		ind++;
 	}
 	pip[ind % 2][WR_END] = 1;
 	pip[ind % 2][RD_END] = 0;
-	exec_pipe(orders[ind], env, pip[ind % 2 + 1][RD_END], pip[ind % 2]);
+	exec_pipe(orders[ind], env, pip[(ind + 1) % 2][RD_END], pip[ind % 2]);
 }
 
 void	exec_line(char *comm_line, t_envir *env)
