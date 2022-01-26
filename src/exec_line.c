@@ -137,6 +137,10 @@ void	exec_manage(char **orders, t_envir *env)
 	int	pip[2][2];
 
 	ind = 0;
+	pip[0][0] = 0;
+	pip[0][1] = 0;
+	pip[1][0] = 0;
+	pip[1][1] = 0;
 	while (orders[ind + 1])
 	{
 		if (pipe(pip[ind % 2]) < 0)
