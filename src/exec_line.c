@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/26 17:23:14 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/28 15:04:06 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,13 @@ static void	execfree(t_execord *exec_order)
 
 void	exec(t_execord *execorder, t_envir *env)
 {
+	//poner los procesos necesarios en proceso padre somewhere else i guess
 	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
-	{
-		printf("---%s\n", execorder->argsum[1]);
 		ft_cd(execorder->argsum[1], env);
-	}
 	else if (ft_strnstr(execorder->argsum[0], "echo", 4) && !execorder->argsum[0][4])
 		ft_echo(execorder->argsum);
 	else if (ft_strnstr(execorder->argsum[0], "pwd", 3) && !execorder->argsum[0][3])
-	{
-		printf("holaaaaaaaaaa\n");
 		ft_pwd();
-	}
 	else if (ft_strnstr(execorder->argsum[0], "export", 6) && !execorder->argsum[0][6])
 		ft_export(env, execorder->argsum[1]);
 	else if (ft_strnstr(execorder->argsum[0], "unset", 5) && !execorder->argsum[0][5])
@@ -80,6 +75,7 @@ void	exec(t_execord *execorder, t_envir *env)
 	else if (execve(execorder->comm, execorder->argsum, env->e_envp) < 0)
 		perror(execorder->argsum[0]);
 	exit (0);
+	ft_export(env, execorder->argsum[1]);
 }
 
 void	set_exec(t_execord *execorder, t_envir *env, int rfd, int *pip)
@@ -115,6 +111,7 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 	get_execord(comm, env->paths, &exec_order);
 	if (!exec_order.comm)
 	{
+	//Aqui se puede añadir una función que detecte si el comando es cd, export, unseto exit, para que no escriba Minishell : ", y que pase directamente a ser ejecutado, sin tener cuenta pipes (aunque no se puede perder la información supongo si tenemos algo como "cat README.md | export $HORNIFORTHE=GYM | cat", also tienen que ser ejecutados en el proceso padre
 		ft_putstr_fd("Minishell: ", 1);
 		if (exec_order.free)
 			ft_putstr_fd("command not found: ", 1);
