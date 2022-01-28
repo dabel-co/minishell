@@ -59,26 +59,20 @@ static void	execfree(t_execord *exec_order)
 	free(exec_order->argsum);
 }
 
-void	exec(t_execord *execorder, t_envir *env)
+void	exec(t_execord *exec_order, t_envir *env)
 {
 	//poner los procesos necesarios en proceso padre somewhere else i guess
-	if (ft_strnstr(execorder->argsum[0], "cd", 2) && !execorder->argsum[0][2])
-		ft_cd(execorder->argsum[1], env);
-	else if (ft_strnstr(execorder->argsum[0], "echo", 4) && !execorder->argsum[0][4])
-		ft_echo(execorder->argsum);
-	else if (ft_strnstr(execorder->argsum[0], "pwd", 3) && !execorder->argsum[0][3])
+	if (ft_strnstr(exec_order->argsum[0], "echo", 4) && !exec_order->argsum[0][4])
+		ft_echo(exec_order->argsum);
+	else if (ft_strnstr(exec_order->argsum[0], "pwd", 3) && !exec_order->argsum[0][3])
 		ft_pwd();
-	else if (ft_strnstr(execorder->argsum[0], "export", 6) && !execorder->argsum[0][6])
-		ft_export(env, execorder->argsum[1]);
-	else if (ft_strnstr(execorder->argsum[0], "unset", 5) && !execorder->argsum[0][5])
-		ft_unset(env, execorder->argsum[1]);
-	else if (execve(execorder->comm, execorder->argsum, env->e_envp) < 0)
-		perror(execorder->argsum[0]);
+	else if (execve(exec_order->comm, exec_order->argsum, env->e_envp) < 0)
+		perror(exec_order->argsum[0]);
 	exit (0);
-	ft_export(env, execorder->argsum[1]);
+	ft_export(env, exec_order->argsum[1]);
 }
 
-void	set_exec(t_execord *execorder, t_envir *env, int rfd, int *pip)
+void	set_exec(t_execord *exec_order, t_envir *env, int rfd, int *pip)
 {
 	pid_t		pidC;
 
@@ -95,10 +89,31 @@ void	set_exec(t_execord *execorder, t_envir *env, int rfd, int *pip)
 		dup2(pip[WR_END], STDOUT_FILENO);
 		if (pip[WR_END] > 1)
 			close(pip[WR_END]);
-		exec(execorder, env);
+		exec(exec_order, env);
 	}
 	else
 		waitpid(pidC, NULL, 0);
+}
+
+int	is_builtin(char *str)
+{
+	char	**built_in;
+
+	built_in = (char *[]){"cd", "export", "unset", NULL};
+	while (*built_in)
+		if (ft_strcmp(*built_in++, str))
+			return (1);
+	return (0);
+}
+
+void	exec_builtin(t_execord *exec_order, t_envir *env)
+{
+	if (ft_strnstr(exec_order->argsum[0], "cd", 2) && !exec_order->argsum[0][2])
+		ft_cd(exec_order->argsum[1], env);
+	else if (ft_strnstr(exec_order->argsum[0], "export", 6) && !exec_order->argsum[0][6])
+		ft_export(env, exec_order->argsum[1]);
+	else if (ft_strnstr(exec_order->argsum[0], "unset", 5) && !exec_order->argsum[0][5])
+		ft_unset(env, exec_order->argsum[1]);
 }
 
 void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
@@ -119,6 +134,8 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 			ft_putstr_fd("file not found: ", 1);
 		ft_putendl_fd(exec_order.argsum[0], 1);
 	}
+	else if (is_builtin(exec_order.comm))
+		exec_builtin(&exec_order, env);
 	else
 		set_exec(&exec_order, env, rfd, pip);
 	execfree(&exec_order);

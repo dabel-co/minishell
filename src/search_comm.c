@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:45:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/26 17:43:02 by marvin           ###   ########.fr       */
+/*   Updated: 2022/01/28 22:16:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,24 @@ static char	*strjoin_free(char *keeper, char *buffer)
 	return (result);
 }
 
+int	is_ourfunc(char *str)
+{
+	char	**built_in;
+
+	built_in = (char *[]){"cd", "export", "unset", "echo", "pwd", NULL};
+	while (*built_in)
+		if (ft_strcmp(*built_in++, str))
+			return (1);
+	return (0);
+}
+
 char	*search_comm(char *comm, char **paths)
 {
 	int		i;
 	char	*ret;
 
+	if (is_ourfunc(comm))
+		return(ft_strdup(comm));// CHAPUZÓN: ALOCADO BECAUSE OF REASONS, PORQUE SE VA A LIBERAR DESPUÉS, SERÍA INTERESANTE MIRAR UNA SOLUCIÓN PARA LA LIBERACIÓN INTELIGENTE
 	i = 0;
 	while (paths[i] && paths[i][0])
 	{

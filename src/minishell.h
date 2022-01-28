@@ -59,4 +59,5 @@ int		input_redir(char **comm, int rfd);
 int		output_redir(char **comm, int wfd);
 void	exec_line(char *comm_line, t_envir *env);
 void	exec(t_execord *execorder, t_envir *env);
+int 	ft_strcmp(char *str1, char *str2);
 #endif
