@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/26 17:03:50 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:50:14 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_unset(t_envir *env, char *str)
 	char	**aux;
 
 	i = 0;
-	while (find_env(env->e_envp[i], str))
+	while (find_env(env->e_envp[i], str) && env->e_envp[i] != NULL)
 		i++;
 	if (env->e_envp[i] == NULL)
 		return ;

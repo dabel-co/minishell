@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/28 15:04:06 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:06:53 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_array(char **to_print)
 {
-	while(*to_print)
+	while (*to_print)
 		ft_putendl_fd(*to_print++, 1);
 }
 

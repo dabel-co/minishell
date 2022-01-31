@@ -6,14 +6,14 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:46:32 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/19 17:37:20 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/31 15:04:57 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //probably should mode this somewhere later when we have it figured out
-
+//gotta discuss this thingy 
 char	*expand(char *str, t_envir *env)
 {
 	int		i;

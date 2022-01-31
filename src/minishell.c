@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/28 15:03:52 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/01/31 12:53:46 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**get_paths(char **envp)
 	}
 	result = (char **)malloc(sizeof(char *) * 2);
 	result[0] = (char *)malloc(sizeof(char));
-	result[0][1] = '\0';
+	result[0][0] = '\0';
 	result[1] = NULL;
 	return (result);
 }
@@ -80,8 +80,13 @@ static void update_shlvl(t_envir *env)
 
 	i = 0;
 	shlvl = 0;
-	while (find_env(env->e_envp[i], "SHLVL="))
+	while (find_env(env->e_envp[i], "SHLVL=") && env->e_envp[i] != NULL)
 		i++;
+	if (env->e_envp[i] == NULL)
+	{
+		ft_export(env, "SHLVL=1");
+		return ;
+	}
 	while (env->e_envp[i][shlvl] != '=')
 		shlvl++;
 	shlvl = ft_atoi(&env->e_envp[i][++shlvl]);
@@ -92,8 +97,6 @@ static void update_shlvl(t_envir *env)
 	free(x);
 	free(aux);
 }
-
-
 
 int	main(int argc, char **argv, char **envp)
 {

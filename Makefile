@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/28 22:17:06 by marvin           ###   ########.fr        #
+#    Updated: 2022/01/31 15:09:33 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,10 @@ FILES =	minishell \
 		unset \
 		env \
 		export \
-		expand \
+		expand_line \
 		input_redir \
 		output_redir \
 		exec_line \
-		ft_strcmp \
-#		exec_comm \
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)
