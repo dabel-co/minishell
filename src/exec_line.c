@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/31 15:06:53 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:25:44 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	is_builtin(char *str)
 {
 	char	**built_in;
 
-	built_in = (char *[]){"cd", "export", "unset", NULL};
+	built_in = (char *[]){"cd", "export", "unset", "env", NULL};
 	while (*built_in)
 		if (ft_strcmp(*built_in++, str))
 			return (1);
@@ -182,6 +182,7 @@ void	exec_line(char *comm_line, t_envir *env)
 	else
 	{
 		orders = ft_split(comm_line, '|');
+		//adding expand_line here later
 		exec_manage(orders, env);
 		//print_array(orders);
 	}

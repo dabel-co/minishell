@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/01/31 15:09:33 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/02/03 16:26:30 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ FLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 CC = cc
 READLINE = -lreadline
 FILES =	minishell \
+		init_shell \
 		search_comm \
 		pwd \
 		cd \
@@ -23,10 +24,10 @@ FILES =	minishell \
 		unset \
 		env \
 		export \
-		expand_line \
 		input_redir \
 		output_redir \
 		exec_line \
+		#expand_line \
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

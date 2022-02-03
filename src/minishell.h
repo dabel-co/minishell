@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/26 17:12:48 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:25:43 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_execord
 	char	free;
 	int		in_fd;
 	char	ignore;
+	//adding my things
+	char	*eof;
 }				t_execord;
 
 typedef struct s_envir
@@ -52,12 +54,15 @@ int		ft_env(char **str, int mode);
 void	ft_unset(t_envir *env, char *str);
 void	ft_export(t_envir *env, char *str);
 int		find_env(char *env, char *str);
-char	**get_paths(char **envp);
 void	update_paths(t_envir *env);
 char	*expand(char *str, t_envir *env);
 int		input_redir(char **comm, int rfd);
 int		output_redir(char **comm, int wfd);
 void	exec_line(char *comm_line, t_envir *env);
 void	exec(t_execord *execorder, t_envir *env);
-int 	ft_strcmp(char *str1, char *str2);
+//int 	ft_strcmp(char *str1, char *str2);
+char	**get_env(char **envp);
+char	**get_paths(char **envp);
+void	update_shlvl(t_envir *env);
+char		**check_path(t_envir *env);
 #endif

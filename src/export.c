@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/31 12:28:12 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:12:30 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	ft_export(t_envir *env, char *str)
 	char	**aux;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
 		i++;
 	if (env->e_envp[i] != NULL)

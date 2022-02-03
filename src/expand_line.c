@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:46:32 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/01/31 15:04:57 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:25:39 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,44 @@ char	*expand(char *str, t_envir *env)
 	aux = malloc(ft_strlen(&env->e_envp[i][p]) * sizeof(char));
 	ft_strlcpy(aux, &env->e_envp[i][p + 1], ft_strlen(&env->e_envp[i][p]) + 1);
 	return (aux);
+}
+
+t_execord	*fill_line(char *orders, int i, int p, int r)
+{
+	while (orders[i] != '|'  || orders[i] != '\0')
+	{
+		if (orders[i] == '<' && orders[i + 1] == '<' && orders[i + 2] == ' ')
+			orders = fill_eof(x);
+		if (orders[i] == '"' || orders[i] ==
+	}
+}
+
+t_execord	*init_line(char **orders)
+{
+	int	i;
+	int t;
+	t_execord	*x;
+
+	i = 0;
+	t = 0;
+	x = NULL;
+	while (orders[i])
+	{
+		if (orders[i] == '"' || orders[i] == ''')
+			t++;
+		//add space changer
+		i++;
+	}
+	if ( t % 2 != 0)
+		return (NULL); //error de comillas, no estan bien cerradas
+	//add malloc
+	i = 0;
+	while (i < 3) // add counter of the ||| thingy
+	{
+		x[i] = fill_line(orders, 0, 0, 0);
+		//advance line
+		i++;
+	}
+	x[i] = NULL;
+	return (x);
 }
