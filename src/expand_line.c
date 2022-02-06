@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_line.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:46:32 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/03 16:25:39 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:35:00 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_execord	*fill_line(char *orders, int i, int p, int r)
 		if (orders[i] == '"' || orders[i] ==
 	}
 }
-
+//split inteligente
 t_execord	*init_line(char **orders)
 {
 	int	i;

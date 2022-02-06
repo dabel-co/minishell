@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/01/31 11:53:35 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:43:26 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ int	input_redir(char **comm, int rfd/* estructura */)
 	if (rfd)
 		close(rfd);
 	rfd = take_all_input(comm, "<<", 0);
+	//expand thingy check que pasa con $kasjgoisas
 	rfd = take_all_input(comm, "<", rfd);
 	return(rfd);
 }

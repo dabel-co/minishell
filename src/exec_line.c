@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/03 16:25:44 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/06 22:12:06 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 	get_execord(comm, env->paths, &exec_order);
 	if (!exec_order.comm)
 	{
-	//Aqui se puede añadir una función que detecte si el comando es cd, export, unseto exit, para que no escriba Minishell : ", y que pase directamente a ser ejecutado, sin tener cuenta pipes (aunque no se puede perder la información supongo si tenemos algo como "cat README.md | export $HORNIFORTHE=GYM | cat", also tienen que ser ejecutados en el proceso padre
 		ft_putstr_fd("Minishell: ", 1);
 		if (exec_order.free)
 			ft_putstr_fd("command not found: ", 1);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/03 12:12:26 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:07:21 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	**check_path(t_envir *env)
 {
 	int i;
 	char *aux;
-
+	//no funciona
 	i = 0;
 	aux = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:";
 	while (find_env(env->e_envp[i], "PATH=") && env->e_envp[i] != NULL)
@@ -80,7 +80,7 @@ void update_shlvl(t_envir *env)
 	int	i;
 	char *x;
 	char *aux;
-
+	//mirar que pasa con int max
 	i = 0;
 	shlvl = 0;
 	while (find_env(env->e_envp[i], "SHLVL=") && env->e_envp[i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/03 16:25:43 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:34:54 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_execord
 	int		in_fd;
 	char	ignore;
 	//adding my things
-	char	*eof;
+	char	**eof;
 }				t_execord;
 
 typedef struct s_envir
