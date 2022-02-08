@@ -6,14 +6,15 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:46:32 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/06 19:35:00 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:40:25 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //probably should mode this somewhere later when we have it figured out
-//gotta discuss this thingy 
+//gotta discuss this thingy
+/* 
 char	*expand(char *str, t_envir *env)
 {
 	int		i;
@@ -71,3 +72,87 @@ t_execord	*init_line(char **orders)
 	x[i] = NULL;
 	return (x);
 }
+*/
+//inteligent split init
+static int	split_size(char *str, int mode)
+{
+	int i;
+	int	count;
+	int check;
+
+	i = 0;
+	count = 1;
+	check = 0;
+	while (1)
+	{
+		if ((str[i] == '"' || str[i] == '\'') && check == 0)
+			check++;
+		else if ((str[i] == '"' || str[i] == '\'') && check == 1)
+			check--;
+		else if (str[i] == '|' && check == 0 && mode == 0)
+			count++;
+		else if ((str[i] == '|' || str[i] == '\0') && check == 0 && mode == 1)
+			return (i);
+		else if (str[i] == '\0')
+			break;
+		i++;
+	}
+	return (count);
+}
+
+static char *fill_split(char *str, int *p)
+{
+	int i;
+	int check;
+	char *aux;
+
+	i = 0;
+	check = 0;
+	aux = (char *)malloc((split_size(str, 1)) + 1 * sizeof(char));
+	//printf("RESERVED SIZE ->%d\n", (split_size(str, 1) + 1));
+	while (1)
+	{
+		if ((str[i] == '"' || str[i] == '\'') && check == 0)
+			check++;
+		else if ((str[i] == '"' || str[i] == '\'') && check == 1)
+			check--;
+		else if ((str[i] == '|' || str[i] == '\0') && check == 0)
+		{
+			aux[i] = '\0';
+			*p = i + 1;
+			return (aux);
+		}
+		//printf("helaaaaaaaaao\n");
+		aux[i] = str[i];
+		i++;
+	}
+}
+char **init_split(char *str)
+{
+	char **split;
+	int i;
+	int x;
+	int p;
+
+	i = 0;
+	p = 0;
+	x = split_size(str, 0);
+	split = malloc((x + 1) * sizeof(char *));
+	while (i < x)
+	{
+		printf("FULL STR -> %s\n", str);
+		split[i] = fill_split(str, &p);
+	//	printf("->%s\nint : %d\n", split[i], p);
+		while (p >= 0)
+		{
+			str++;
+			p--;
+		}
+		i++;
+	}
+	//printf("NUMERO X %d NUMERO I %d\n", x, i);
+	split[i] = NULL;
+	return (split);
+}
+
+//split end

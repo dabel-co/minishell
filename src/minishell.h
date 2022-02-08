@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/06 19:34:54 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:52:14 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ void	exec(t_execord *execorder, t_envir *env);
 char	**get_env(char **envp);
 char	**get_paths(char **envp);
 void	update_shlvl(t_envir *env);
-char		**check_path(t_envir *env);
+char	**check_path(t_envir *env);
+char	**init_split(char *str);
 #endif

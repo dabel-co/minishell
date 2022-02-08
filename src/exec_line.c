@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/06 22:12:06 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:40:27 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,15 @@ void	exec_line(char *comm_line, t_envir *env)
 		ft_putstr_fd("", 1);
 	else
 	{
-		orders = ft_split(comm_line, '|');
+		printf("lol\n");
+		orders = init_split(comm_line);
+		int i = 0;
+		printf("we are out friends\n");
+		while (orders[i] != NULL)
+		{
+			printf("line ->%s\n", orders[i]);
+			i++;
+		}
 		//adding expand_line here later
 		exec_manage(orders, env);
 		//print_array(orders);

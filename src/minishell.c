@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/03 12:57:41 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/07 13:41:52 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	main(int argc, char **argv, char **envp)
 		env.paths = get_paths(envp);
 	else
 		env.paths = check_path(&env);
-	printf("%s\n", env.paths[2]);
 	update_shlvl(&env);
 	while (1)
 		readfromprompt(&env);
