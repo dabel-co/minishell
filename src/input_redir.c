@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/07 17:04:30 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:02:33 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int	take_all_input(char **comm, char *mode, int old_fd)
 	return (take_all_input(comm, mode, old_fd));
 }
 
-int	input_redir(char **comm, int rfd/* estructura */)
+int	input_redir(char **comm, int rfd, t_envir *env)
 {
 	int		input_num;
 	
@@ -154,6 +154,7 @@ int	input_redir(char **comm, int rfd/* estructura */)
 	if (rfd)
 		close(rfd);
 	rfd = take_all_input(comm, "<<", 0);
+	//*comm = expand_line(*comm, env);
 	//expand thingy check que pasa con $kasjgoisas
 	rfd = take_all_input(comm, "<", rfd);
 	return(rfd);

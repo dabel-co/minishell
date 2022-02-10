@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/08 15:40:27 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:53:40 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 	t_execord	exec_order;
 
 	exec_order.ignore = 0;
-	rfd = input_redir(&comm, rfd/*, &exec_order*/);
+	rfd = input_redir(&comm, rfd, env);
+	printf("----%s\n", comm);
 	pip[WR_END] = output_redir(&comm, pip[WR_END]);
 	get_execord(comm, env->paths, &exec_order);
 	if (!exec_order.comm)
@@ -168,6 +169,7 @@ void	exec_manage(char **orders, t_envir *env)
 	pip[ind % 2][WR_END] = 1;
 	pip[ind % 2][RD_END] = 0;
 	exec_pipe(orders[ind], env, pip[(ind + 1) % 2][RD_END], pip[ind % 2]);
+	//FREE ORDERS
 }
 
 void	exec_line(char *comm_line, t_envir *env)
@@ -180,16 +182,7 @@ void	exec_line(char *comm_line, t_envir *env)
 		ft_putstr_fd("", 1);
 	else
 	{
-		printf("lol\n");
 		orders = init_split(comm_line);
-		int i = 0;
-		printf("we are out friends\n");
-		while (orders[i] != NULL)
-		{
-			printf("line ->%s\n", orders[i]);
-			i++;
-		}
-		//adding expand_line here later
 		exec_manage(orders, env);
 		//print_array(orders);
 	}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/07 15:52:14 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:20:47 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_export(t_envir *env, char *str);
 int		find_env(char *env, char *str);
 void	update_paths(t_envir *env);
 char	*expand(char *str, t_envir *env);
-int		input_redir(char **comm, int rfd);
+int		input_redir(char **comm, int rfd, t_envir *env);
 int		output_redir(char **comm, int wfd);
 void	exec_line(char *comm_line, t_envir *env);
 void	exec(t_execord *execorder, t_envir *env);
