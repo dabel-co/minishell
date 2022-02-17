@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/10 15:19:17 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/15 18:30:32 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 
 	exec_order.ignore = 0;
 	rfd = input_redir(&comm, rfd, env);
-	printf("----%s\n", comm);
+	printf("-%s\n", comm);
 	pip[WR_END] = output_redir(&comm, pip[WR_END]);
 	get_execord(comm, env->paths, &exec_order);
 	if (!exec_order.comm)
