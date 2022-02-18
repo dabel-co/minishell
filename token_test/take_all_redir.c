@@ -6,9 +6,11 @@
 /*   By: vguttenb <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:58:10 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/16 18:55:17 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/17 20:26:37 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "tokenizator.h"
 
 int	open_redir(char *redir, char *filename, t_exec *execord)
 {
@@ -24,14 +26,14 @@ int	open_redir(char *redir, char *filename, t_exec *execord)
 		flags = O_RDONLY;
 	fd = open(filename, flags, 0666);
 	if (fd < 0)
-		execord->err_msg = err_msg(filename);
+		execord->err_msg = "problemas abriendo el archivo"/*err_msg(filename)*/;
 	free(filename);
 	if (fd > 1)
 	{
 		last = ft_strrchr(redir, redir[0]);
 		if (redir[0] == '>' && last > redir && *(last - sizeof(char)) == '>')
 			last -= sizeof(char);
-		if (redir < last || redir[0] == '<' && execord->in_fd)
+		if (redir < last || (redir[0] == '<' && execord->in_fd))
 			close(fd);
 		else
 			return (fd);
@@ -72,13 +74,13 @@ int	take_all_redir(char **order, t_exec *execord)
 	if (execord->err_msg)
 		return(0);
 	redir = *order;
-	while (*redir && *redir != < && *redir != >)
+	while (*redir && *redir != '<' && *redir != '>')
 	{
 		if (*redir == '\\')
 			redir++;
 		else if (*redir == '\'' || *redir == '\"')
 		{
-			limiter == *redir;
+			limiter = *redir;
 			redir++;
 			while (*redir != limiter)
 				redir++;
@@ -88,5 +90,5 @@ int	take_all_redir(char **order, t_exec *execord)
 	if (!*redir)
 		return (1);
 	take_redir(redir, order, execord);
-	return (take_all_redir(order, execord);
+	return (take_all_redir(order, execord));
 }
