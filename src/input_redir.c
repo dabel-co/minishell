@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 16:20:14 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/15 18:30:31 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:45:03 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	input_redir(char **comm, int rfd, t_envir *env)
 	if (rfd)
 		close(rfd);
 	rfd = take_all_input(comm, "<<", 0);
-	*comm = expand_line(*comm, env);
+	*comm = expand_line(*comm, env, 0, 0);
 	rfd = take_all_input(comm, "<", rfd);
 	return(rfd);
 }

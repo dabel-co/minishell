@@ -6,11 +6,39 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:38 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/14 16:52:49 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/21 18:52:41 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*env_expand_aux(char *str, t_envir *env)
+{
+	int		i;
+	char	*aux;
+	int		p;
+	int		x;
+
+	i = 0;
+	p = 0;
+	x = 0;
+	while (env->e_envp[i] && find_env_expand(env->e_envp[i], str))
+		i++;
+	if (env->e_envp[i] == NULL)
+		return (NULL);
+	while (env->e_envp[i][x] != '=')
+		x++;
+	x++;
+	aux = malloc((ft_strlen(&env->e_envp[i][x]) + 1) * sizeof(char));
+	while (env->e_envp[i][x])
+	{
+		aux[p] = env->e_envp[i][x];
+		p++;
+		x++;
+	}
+	aux[p] = '\0';
+	return (aux);
+}
 
 int	ft_env(char **str, int mode)
 {
