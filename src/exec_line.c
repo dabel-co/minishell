@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 17:14:37 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/21 13:37:55 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/22 16:33:55 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	exec(t_execord *exec_order, t_envir *env)
 	else if (execve(exec_order->comm, exec_order->argsum, env->e_envp) < 0)
 		perror(exec_order->argsum[0]);
 	exit (0);
-	ft_export(env, exec_order->argsum[1]);
+	//ft_export(env, exec_order->argsum[1]);
 }
 
 void	set_exec(t_execord *exec_order, t_envir *env, int rfd, int *pip)
@@ -100,9 +100,19 @@ int	is_builtin(char *str)
 	char	**built_in;
 
 	built_in = (char *[]){"cd", "export", "unset", "env", NULL};
+	if (strchr(str, '/'))
+	{
+		str = ft_strrchr(str, '/');
+		str++;
+	}
+	printf(" a ver%s\n", str);
 	while (*built_in)
+	{
+		if (strchr(str, '/'))
+			str = strchr(str, '/');
 		if (ft_strcmp(*built_in++, str))
 			return (1);
+	}
 	return (0);
 }
 
@@ -114,6 +124,8 @@ void	exec_builtin(t_execord *exec_order, t_envir *env)
 		ft_export(env, exec_order->argsum[1]);
 	else if (ft_strnstr(exec_order->argsum[0], "unset", 5) && !exec_order->argsum[0][5])
 		ft_unset(env, exec_order->argsum[1]);
+	else if (ft_strnstr(exec_order->argsum[0], "env", 3) && !exec_order->argsum[0][3])
+		ft_env(env->e_envp, 0);
 }
 
 void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
@@ -134,7 +146,10 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 		ft_putendl_fd(exec_order.argsum[0], 1);
 	}
 	else if (is_builtin(exec_order.comm))
+	{
+		printf("found\n");
 		exec_builtin(&exec_order, env);
+	}
 	else
 		set_exec(&exec_order, env, rfd, pip);
 	execfree(&exec_order);
