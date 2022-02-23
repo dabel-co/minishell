@@ -1,51 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_line.c                                      :+:      :+:    :+:   */
+/*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabel-co <dabel-co@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/19 16:46:32 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/21 13:32:45 by dabel-co         ###   ########.fr       */
+/*   Created: 2022/02/23 10:46:26 by dabel-co          #+#    #+#             */
+/*   Updated: 2022/02/23 10:51:41 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	split_size(char *str, int mode, int s, int d)
+static int	split_size(char *str, int mode, int singles, int doubles)
 {
-	int i;
+	int	i;
 	int	count;
 
 	i = 0;
 	count = 1;
 	while (1)
 	{
-		if (str[i] == '"' && d == 0)
-			d++;
-		else if (str[i] == '"' && d == 1)
-			d--;
-		else if (str[i] == '\'' && s == 0)
-			s++;
-		else if (str[i] == '\'' && s == 1)
-			s--;
-		else if (str[i] == '|' && s == 0 && d == 0 && mode == 0)
+		if (str[i] == '"' && doubles == 0)
+			doubles++;
+		else if (str[i] == '"' && doubles == 1)
+			doubles--;
+		else if (str[i] == '\'' && singles == 0)
+			singles++;
+		else if (str[i] == '\'' && singles == 1)
+			singles--;
+		else if (str[i] == '|' && singles == 0 && doubles == 0 && mode == 0)
 			count++;
-		else if ((str[i] == '|' || str[i] == '\0') && s == 0 && d == 0 && mode == 1)
+		else if ((str[i] == '|' || str[i] == '\0')
+			&& singles == 0 && doubles == 0 && mode == 1)
 			return (i);
 		else if (str[i] == '\0')
-			break;
+			break ;
 		i++;
 	}
 	return (count);
 }
 
-static char *fill_split(char *str, int *p)
+static char	*fill_split(char *str, int *p)
 {
-	int i;
-	int check;
-	char *aux;
-	int size;
+	int		i;
+	int		check;
+	char	*aux;
+	int		size;
 
 	i = 0;
 	check = 0;
@@ -60,7 +61,7 @@ static char *fill_split(char *str, int *p)
 	*p = i + 1;
 	return (aux);
 }
-char **init_split(char *str)
+char	**init_split(char *str)
 {
 	char **split;
 	int i;
