@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:58:10 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/24 17:25:37 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:49:16 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	open_redir(char *redir, char *filename, t_exec *execord)
 	//AQUÍ VA LA FUNCIÓN QUE QUITA COMILLAS
 	fd = open(filename, flags, 0666);
 	if (fd < 0)
-		execord->err_msg = "problemas abriendo el archivo"/*err_msg(filename)*/;
+		execord->err_msg = ft_strdup("problemas abriendo el archivo")/*err_msg(filename)*/;
 	free(filename);
 	if (fd > 1)
 	{

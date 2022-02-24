@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:45:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/24 17:12:43 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:49:39 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ char	*search_comm(char *comm, char **paths, t_exec *exec)
 		free(ret);
 		i++;
 	}
-	exec->err_msg = "el ejecutable no se ha encontrado";
+	exec->err_msg = ft_strdup("el ejecutable no se ha encontrado");
 	return (NULL);
 }

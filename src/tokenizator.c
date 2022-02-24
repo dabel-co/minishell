@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/24 17:05:41 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:48:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_exec	*tokenizator(char **orders, t_envir *env)
 		{
 			new->exec_path = new->argv[0];
 			if (access(new->exec_path, F_OK) < 0)
-				new->err_msg = "el ejecutable no se ha encontrado";
+				new->err_msg = ft_strdup("el ejecutable no se ha encontrado");
 			new->argv[0] = strdup(last_bar + sizeof(char));
 		}
 		else
