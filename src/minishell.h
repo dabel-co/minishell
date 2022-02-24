@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/21 18:52:09 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/24 19:10:24 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@
 
 typedef struct s_exec
 {
-    char            *exec_path;
-    char            **argv;
-    int             in_fd;
-    int             out_fd;
-    char            *err_msg;
-    struct s_exec   *next;
-}               t_exec;
+	char			*exec_path;
+	char			**argv;
+	int				in_fd;
+	int				out_fd;
+	char			*err_msg;
+	struct s_exec	*next;
+}				t_exec;
 
 typedef struct s_envir
 {
@@ -65,7 +65,7 @@ char	*env_expand_aux(char *str, t_envir *env);
 int		find_env_expand(char *env, char *str);
 t_exec	*tokenizator(char **orders, t_envir *env);
 char	**smart_split(char *order, char limit);
-int 	take_all_heredoc(char **comm);
+int		take_all_heredoc(char **comm);
 int		take_all_redir(char **order, t_exec *execord);
 char	*search_op(char *comm, char search);
 int		exec_list(t_exec *list, t_envir *env, int subp_count);

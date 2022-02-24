@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/23 12:45:03 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/24 18:08:03 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**check_path(t_envir *env)
 {
-	int i;
-	char *aux;
-	//no funciona
+	int		i;
+	char	*aux;
+
 	i = 0;
 	aux = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:";
 	while (find_env(env->e_envp[i], "PATH=") && env->e_envp[i] != NULL)
@@ -74,13 +74,13 @@ char	**get_paths(char **envp)
 	return (result);
 }
 
-void update_shlvl(t_envir *env)
+void	update_shlvl(t_envir *env)
 {
-	int	shlvl;
-	int	i;
-	char *x;
-	char *aux;
-	//mirar que pasa con int max
+	char	*number;
+	int		shlvl;
+	char	*aux;
+	int		i;
+
 	i = 0;
 	shlvl = 0;
 	while (find_env(env->e_envp[i], "SHLVL=") && env->e_envp[i] != NULL)
@@ -94,9 +94,11 @@ void update_shlvl(t_envir *env)
 		shlvl++;
 	shlvl = ft_atoi(&env->e_envp[i][++shlvl]);
 	shlvl++;
-	x = ft_itoa(shlvl);
-	aux = ft_strjoin("SHLVL=", x);
+	if (shlvl >= 1000)
+		shlvl = 1;
+	number = ft_itoa(shlvl);
+	aux = ft_strjoin("SHLVL=", number);
 	ft_export(env, aux);
-	free(x);
+	free(number);
 	free(aux);
 }
