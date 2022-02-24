@@ -6,11 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:24:27 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/18 17:31:36 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:08:29 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizator.h"
+#include "minishell.h"
 
 /*void	print_index(int *index)
 {
@@ -76,7 +76,7 @@ int	*index_str(int *index, char *order, char limit)
 	index = append_free(index, index[0]);
 	index[1]++;
 	limiter = '\0';
-	while (order[index[0]] && order[index[0]] != limit && !limiter)
+	while (order[index[0]] && (order[index[0]] != limit || limiter))
 	{
 		if (order[index[0]] == '\\')
 			index[0]++;
@@ -100,7 +100,6 @@ int	*index_str(int *index, char *order, char limit)
 char	**smart_split(char *order, char limit)
 {
 	int		*index;
-	char	*to_free;
 	char	**ret;
 	int		ind;
 	int		ind2;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/02/14 11:19:25 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/02/24 17:23:47 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,17 @@ FILES =	minishell \
 		pwd \
 		cd \
 		echo \
-		ord_split \
 		unset \
 		env \
 		export \
-		input_redir \
-		output_redir \
-		exec_line \
-		split_line \
-		expand_line
+		expand_line \
+		exec_list \
+		search_op \
+		smart_split \
+		take_all_heredoc \
+		take_all_redir \
+		tokenizator \
+		remove_quotes
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

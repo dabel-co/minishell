@@ -6,11 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/18 14:55:36 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:05:41 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizator.h"
+#include "minishell.h"
 
 void	print_close(t_exec *execord)
 {
@@ -52,7 +52,7 @@ void	print_close(t_exec *execord)
 	}
 }
 
-t_exec	*tokenizator(char **orders)
+t_exec	*tokenizator(char **orders, t_envir *env)
 {
 	t_exec	*ret;
 	t_exec	*new;
@@ -77,16 +77,13 @@ t_exec	*tokenizator(char **orders)
 		last_bar = ft_strrchr(new->argv[0], '/');
 		if (last_bar)
 		{
-			new->exec_path = strdup(new->argv[0]);
+			new->exec_path = new->argv[0];
 			if (access(new->exec_path, F_OK) < 0)
 				new->err_msg = "el ejecutable no se ha encontrado";
 			new->argv[0] = strdup(last_bar + sizeof(char));
 		}
 		else
-		{
-			//if (!is_builtin(new->argv[0]))
-			new->exec_path = "Esto se ha mandado a buscar"/*search_exec(new->argv[0])*/;
-		}
+			new->exec_path = search_comm(new->argv[0], env->paths, new);
 		orders++;
 		if (*orders)
 			new->next = (t_exec*)malloc(sizeof(t_exec));
@@ -94,10 +91,10 @@ t_exec	*tokenizator(char **orders)
 	}
 	return (ret);
 }
-
+/*
 int	main()
 {
-	char	*input = "hola | \"como | <<42 estas\"42 sin la nada";
+	char	*input = "hola >hola | \"hola\"\"como | pp42 estas\"42 sin la nada";
 
 	print_close(tokenizator(smart_split(input, '|')));
-}
+}*/

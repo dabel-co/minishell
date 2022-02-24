@@ -6,11 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:52:30 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/18 17:20:05 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/02/24 17:05:04 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenizator.h"
+#include "minishell.h"
 
 static int	tty_fd(char *limiter)
 {
@@ -42,41 +42,66 @@ static int	tty_fd(char *limiter)
 
 int     take_heredoc(char **comm, char *input)
 {
-    char    *keyword;
-    int     ind;
-    int     start;
-    int     fd;
+	char    *keyword;
+	int     ind;
+	int     start;
+	int     fd;
 
-    ind = 1;
-    if (input[ind] == '<')
-        ind++;
-    while (input[ind] == ' ')
-        ind++;
-    start = ind;
-    while (!ft_strchr(" <>", input[ind]))
-        ind++;
-    keyword = ft_substr(input, start, (ind - start));
+	ind = 1;
+	if (input[ind] == '<')
+		ind++;
+	while (input[ind] == ' ')
+		ind++;
+	start = ind;
+	while (!ft_strchr("| <>", input[ind]))
+		ind++;
+	keyword = remove_quotes(ft_substr(input, start, (ind - start)));
 	fd = tty_fd(keyword);
-    free(keyword);
-    *comm = ft_strcrop_free(*comm, (input - *comm), ind);
-    return(fd);
+	free(keyword);
+	*comm = ft_strcrop_free(*comm, (input - *comm), ind);
+	return(fd);
 }
+
+// int take_all_heredoc(char **comm)
+// {
+//     char    *last_input;
+//     char    *input;
+
+//     last_input = ft_strrchr(*comm, '<');
+//     if (last_input > *comm && *(last_input - sizeof(char)) == '<')
+//         last_input -= sizeof(char);
+//     input = ft_strnstr(*comm, "<<", ft_strlen(*comm));
+//     if (input && input == last_input)
+//         return (take_heredoc(comm, input));
+//     else if (input)
+//         close(take_heredoc(comm, input));
+//     else
+//         return (0);
+//     return (take_all_heredoc(comm));
+// }
 
 int take_all_heredoc(char **comm)
 {
-    char    *last_input;
-    char    *input;
+	char	*input;
+	char	limiter;
 
-    last_input = ft_strrchr(*comm, '<');
-    if (last_input > *comm && *(last_input - sizeof(char)) == '<')
-        last_input -= sizeof(char);
-    input = ft_strnstr(*comm, "<<", ft_strlen(*comm));
-    if (input && input == last_input)
-        return (take_heredoc(comm, input));
-    else if (input)
-        close(take_heredoc(comm, input));
-    else
-        return (0);
-    return (take_all_heredoc(comm));
+	input = *comm;
+	while (*input && !ft_strnstr(input, "<<", 2))
+	{
+		if (*input == '\'' || *input == '\"')
+		{
+			limiter = *input;
+			input++;
+			while (*input != limiter)
+				input++;
+		}
+		input++;
+	}
+	if (*input && !search_op(&input[2], '<'))
+		return (take_heredoc(comm, input));
+	else if (*input)
+		close(take_heredoc(comm, input));
+	else
+		return (0);
+	return (take_all_heredoc(comm));
 }
-
