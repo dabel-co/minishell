@@ -95,7 +95,7 @@ void	set_exec(t_execord *exec_order, t_envir *env, int rfd, int *pip)
 		waitpid(pidC, NULL, 0);
 }
 
-int	is_builtin(char *str)
+int	is_builtin2(char *str)
 {
 	char	**built_in;
 
@@ -145,7 +145,7 @@ void	exec_pipe(char *comm, t_envir *env, int rfd, int *pip)
 			ft_putstr_fd("file not found: ", 1);
 		ft_putendl_fd(exec_order.argsum[0], 1);
 	}
-	else if (is_builtin(exec_order.comm))
+	else if (is_builtin2(exec_order.comm))
 	{
 		printf("found\n");
 		exec_builtin(&exec_order, env);
