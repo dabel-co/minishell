@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/24 19:10:24 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/27 19:37:31 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ int		take_all_redir(char **order, t_exec *execord);
 char	*search_op(char *comm, char search);
 int		exec_list(t_exec *list, t_envir *env, int subp_count);
 char	*remove_quotes(char *str);
-
+void	handle_signals(int sig);
+void	handle_signals_subprocess(int sig);
 #endif

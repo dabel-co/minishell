@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabel-co <dabel-co@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/27 19:44:32 by dabel-co         ###   ########.fr       */
+/*   Created: 2022/02/27 17:03:44 by dabel-co          #+#    #+#             */
+/*   Updated: 2022/02/27 19:47:04 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+void	handle_signals_subprocess(int sig)
 {
-	char	*dir;
-	dir = NULL;
-	dir = getcwd(dir, 0);
-	printf("fuck\n");
-	ft_putendl_fd(dir, STDOUT_FILENO);
-	free(dir);
-	return (0);
+	if (sig == 2)
+		printf("control-c working in pwd\n");
+}
+void	handle_signals(int sig)
+{
+	if (sig == 2)
+		printf("control-c\n");
 }

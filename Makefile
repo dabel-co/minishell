@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/02/24 17:23:47 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/02/27 19:35:05 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ FILES =	minishell \
 		take_all_heredoc \
 		take_all_redir \
 		tokenizator \
-		remove_quotes
+		remove_quotes \
+		signals
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)
