@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/01 11:55:45 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/01 14:49:44 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	exec_spnode(t_exec *node, t_envir *env)
 			dup2(node->in_fd, STDIN_FILENO);
 			close(node->in_fd);
 		}
-		else
-			close(STDIN_FILENO);
 		if (node->out_fd)
 		{
 			dup2(node->out_fd, STDOUT_FILENO);
