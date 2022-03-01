@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/01 12:32:13 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/01 15:24:30 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,21 @@ t_exec	*tokenizator(char **orders, t_envir *env)
 		//aquí va un expand
 		take_all_redir(orders, new);
 		//aquí hay que detenerse si ha habido un error de redirección (err_msg no es nulo), también hay que revisar que quede algo
-		new->argv = smart_split(*orders, ' ');
-		last_bar = ft_strrchr(new->argv[0], '/');
-		if (last_bar)
+		*orders = ft_strtrim(*orders, " "); //AQUÏ FALTA UN FREE
+		if (**orders)
 		{
-			new->exec_path = new->argv[0];
-			if (access(new->exec_path, F_OK) < 0)
-				new->err_msg = ft_strdup("el ejecutable no se ha encontrado");
-			new->argv[0] = strdup(last_bar + sizeof(char));
+			new->argv = smart_split(*orders, ' ');
+			last_bar = ft_strrchr(new->argv[0], '/');
+			if (last_bar)
+			{
+				new->exec_path = new->argv[0];
+				if (access(new->exec_path, F_OK) < 0)
+					new->err_msg = ft_strdup("el ejecutable no se ha encontrado");
+				new->argv[0] = strdup(last_bar + sizeof(char));
+			}
+			else
+				new->exec_path = search_comm(new->argv[0], env->paths, new);
 		}
-		else
-			new->exec_path = search_comm(new->argv[0], env->paths, new);
 		orders++;
 		if (*orders)
 			new->next = (t_exec*)malloc(sizeof(t_exec));

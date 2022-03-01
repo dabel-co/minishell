@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:52:30 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/28 16:47:35 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:31:26 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,38 @@ static int	tty_fd(char *limiter)
 	return (pip[RD_END]);
 }
 
+// int     take_heredoc(char **comm, char *input)
+// {
+// 	char    *keyword;
+// 	int     ind;
+// 	int     start;
+// 	int     fd;
+
+// 	ind = 1;
+// 	if (input[ind] == '<')
+// 		ind++;
+// 	while (input[ind] == ' ')
+// 		ind++;
+// 	start = ind;
+// 	while (!ft_strchr("| <>", input[ind]))
+// 		ind++;
+// 	keyword = remove_quotes(ft_substr(input, start, (ind - start)));
+// 	fd = tty_fd(keyword);
+// 	free(keyword);
+// 	*comm = ft_strcrop_free(*comm, (input - *comm), ind);
+// 	return(fd);
+// }
+
 int     take_heredoc(char **comm, char *input)
 {
 	char    *keyword;
-	int     ind;
-	int     start;
+	int     end;
 	int     fd;
 
-	ind = 1;
-	if (input[ind] == '<')
-		ind++;
-	while (input[ind] == ' ')
-		ind++;
-	start = ind;
-	while (!ft_strchr("| <>", input[ind]))
-		ind++;
-	keyword = remove_quotes(ft_substr(input, start, (ind - start)));
+	keyword = remove_quotes(take_keyword(input, &end));
 	fd = tty_fd(keyword);
 	free(keyword);
-	*comm = ft_strcrop_free(*comm, (input - *comm), ind);
+	*comm = ft_strcrop_free(*comm, (input - *comm), end);
 	return(fd);
 }
 

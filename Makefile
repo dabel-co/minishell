@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/02/28 18:27:05 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/03/01 18:22:58 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ FILES =	minishell \
 		take_all_redir \
 		tokenizator \
 		remove_quotes \
-		signals
+		signals \
+		take_keyword \
+		line_parse
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

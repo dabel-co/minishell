@@ -73,4 +73,7 @@ char	*remove_quotes(char *str);
 void	handle_signals(int sig);
 void	handle_signals_subprocess(int sig);
 void	check_signal_mode(char *str);
+char	*take_keyword(char *str, int *end);
+int		line_parse(char **line);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/01 14:49:44 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/01 15:51:27 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ void	exec(t_exec *node, t_envir *env)
 
 void	exec_binode(t_exec *node, t_envir *env)
 {
-	if (ft_strcmp(node->argv[0], "cd"))
-		ft_cd(node->argv[1], env);
-	else if (ft_strcmp(node->argv[0], "export"))
-		ft_export(env, node->argv[1]);
-	else if (ft_strcmp(node->argv[0], "unset"))
-		ft_unset(env, node->argv[1]);
+	if (node->argv)
+	{
+		if (ft_strcmp(node->argv[0], "cd"))
+			ft_cd(node->argv[1], env);
+		else if (ft_strcmp(node->argv[0], "export"))
+			ft_export(env, node->argv[1]);
+		else if (ft_strcmp(node->argv[0], "unset"))
+			ft_unset(env, node->argv[1]);
+	}
 }
 
 void	exec_spnode(t_exec *node, t_envir *env)
@@ -97,11 +100,14 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 		exec_binode(list, env);
 	else
 	{
-		if (!list->out_fd && list->next)
+		if (list->next)
 		{
 			if (pipe(pip) < 0)
 				ft_putendl_fd("error creando pipe", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
-			list->out_fd = pip[WR_END];
+			if (!list->out_fd)
+				list->out_fd = pip[WR_END];
+			else
+				close(pip[WR_END]);
 			if (list->next->in_fd)
 				close(list->next->in_fd);
 			list->next->in_fd = pip[RD_END];
