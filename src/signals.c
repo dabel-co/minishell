@@ -6,7 +6,7 @@
 /*   By: dabel-co <dabel-co@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:03:44 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/27 19:47:04 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/02/28 18:27:03 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,29 @@
 void	handle_signals_subprocess(int sig)
 {
 	if (sig == 2)
-		printf("control-c working in pwd\n");
+		return ;
+}
+
+void	check_signal_mode(char *str)
+{
+	//printf("a ver %s\n", str);
+	if (ft_strcmp(str, "minishell"))
+	{
+		printf("lol\n");
+		signal(SIGINT, handle_signals);
+	}
+	else
+	{
+		signal(SIGINT, handle_signals_subprocess);
+	}
 }
 void	handle_signals(int sig)
 {
 	if (sig == 2)
-		printf("control-c\n");
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }

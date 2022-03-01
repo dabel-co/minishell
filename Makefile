@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/02/27 19:35:05 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/02/28 18:27:05 by dabel-co         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)
 
 $(NAME) :	check_libft
-	$(CC) $(FLAGS) $(C) -o $(NAME) $(READLINE) ./libft/libft.a
+	$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(C) $(READLINE) -o $(NAME) ./libft/libft.a
 check_libft :
 	@if test -d libft; then ( cd libft ; git pull ) ; else git clone https://github.com/dabel-co/libft.git; fi
 	@make extra -C ./libft

@@ -6,7 +6,7 @@
 /*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/27 19:44:32 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/01 10:53:39 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_pwd(void)
 	char	*dir;
 	dir = NULL;
 	dir = getcwd(dir, 0);
-	printf("fuck\n");
 	ft_putendl_fd(dir, STDOUT_FILENO);
 	free(dir);
 	return (0);
