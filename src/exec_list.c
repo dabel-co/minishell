@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/01 15:51:27 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/02 16:59:05 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	exec(t_exec *node, t_envir *env)
 {
-	if (node->exec_path && !execve(node->exec_path, node->argv, env->e_envp))
-		perror(node->argv[0]);
-	else if (ft_strcmp(node->argv[0], "echo"))
+	if (ft_strcmp(node->argv[0], "echo"))
 		ft_echo(node->argv);
 	else if (ft_strcmp(node->argv[0], "env"))
 		ft_env(env->e_envp, 0);
 	else if (ft_strcmp(node->argv[0], "pwd"))
 		ft_pwd();
+	else if (!execve(node->exec_path, node->argv, env->e_envp))
+		perror(node->argv[0]);
 	exit(0);
 }
 
@@ -58,33 +58,8 @@ void	exec_spnode(t_exec *node, t_envir *env)
 			dup2(node->out_fd, STDOUT_FILENO);
 			close(node->out_fd);
 		}
-		else if (node->next)
-			close(STDOUT_FILENO);
 		exec(node, env);
 	}
-}
-
-void	free_node(t_exec *node)
-{
-	char	**to_free;
-
-	if (node->in_fd)
-		close(node->in_fd);
-	if (node->out_fd)
-		close(node->out_fd);
-	if (node->exec_path)
-		free(node->exec_path);
-	if (node->argv)
-	{
-		to_free = node->argv;
-		while (*node->argv)
-			free(*node->argv++);
-		free(to_free);
-	}
-	if (node->err_msg)
-		free(node->err_msg);
-	free(node);
-	
 }
 
 int	exec_list(t_exec *list, t_envir *env, int subp_count)
@@ -94,24 +69,24 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 
 	if (!list)
 		return (subp_count);
+	if (list->next)
+	{
+		if (pipe(pip) < 0)
+			ft_putendl_fd("error creando pipe", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
+		if (!list->out_fd)
+			list->out_fd = pip[WR_END];
+		else
+			close(pip[WR_END]);
+		if (list->next->in_fd)
+			close(list->next->in_fd);
+		list->next->in_fd = pip[RD_END];
+	}
 	if (list->err_msg)
 		ft_putendl_fd(list->err_msg, 1);
 	else if (!list->exec_path)
 		exec_binode(list, env);
 	else
 	{
-		if (list->next)
-		{
-			if (pipe(pip) < 0)
-				ft_putendl_fd("error creando pipe", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
-			if (!list->out_fd)
-				list->out_fd = pip[WR_END];
-			else
-				close(pip[WR_END]);
-			if (list->next->in_fd)
-				close(list->next->in_fd);
-			list->next->in_fd = pip[RD_END];
-		}
 		subp_count++;
 		exec_spnode(list, env);
 	}

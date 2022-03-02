@@ -75,5 +75,8 @@ void	handle_signals_subprocess(int sig);
 void	check_signal_mode(char *str);
 char	*take_keyword(char *str, int *end);
 int		line_parse(char **line);
+void	free_list(t_exec *list);
+void	free_node(t_exec *node);
+void	free_array(char **array);
 
 #endif
