@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/02 16:31:01 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/04 19:43:57 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_exec	*create_node(char **order, t_envir *env)
 	ret = (t_exec*)malloc(sizeof(t_exec));
 	ft_bzero(ret, sizeof(t_exec));
 	ret->in_fd = take_all_heredoc(order);
-	if (ret->in_fd < 0)
+	if (g_err > 0)
 		return (ret);
 	//aquí va un expand
 	take_all_redir(order, ret);
@@ -66,8 +66,11 @@ t_exec	*tokenizator(char **orders, t_envir *env)
 	new = ret;
 	while (*orders)
 	{
-		if (new->in_fd < 0)
+		if (g_err == 1)
 		{
+			// ft_putstr_fd("saliendome porque ha habido error:", 1);
+			// ft_putnbr_fd(g_err, 1);
+			// ft_putchar_fd('\n', 1);
 			free_list(ret);
 			ret = NULL;
 			break ;

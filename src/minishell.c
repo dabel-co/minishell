@@ -71,6 +71,7 @@ void	readfromprompt(t_envir *env)
 	char	*new_comm;
 	int		subp_count;
 
+	g_err = 0;
 	new_comm = readline("Newminishell@whodis$ ");
 	if (!new_comm)
 	{
@@ -81,6 +82,7 @@ void	readfromprompt(t_envir *env)
 		exit(0);
 	if (line_parse(&new_comm))
 	{
+		g_err = 0;
 		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
 		//ft_putstr_fd("number of subprocesses: ", 1);
 		//ft_putnbr_fd(subp_count, 1);

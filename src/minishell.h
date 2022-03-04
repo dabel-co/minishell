@@ -22,12 +22,15 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <errno.h>
 # include <signal.h>
 # include "../libft/src/libft.h"
 
 # define RD_END	0
 # define WR_END	1
+
+int	g_err;
 
 typedef struct s_exec
 {
