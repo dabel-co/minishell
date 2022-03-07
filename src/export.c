@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/23 12:48:24 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/07 16:15:36 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_export(t_envir *env, char *str)
 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
 		i++;
 	if (env->e_envp[i] != NULL)
-		ft_unset(env, str);
+		ft_unset(env, str); //AQUÍ SE GENERA UN LEAK
 	aux = new_env(env->e_envp, ft_env(env->e_envp, 1) + 2, str);
 	i = 0;
 	while (env->e_envp[i])
@@ -104,6 +104,7 @@ void	ft_export(t_envir *env, char *str)
 	}
 	free(env->e_envp);
 	env->e_envp = aux;
+	//system("leaks -q minishell");
 	if (ft_strncmp("PATH=", str, 5))
-		update_paths(env);
+		update_paths(env); //AQUÍ SE GENERA UN LEAK
 }

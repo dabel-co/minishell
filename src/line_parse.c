@@ -6,11 +6,45 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:46:47 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/01 18:42:21 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/07 18:46:41 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// char	*sp_tty()
+// {
+// 	char	buffer[2];
+// 	char	*keeper;
+// 	char	*iter;
+// 	char	*ret;
+
+// 	buffer[1] = '\0';
+// 	ret = NULL;
+// 	while (1)
+// 	{
+// 		keeper = NULL;
+// 		write(1, "> ", 2);
+// 		while (1)
+// 		{
+// 			read(0, &buffer[0], 1);
+// 			if (buffer[0] == '\n')
+// 				break ;
+// 			keeper = ft_strjoin_free(keeper, buffer);
+// 		}
+// 		ret = ft_strjoin_free(ret, keeper);
+// 		iter = keeper;
+// 		while (*iter && *iter == ' ')
+// 			iter++;
+// 		if (*iter)
+// 			break;
+// 		if (keeper)
+// 			free(keeper);
+// 	}
+// 	if (keeper)
+// 		free(keeper);
+// 	return (ret);
+// }
 
 char	*sp_tty()
 {
@@ -23,26 +57,18 @@ char	*sp_tty()
 	ret = NULL;
 	while (1)
 	{
-		keeper = NULL;
-		write(1, "> ", 2);
-		while (1)
-		{
-			read(0, &buffer[0], 1);
-			if (buffer[0] == '\n')
-				break ;
-			keeper = ft_strjoin_free(keeper, buffer);
-		}
+		keeper = readline("> ");
+		if (!keeper)
+			break ;
 		ret = ft_strjoin_free(ret, keeper);
 		iter = keeper;
 		while (*iter && *iter == ' ')
 			iter++;
 		if (*iter)
 			break;
-		if (keeper)
-			free(keeper);
-	}
-	if (keeper)
 		free(keeper);
+	}
+	free(keeper);
 	return (ret);
 }
 
@@ -51,18 +77,13 @@ char	*syntax_err(char problem)
 	char	err_str[2];
 	char	*syntax;
 
-	syntax = "minishell: syntax error near "; //ESTO HAY QUE CONVERTIRLO EN UN MACRO
 	err_str[1] = '\0';
 	err_str[0] = problem;
 	if (problem == '\'' || problem == '\"')
-	{
-		syntax = ft_strjoin(syntax, "unclosed quotes: ");
-		return (ft_strjoin_free(syntax, err_str));
-	}
-	syntax = ft_strjoin(syntax, "unexpected token: `");
+		return (ft_strjoin(ERR_SYNT_Q, err_str));
 	if (!problem)
-		return (ft_strjoin_free(syntax, "newline'"));
-	syntax = ft_strjoin_free(syntax, err_str);
+		return (ft_strjoin(ERR_SYNT_T, "newline'"));
+	syntax = ft_strjoin(ERR_SYNT_T, err_str);
 	return (ft_strjoin_free(syntax, "'"));
 }
 
@@ -75,7 +96,7 @@ char	*check_quotes(char **line, int *ind)
 	while (line[0][*ind] && line[0][*ind] != limiter)
 		*ind += 1;
 	if (!line[0][*ind])
-		return (syntax_err(limiter));
+		return (err_syntax(limiter));
 	*ind += 1;
 	return (NULL);
 }

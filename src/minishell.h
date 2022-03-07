@@ -30,6 +30,9 @@
 # define RD_END	0
 # define WR_END	1
 
+# define ERR_SYNT_Q "minishell: syntax error near unclosed quotes: "
+# define ERR_SYNT_T "minishell: syntax error near unexpected token: `"
+
 int	g_err;
 
 typedef struct s_exec
@@ -81,5 +84,7 @@ int		line_parse(char **line);
 void	free_list(t_exec *list);
 void	free_node(t_exec *node);
 void	free_array(char **array);
+char	*err_syntax(char problem);
+char	*err_file(char *filename);
 
 #endif

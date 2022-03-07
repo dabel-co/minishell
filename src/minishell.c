@@ -79,7 +79,11 @@ void	readfromprompt(t_envir *env)
 		exit(0);
 	}
 	if (ft_strnstr(new_comm, "exit", 4) && new_comm[4] == '\0')
+	{
+		free(new_comm);
+		rl_clear_history();
 		exit(0);
+	}
 	if (line_parse(&new_comm))
 	{
 		g_err = 0;
@@ -91,11 +95,41 @@ void	readfromprompt(t_envir *env)
 			waitpid(-1, NULL, 0);
 	}
 	add_history(new_comm);
+	free(new_comm);
 }
+
+void	readfromfile(t_envir *env)
+{
+	int		nbytes;
+	int		subp_count;
+	char	*new_comm;
+
+	ioctl(STDIN_FILENO, FIONREAD, &nbytes);
+	while (nbytes)
+	{
+		new_comm = readline(NULL);
+		if (ft_strcmp(new_comm, "exit"))
+		{
+			free(new_comm);
+			exit(0);
+		}
+		if (line_parse(&new_comm))
+		{
+			g_err = 0;
+			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
+			while (subp_count-- > 0)
+				waitpid(-1, NULL, 0);
+		}
+		free(new_comm);
+		ioctl(STDIN_FILENO, FIONREAD, &nbytes);
+	}
+}
+
 void	hola()
 {
-	system("leaks minishell");
+	system("leaks -q minishell");
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envir	env;
@@ -109,7 +143,10 @@ int	main(int argc, char **argv, char **envp)
 	else
 		env.paths = check_path(&env);
 	update_shlvl(&env);
-	atexit(hola);
-	while (1)
-		readfromprompt(&env);
+	//atexit(hola);
+	if (isatty(STDIN_FILENO))
+		while (1)
+			readfromprompt(&env);
+	else
+		readfromfile(&env);
 }

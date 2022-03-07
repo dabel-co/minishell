@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:24:27 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/28 16:47:26 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/07 14:57:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	**smart_split(char *order, char limit)
 		ind += 2;
 	}
 	ret[ind2] = NULL;
+	free(order);
 	free(index);
 	return (ret);
 }
