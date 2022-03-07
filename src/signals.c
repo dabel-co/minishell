@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:03:44 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/04 19:37:46 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:09:02 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,12 @@ void	handle_signals_heredoc(int sig)
 
 void	check_signal_mode(char *str)
 {
-	//printf("a ver %s\n", str);
 	if (ft_strcmp(str, "minishell"))
-	{
-		//printf("lol\n");
 		signal(SIGINT, handle_signals);
-	}
-	else if (ft_strcmp(str, "subprocess"))
-	{
-		signal(SIGINT, handle_signals_subprocess);
-	}
 	else if (ft_strcmp(str, "heredoc"))
-	{
 		signal(SIGINT, handle_signals_heredoc);
-	}
+	else
+		signal(SIGINT, handle_signals_subprocess);
 }
 void	handle_signals(int sig)
 {

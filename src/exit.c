@@ -1,23 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabel-co <dabel-co@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/07 11:34:59 by dabel-co         ###   ########.fr       */
+/*   Created: 2022/03/04 16:45:21 by dabel-co          #+#    #+#             */
+/*   Updated: 2022/03/07 12:05:22 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
-{
-	char	*dir;
-	dir = NULL;
-	dir = getcwd(dir, 0);
-	ft_putendl_fd(dir, STDOUT_FILENO);
-	free(dir);
-	return (0);
-}
+void	ft_exit(

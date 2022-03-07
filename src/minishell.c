@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/02/28 16:47:45 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:09:04 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	readfromprompt(t_envir *env)
 	int		subp_count;
 
 	g_err = 0;
-	new_comm = readline("Newminishell@whodis$ ");
+	new_comm = readline("zyzz@gymshell$ ");
 	if (!new_comm)
 	{
 		ft_putstr_fd("exit\n", 1);
@@ -92,7 +92,10 @@ void	readfromprompt(t_envir *env)
 	}
 	add_history(new_comm);
 }
-
+void	hola()
+{
+	system("leaks minishell");
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_envir	env;
@@ -106,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 	else
 		env.paths = check_path(&env);
 	update_shlvl(&env);
+	atexit(hola);
 	while (1)
 		readfromprompt(&env);
 }

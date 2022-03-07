@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/04 19:43:44 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/07 12:02:38 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exec_spnode(t_exec *node, t_envir *env)
 	pid_t	pidC;
 
 	pidC = fork();
-	check_signal_mode("minishell");
+	check_signal_mode(node->argv[0]);
 	if (pidC == -1)
 		ft_putendl_fd("error creando fork", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
 	else if (pidC == 0)
