@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 17:41:33 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/07 19:07:16 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:37:42 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ char	*err_syntax(char problem)
 	return (ft_strjoin_free(ret, "'"));
 }
 
-char	*err_file(char *filename)
+char	*err_file(char *filename, char *error)
 {
 	char	*ret;
 	
 	ret = ft_strjoin("minishell: ", filename);
 	ret = ft_strjoin_free(ret, ": ");
-	ret = ft_strjoin_free(ret, strerror(errno));
+	ret = ft_strjoin_free(ret, error);
 	return (ret);
 }

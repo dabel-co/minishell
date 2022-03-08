@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/27 19:45:35 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:58:15 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_unset(t_envir *env, char *str)
 		i++;
 	if (env->e_envp[i] == NULL)
 		return ;
-	aux = new_env(env->e_envp, ft_env(env->e_envp, 1), str);
+	aux = new_env(env->e_envp, ft_env(env->e_envp, 1, 0), str);
 	i = 0;
 	while (env->e_envp[i])
 	{

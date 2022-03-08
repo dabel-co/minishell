@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:39:15 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/02/27 18:21:03 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/08 16:25:38 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(char **argv)
+int	ft_echo(char **argv, int wfd)
 {
 	int	i;
 	int	check;
@@ -26,12 +26,12 @@ int	ft_echo(char **argv)
 	}
 	while (argv[i] != NULL)
 	{
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
+		ft_putstr_fd(argv[i], wfd);
 		if (argv[i + 1] != NULL)
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			ft_putchar_fd(' ', wfd);
 		i++;
 	}
 	if (check == 0)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putchar_fd('\n', wfd);
 	return (0);
 }

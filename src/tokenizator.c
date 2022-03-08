@@ -6,11 +6,25 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/07 15:00:18 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/08 19:46:40 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_exec_path(t_exec *node)
+{
+	struct stat	info;
+
+	if (access(node->exec_path, X_OK) < 0)
+		node->err_msg = err_file(node->exec_path, strerror(errno));
+	else
+	{
+		stat(node->exec_path, &info);
+		if (S_ISDIR(info.st_mode))
+			node->err_msg = err_file(node->exec_path, "is a directory");
+	}
+}
 
 void	get_args(char **order, t_envir *env, t_exec *node)
 {
@@ -26,8 +40,7 @@ void	get_args(char **order, t_envir *env, t_exec *node)
 		if (last_bar)
 		{
 			node->exec_path = node->argv[0];
-			if (access(node->exec_path, F_OK) < 0)
-				node->err_msg = ft_strdup("el ejecutable no se ha encontrado");
+			check_exec_path(node);
 			node->argv[0] = strdup(last_bar + sizeof(char));
 		}
 		else

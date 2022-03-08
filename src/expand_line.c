@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/07 13:12:32 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:24:04 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*expand_line(char *str, t_envir *env, int i, int p)
 {
 	char	*result;
 	int		t;
-
+	//add stop at =
 	t = 0;
 	result = malloc(ft_strlen(str) + 1);
 	while (str[i])

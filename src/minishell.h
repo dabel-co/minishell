@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <sys/ioctl.h>
 # include <errno.h>
@@ -53,11 +54,11 @@ typedef struct s_envir
 
 char	*search_comm(char *comm, char **paths, t_exec *exec);
 int		ft_cd(char *path, t_envir *env);
-int		ft_pwd(void);
-int		ft_echo(char **argv);
-int		ft_env(char **str, int mode);
+int		ft_pwd(int wfd);
+int		ft_echo(char **argv, int wfd);
+int		ft_env(char **str, int mode, int wfd);
 void	ft_unset(t_envir *env, char *str);
-void	ft_export(t_envir *env, char *str);
+void	ft_export(t_envir *env, char *str, int wfd);
 int		find_env(char *env, char *str);
 void	update_paths(t_envir *env);
 //char	*expand(char *str, t_envir *env);
@@ -74,7 +75,7 @@ char	**smart_split(char *order, char limit);
 int		take_all_heredoc(char **comm);
 int		take_all_redir(char **order, t_exec *execord);
 char	*search_op(char *comm, char search);
-int		exec_list(t_exec *list, t_envir *env, int subp_count);
+int		exec_list(t_exec *list, t_envir *env, int subp_count, pid_t *last_pid);
 char	*remove_quotes(char *str);
 void	handle_signals(int sig);
 void	handle_signals_subprocess(int sig);
@@ -85,6 +86,6 @@ void	free_list(t_exec *list);
 void	free_node(t_exec *node);
 void	free_array(char **array);
 char	*err_syntax(char problem);
-char	*err_file(char *filename);
+char	*err_file(char *filename, char *error);
 
 #endif

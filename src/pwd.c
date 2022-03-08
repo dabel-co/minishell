@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabel-co <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/07 11:34:59 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:00:59 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(int wfd)
 {
 	char	*dir;
+
 	dir = NULL;
 	dir = getcwd(dir, 0);
-	ft_putendl_fd(dir, STDOUT_FILENO);
+	ft_putendl_fd(dir, wfd);
 	free(dir);
 	return (0);
 }

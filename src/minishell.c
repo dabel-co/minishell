@@ -69,30 +69,37 @@ void	waitpid_status_diagnose(int status)
 void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
+	pid_t	last_pid;
 	int		subp_count;
+	//int		status;
 
 	g_err = 0;
 	new_comm = readline("zyzz@gymshell$ ");
-	if (!new_comm)
-	{
-		ft_putstr_fd("exit\n", 1);
-		exit(0);
-	}
-	if (ft_strnstr(new_comm, "exit", 4) && new_comm[4] == '\0')
+	if (!new_comm || ft_strcmp(new_comm, "exit"))
 	{
 		free(new_comm);
 		rl_clear_history();
+		ft_putstr_fd("exit\n", 1);
 		exit(0);
 	}
 	if (line_parse(&new_comm))
 	{
 		g_err = 0;
-		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
-		//ft_putstr_fd("number of subprocesses: ", 1);
-		//ft_putnbr_fd(subp_count, 1);
-		//ft_putchar_fd('\n', 1);
+		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0, &last_pid);
 		while (subp_count-- > 0)
+		{
 			waitpid(-1, NULL, 0);
+			// if (waitpid(-1, &status, 0) == last_pid)
+			// {
+			// 	printf("WEXITSTATUS da como resultado: %d\n", WEXITSTATUS(status));
+			// 	printf("WTERMSIG da como resultado: %d\n", WTERMSIG(status));
+			// 	printf("errno es %d ahora mismo y significa %s\n", errno, strerror(errno));
+			// 	printf("EINTR es %d ahora mismo\n", EINTR);
+			// 	// ft_putnbr_fd(WEXITSTATUS(status), STDOUT_FILENO);
+			// 	// ft_putnbr_fd(WTERMSIG(status), STDOUT_FILENO);
+			// }
+			// 	//if (WIFEXITED(status))
+		}
 	}
 	add_history(new_comm);
 	free(new_comm);
@@ -101,6 +108,7 @@ void	readfromprompt(t_envir *env)
 void	readfromfile(t_envir *env)
 {
 	int		nbytes;
+	pid_t	last_pid;
 	int		subp_count;
 	char	*new_comm;
 
@@ -116,7 +124,7 @@ void	readfromfile(t_envir *env)
 		if (line_parse(&new_comm))
 		{
 			g_err = 0;
-			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
+			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0, &last_pid);
 			while (subp_count-- > 0)
 				waitpid(-1, NULL, 0);
 		}

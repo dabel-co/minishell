@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/07 16:15:36 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/08 17:26:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_paths(t_envir *env)
 		free(env->paths[i]);
 		i++;
 	}
-	free(env->paths[i]);
+	free(env->paths);
 	env->paths = get_paths(env->e_envp);
 }
 
@@ -79,23 +79,23 @@ static char	**new_env(char **env, int size, char *str)
 	return (new_env_aux(aux, str, i));
 }
 
-void	ft_export(t_envir *env, char *str)
+void	ft_export(t_envir *env, char *str, int wfd)
 {
 	int		i;
 	char	**aux;
 
 	i = 0;
 	if (!str)
-		ft_env(env->e_envp, 2);
+		ft_env(env->e_envp, 2, wfd);
 	if (!str || str[1] == '$')
 		return ;
-	if (str[0] == '$')
+	if (str[0] == '$') //fix this thingy
 		str++;
 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
 		i++;
 	if (env->e_envp[i] != NULL)
-		ft_unset(env, str); //AQUÍ SE GENERA UN LEAK
-	aux = new_env(env->e_envp, ft_env(env->e_envp, 1) + 2, str);
+		ft_unset(env, str);
+	aux = new_env(env->e_envp, ft_env(env->e_envp, 1, 0) + 2, str);
 	i = 0;
 	while (env->e_envp[i])
 	{
@@ -104,7 +104,6 @@ void	ft_export(t_envir *env, char *str)
 	}
 	free(env->e_envp);
 	env->e_envp = aux;
-	//system("leaks -q minishell");
 	if (ft_strncmp("PATH=", str, 5))
-		update_paths(env); //AQUÍ SE GENERA UN LEAK
+		update_paths(env);
 }

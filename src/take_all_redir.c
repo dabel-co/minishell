@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:58:10 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/07 18:57:30 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/08 15:36:18 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	open_redir(char *redir, char *filename, t_exec *execord)
 		flags = O_RDONLY;
 	fd = open(filename, flags, 0666);
 	if (fd < 0)
-		execord->err_msg = err_file(filename)/*err_msg(filename)*/;
+		execord->err_msg = err_file(filename, strerror(errno))/*err_msg(filename)*/;
 	free(filename);
 	if (fd > 1)
 	{
