@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:59:09 by marvin            #+#    #+#             */
-/*   Updated: 2022/03/07 11:56:57 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:06:13 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	update_shlvl(t_envir *env);
 char	**check_path(t_envir *env);
 char	**init_split(char *str);
 char	*expand_line(char *str, t_envir *env, int i, int p);
-char	*env_expand_aux(char *str, t_envir *env);
+char	*get_env_value(char *str, t_envir *env);
 int		find_env_expand(char *env, char *str);
 t_exec	*tokenizator(char **orders, t_envir *env);
 char	**smart_split(char *order, char limit);

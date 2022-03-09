@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/03/07 12:09:04 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:07:07 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	readfromprompt(t_envir *env)
 	//int		status;
 
 	g_err = 0;
-	new_comm = readline("zyzz@gymshell$ ");
+	new_comm = readline("SUSSYBAKA@WEEABOSHELL$ ");
 	if (!new_comm || ft_strcmp(new_comm, "exit"))
 	{
 		free(new_comm);

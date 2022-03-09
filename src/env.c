@@ -6,13 +6,13 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:38 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/08 16:26:04 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:02:11 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/* MOVE THIS SOMEWHERE ELSE */
-char	*env_expand_aux(char *str, t_envir *env)
+
+char	*get_env_value(char *str, t_envir *env)
 {
 	int		i;
 	char	*aux;

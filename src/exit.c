@@ -6,10 +6,9 @@
 /*   By: dabel-co <dabel-co@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 16:45:21 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/07 12:05:22 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/09 11:46:37 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(

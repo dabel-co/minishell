@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/08 17:24:04 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/09 13:02:27 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*expand_line(char *str, t_envir *env, int i, int p)
 	{
 		if (str[i] == '$' && t == 0)
 		{
-			result = ft_strjoin_free(result, env_expand_aux(&str[i], env));
+			result = ft_strjoin_free(result, get_env_value(&str[i], env));
 			i = i + check_env_expand(&str[i]);
 			p = ft_strlen(result);
 			if ((str[i + 1] != '\0' && str[i + 1] != '$' && str[i] != '$')
