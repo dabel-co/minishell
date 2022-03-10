@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/09 12:04:05 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/10 18:19:22 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	**new_env(char **env, int size, char *str)
 	return (aux);
 }
 
-void	ft_unset(t_envir *env, char *str)
+int	ft_unset(t_envir *env, char *str)
 {
 	int		i;
 	char	**aux;
@@ -74,4 +74,5 @@ void	ft_unset(t_envir *env, char *str)
 	env->e_envp = aux;
 	if (ft_strncmp("PATH=", str, 5))
 		update_paths(env);
+	return (0);
 }

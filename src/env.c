@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:38 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/09 13:02:11 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/10 14:10:41 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int	ft_env(char **str, int mode, int wfd)
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i][0] != '?')
+	while (str[i])
 	{
-		if (mode == 2)
+		if (mode == 2 && str[i][0] != '?')
 			ft_putstr_fd("declare -x ", wfd);
-		if ((mode == 0 && ft_strchr(str[i], '=')) || mode == 2)
+		if (((mode == 0 && ft_strchr(str[i], '=')) || mode == 2) && str[i][0] != '?')
 			ft_putendl_fd(str[i], wfd);
 		i++;
 	}

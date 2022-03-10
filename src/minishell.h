@@ -50,6 +50,7 @@ typedef struct s_envir
 {
 	char	**paths;
 	char	**e_envp;
+	int		zyzz;
 }				t_envir;
 
 char	*search_comm(char *comm, char **paths, t_exec *exec);
@@ -57,8 +58,8 @@ int		ft_cd(char *path, t_envir *env);
 int		ft_pwd(int wfd);
 int		ft_echo(char **argv, int wfd);
 int		ft_env(char **str, int mode, int wfd);
-void	ft_unset(t_envir *env, char *str);
-void	ft_export(t_envir *env, char *str, int wfd);
+int		ft_unset(t_envir *env, char *str);
+int		ft_export(t_envir *env, char *str, int wfd);
 int		find_env(char *env, char *str);
 void	update_paths(t_envir *env);
 //char	*expand(char *str, t_envir *env);
