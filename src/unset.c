@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:52 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/10 18:19:22 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/11 17:57:30 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_unset(t_envir *env, char *str)
 	while (find_env(env->e_envp[i], str) && env->e_envp[i] != NULL)
 		i++;
 	if (env->e_envp[i] == NULL)
-		return ;
+		return (0);
 	aux = new_env(env->e_envp, ft_env(env->e_envp, 1, 0), str);
 	i = 0;
 	while (env->e_envp[i])

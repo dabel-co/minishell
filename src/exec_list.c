@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/10 16:32:11 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/11 18:23:42 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exec_binode(t_exec *node, t_envir *env)
 	return (0);
 }
 
-int	exec_spnode(t_exec *node, t_envir *env, pid_t *last_pid)
+int	exec_spnode(t_exec *node, t_envir *env)
 {
 	pid_t	pidC;
 
@@ -50,6 +50,7 @@ int	exec_spnode(t_exec *node, t_envir *env, pid_t *last_pid)
 		ft_putendl_fd("error creando fork", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
 	else if (pidC == 0)
 	{
+		//signal(SIGINT, SIG_DFL);
 		if (node->in_fd)
 		{
 			dup2(node->in_fd, STDIN_FILENO);
@@ -62,7 +63,7 @@ int	exec_spnode(t_exec *node, t_envir *env, pid_t *last_pid)
 		}
 		if (!execve(node->exec_path, node->argv, env->e_envp))
 			perror(node->argv[0]);
-		//system("leaks -q minishell");
+		system("leaks -q minishell");
 		pidC = -1;
 		exit(0);
 	}
@@ -90,7 +91,7 @@ int	set_pipe(t_exec *node)
 	return (1);
 }
 
-int	exec_list(t_exec *list, t_envir *env, int subp_count, pid_t *last_pid)
+int	exec_list(t_exec *list, t_envir *env, int subp_count)
 {
 	int		ret;
 	t_exec	*next;
@@ -105,12 +106,12 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count, pid_t *last_pid)
 		ft_putendl_fd(list->err_msg, STDERR_FILENO);
 	else if (list->exec_path) //AQUÍ SERÍA INTERESANTE MODIFICARLO PARA QUE SI HAY UN ERROR CREANDO FORK LA COSA SALGA SIN PROBLEMA
 	{
-		ret = exec_spnode(list, env, last_pid);
+		ret = exec_spnode(list, env);
 		subp_count++;
 	}
 	else 
 		ret = exec_binode(list, env);
 	next = list->next;
 	free_node(list);
-	return (exec_list(next, env, subp_count, last_pid));
+	return (exec_list(next, env, subp_count));
 }

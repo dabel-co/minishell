@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/11 16:09:54 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/11 18:00:45 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_export(t_envir *env, char *str, int wfd)
 	if (!str)
 		ft_env(env->e_envp, 2, wfd);
 	if (!str || str[1] == '$')
-		return ;
+		return (0);
 	if (str[0] == '$') //fix this thingy
 		str++;
 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
@@ -109,97 +109,97 @@ int	ft_export(t_envir *env, char *str, int wfd)
 	return (0);
 }
 
-int	is_valid_id(char *str)
-{
-	if (!*str || ft_isdigit(*str))
-		return (0);
-	while (*str && *str != '=')
-	{
-		if (*str == '$' || *str == ' ')
-			return (0);
-		str++;
-	}
-	// while (*str)
-	// 	if (*str++ == '$')
-	// 		return (0);
-	return (1);
-}
+// int	is_valid_id(char *str)
+// {
+// 	if (!*str || ft_isdigit(*str))
+// 		return (0);
+// 	while (*str && *str != '=')
+// 	{
+// 		if (*str == '$' || *str == ' ')
+// 			return (0);
+// 		str++;
+// 	}
+// 	// while (*str)
+// 	// 	if (*str++ == '$')
+// 	// 		return (0);
+// 	return (1);
+// }
 
-int	search_n_replace(char *str, t_envir *env)
-{
-	int	name_size;
-	int	iter;
+// int	search_n_replace(char *str, t_envir *env)
+// {
+// 	int	name_size;
+// 	int	iter;
 
-	name_size = 0;
-	while (str[name_size] && str[name_size] != '=')
-		name_size++;
-	if (str[name_size])
-		name_size++;
-	iter = 0;
-	while (env->e_envp[iter])
-	{
-		if (ft_strnstr(env->e_envp[iter], str, name_size))
-		{
-			free(env->e_envp[iter]);
-			env->e_envp[iter] = ft_strdup(str);
-			if (ft_strnstr("PATH=", str, 5))
-				update_paths(env);
-			str[0] = '\0';
-			return (1);
-		}
-		iter++;
-	}
-	return (0);
-}
+// 	name_size = 0;
+// 	while (str[name_size] && str[name_size] != '=')
+// 		name_size++;
+// 	if (str[name_size])
+// 		name_size++;
+// 	iter = 0;
+// 	while (env->e_envp[iter])
+// 	{
+// 		if (ft_strnstr(env->e_envp[iter], str, name_size))
+// 		{
+// 			free(env->e_envp[iter]);
+// 			env->e_envp[iter] = ft_strdup(str);
+// 			if (ft_strnstr("PATH=", str, 5))
+// 				update_paths(env);
+// 			str[0] = '\0';
+// 			return (1);
+// 		}
+// 		iter++;
+// 	}
+// 	return (0);
+// }
 
-void	update_env(t_envir *env, char **argv, int new_var)
-{
-	char	**new_env;
-	int		old_var;
-	int		iter;
+// void	update_env(t_envir *env, char **argv, int new_var)
+// {
+// 	char	**new_env;
+// 	int		old_var;
+// 	int		iter;
 
-	while (env->e_envp[old_var])
-		old_var++;
-	new_env = (char**)malloc(sizeof(char*) * (old_var + new_var + 1));
-	iter = 0;
-	while (iter < old_var)
-	{
-		new_env[iter] = env->e_envp[iter];
-		iter++;
-	}
-	while (*argv)
-	{
-		if (*argv[0])
-			new_env[iter++] = ft_strdup(*argv);
-		argv++;
-	}
-	free(env->e_envp);
-	env->e_envp = new_env;
-}
+// 	while (env->e_envp[old_var])
+// 		old_var++;
+// 	new_env = (char**)malloc(sizeof(char*) * (old_var + new_var + 1));
+// 	iter = 0;
+// 	while (iter < old_var)
+// 	{
+// 		new_env[iter] = env->e_envp[iter];
+// 		iter++;
+// 	}
+// 	while (*argv)
+// 	{
+// 		if (*argv[0])
+// 			new_env[iter++] = ft_strdup(*argv);
+// 		argv++;
+// 	}
+// 	free(env->e_envp);
+// 	env->e_envp = new_env;
+// }
 
-int	ft_export(t_envir *env, char **argv, int wfd)
-{
-	int		new_var;
-	char	**iter;
+// int	ft_export(t_envir *env, char **argv, int wfd)
+// {
+// 	int		new_var;
+// 	char	**iter;
 
 	
-	new_var = 0;
-	if (!*argv)
-		ft_env(env->e_envp, 2, wfd);
-	iter = argv;
-	while (*iter)
-	{
-		if (!is_valid_id(iter))
-		{
-			ft_putstr_fd("minishell: export: not a valid identifier: `", STDERR_FILENO);
-			ft_putstr_fd(*iter, STDERR_FILENO);
-			ft_putendl_fd("'", STDERR_FILENO);
-			*iter[0] = '\0';
-		}
-		else if (!search_n_replace(iter, env))
-			new_var++;
-		iter++;
-	}
-	update_env(env, argv, new_var);
-	return (0);
-}
+// 	new_var = 0;
+// 	if (!*argv)
+// 		ft_env(env->e_envp, 2, wfd);
+// 	iter = argv;
+// 	while (*iter)
+// 	{
+// 		if (!is_valid_id(iter))
+// 		{
+// 			ft_putstr_fd("minishell: export: not a valid identifier: `", STDERR_FILENO);
+// 			ft_putstr_fd(*iter, STDERR_FILENO);
+// 			ft_putendl_fd("'", STDERR_FILENO);
+// 			*iter[0] = '\0';
+// 		}
+// 		else if (!search_n_replace(*iter, env))
+// 			new_var++;
+// 		iter++;
+// 	}
+// 	update_env(env, argv, new_var);
+// 	return (0);
+// }

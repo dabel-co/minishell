@@ -69,7 +69,7 @@ void	waitpid_status_diagnose(int status)
 void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
-	pid_t	last_pid;
+	// pid_t	last_pid;
 	int		subp_count;
 	//int		status;
 
@@ -85,7 +85,7 @@ void	readfromprompt(t_envir *env)
 	if (line_parse(&new_comm))
 	{
 		g_err = 0;
-		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0, &last_pid);
+		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
 		while (subp_count-- > 0)
 		{
 			waitpid(-1, NULL, 0);
@@ -108,7 +108,7 @@ void	readfromprompt(t_envir *env)
 void	readfromfile(t_envir *env)
 {
 	int		nbytes;
-	pid_t	last_pid;
+	// pid_t	last_pid;
 	int		subp_count;
 	char	*new_comm;
 
@@ -124,7 +124,7 @@ void	readfromfile(t_envir *env)
 		if (line_parse(&new_comm))
 		{
 			g_err = 0;
-			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0, &last_pid);
+			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
 			while (subp_count-- > 0)
 				waitpid(-1, NULL, 0);
 		}
@@ -145,6 +145,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, handle_signals);
+	signal(SIGQUIT, SIG_IGN);
 	env.e_envp = get_env(envp);
 	if (!check_path(&env))
 		env.paths = get_paths(envp);

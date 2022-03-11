@@ -76,7 +76,7 @@ char	**smart_split(char *order, char limit);
 int		take_all_heredoc(char **comm);
 int		take_all_redir(char **order, t_exec *execord);
 char	*search_op(char *comm, char search);
-int		exec_list(t_exec *list, t_envir *env, int subp_count, pid_t *last_pid);
+int		exec_list(t_exec *list, t_envir *env, int subp_count);
 char	*remove_quotes(char *str);
 void	handle_signals(int sig);
 void	handle_signals_subprocess(int sig);
