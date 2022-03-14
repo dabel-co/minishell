@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/11 18:23:42 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:33:15 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	exec_spnode(t_exec *node, t_envir *env)
 		if (!execve(node->exec_path, node->argv, env->e_envp))
 			perror(node->argv[0]);
 		system("leaks -q minishell");
-		pidC = -1;
+		//pidC = -1; //ESTO NO VA A HACER NADA PORQUE ESTÁ EN EL PROCESO HIJO
 		exit(0);
 	}
 	return (pidC);
@@ -91,7 +91,7 @@ int	set_pipe(t_exec *node)
 	return (1);
 }
 
-int	exec_list(t_exec *list, t_envir *env, int subp_count)
+int	exec_list(t_exec *list, t_envir *env, int *subp_count)
 {
 	int		ret;
 	t_exec	*next;
@@ -99,7 +99,7 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 	//errno = 0;
 	ret = 1;
 	if (!list)
-		return (subp_count);
+		return (0);
 	if (list->next)
 		set_pipe(list);
 	if (list->err_msg)
@@ -107,11 +107,13 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 	else if (list->exec_path) //AQUÍ SERÍA INTERESANTE MODIFICARLO PARA QUE SI HAY UN ERROR CREANDO FORK LA COSA SALGA SIN PROBLEMA
 	{
 		ret = exec_spnode(list, env);
-		subp_count++;
+		*subp_count += 1; //SERÍA DESEABLE QUE ESTO NO OCURRA SI EXISTE ALGÚN FALLO
 	}
 	else 
 		ret = exec_binode(list, env);
 	next = list->next;
 	free_node(list);
-	return (exec_list(next, env, subp_count));
+	if (next)
+		return (exec_list(next, env, subp_count));
+	return (ret);
 }

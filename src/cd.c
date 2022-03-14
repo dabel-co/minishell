@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:04 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/10 13:57:22 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/14 16:03:42 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,28 @@ int	update_env(char *dir, t_envir *env)
 {
 	char	*aux;
 	
-	aux = ft_strjoin("OLDPWD=", dir);
-	ft_export(env, aux, 0);
-	free(dir);
-	free(aux);
+	if (dir)
+	{
+		aux = ft_strjoin("OLDPWD=", dir);
+		ft_export(env, aux, 0);
+		free(dir);
+		free(aux);
+	}
 	dir = getcwd(NULL, 0);
-	aux = ft_strjoin("PWD=", dir);
-	ft_export(env, aux, 0);
-	free(dir);
-	free(aux);
+	if (dir)
+	{
+		aux = ft_strjoin("PWD=", dir);
+		ft_export(env, aux, 0);
+		free(dir);
+		free(aux);
+	}
 	return (0);
 }
 
 int	ft_cd(char *path, t_envir *env)
 {
 	char	*dir;
+	char	*err_prompt;
 
 	if (!path)
 		path = get_env_value("$HOME", env);//la función que sea que recoge el 
@@ -109,9 +116,9 @@ int	ft_cd(char *path, t_envir *env)
 	dir = getcwd(NULL, 0);
 	if (!chdir(path))
 		return (update_env(dir, env));
-	free(dir);
-	dir = ft_strjoin("cd: ", path);
-	perror(dir);
+	err_prompt = ft_strjoin("cd: ", path);
+	perror(err_prompt);
+	free(err_prompt);
 	free(dir);
 	return (1);
 }

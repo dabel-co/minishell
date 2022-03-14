@@ -69,11 +69,10 @@ void	waitpid_status_diagnose(int status)
 void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
-	// pid_t	last_pid;
+	int		last_pid;
 	int		subp_count;
-	//int		status;
+	int		status;
 
-	g_err = 0;
 	new_comm = readline("SUSSYBAKA@WEEABOSHELL$ ");
 	if (!new_comm || ft_strcmp(new_comm, "exit"))
 	{
@@ -85,21 +84,25 @@ void	readfromprompt(t_envir *env)
 	if (line_parse(&new_comm))
 	{
 		g_err = 0;
-		subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
+		subp_count = 0;
+		last_pid = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, &subp_count);
 		while (subp_count-- > 0)
 		{
-			waitpid(-1, NULL, 0);
-			// if (waitpid(-1, &status, 0) == last_pid)
-			// {
-			// 	printf("WEXITSTATUS da como resultado: %d\n", WEXITSTATUS(status));
-			// 	printf("WTERMSIG da como resultado: %d\n", WTERMSIG(status));
-			// 	printf("errno es %d ahora mismo y significa %s\n", errno, strerror(errno));
-			// 	printf("EINTR es %d ahora mismo\n", EINTR);
-			// 	// ft_putnbr_fd(WEXITSTATUS(status), STDOUT_FILENO);
-			// 	// ft_putnbr_fd(WTERMSIG(status), STDOUT_FILENO);
-			// }
-			// 	//if (WIFEXITED(status))
+			//waitpid(-1, NULL, 0);
+			if (waitpid(-1, &status, 0) == last_pid)
+			{
+				if (WIFEXITED(status))
+					printf("WEXITSTATUS da como resultado: %d\n", WEXITSTATUS(status));
+				else if (WIFSIGNALED(status))
+					printf("WTERMSIG da como resultado: %d\n", WTERMSIG(status));
+				// printf("errno es %d ahora mismo y significa %s\n", errno, strerror(errno));
+				// printf("EINTR es %d ahora mismo\n", EINTR);
+				// ft_putnbr_fd(WEXITSTATUS(status), STDOUT_FILENO);
+				// ft_putnbr_fd(WTERMSIG(status), STDOUT_FILENO);
+			}
 		}
+		if (last_pid < 2)
+			printf("El último proceso salió con %d\n", last_pid);
 	}
 	add_history(new_comm);
 	free(new_comm);
@@ -108,7 +111,7 @@ void	readfromprompt(t_envir *env)
 void	readfromfile(t_envir *env)
 {
 	int		nbytes;
-	// pid_t	last_pid;
+	int		last_pid;
 	int		subp_count;
 	char	*new_comm;
 
@@ -124,7 +127,7 @@ void	readfromfile(t_envir *env)
 		if (line_parse(&new_comm))
 		{
 			g_err = 0;
-			subp_count = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
+			last_pid = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, &subp_count);
 			while (subp_count-- > 0)
 				waitpid(-1, NULL, 0);
 		}

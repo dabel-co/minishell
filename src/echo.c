@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:39:15 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/08 16:25:38 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/14 15:32:33 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ft_echo(char **argv, int wfd)
 
 	i = 1;
 	check = 0;
-	if (argv[1] && ft_strnstr(argv[1], "-n", 2) && !argv[1][2])
+	while (argv[i] && ft_strcmp(argv[i], "-n"))
 	{
 		check = 1;
 		i++;
 	}
-	while (argv[i] != NULL)
+	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], wfd);
 		if (argv[i + 1] != NULL)
