@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/11 16:09:54 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/14 11:21:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_export(t_envir *env, char *str, int wfd)
 	return (0);
 }
 
-int	is_valid_id(char *str)
+/*int	is_valid_id(char *str)
 {
 	if (!*str || ft_isdigit(*str))
 		return (0);
@@ -119,40 +119,44 @@ int	is_valid_id(char *str)
 			return (0);
 		str++;
 	}
-	// while (*str)
-	// 	if (*str++ == '$')
-	// 		return (0);
 	return (1);
 }
 
-int	search_n_replace(char *str, t_envir *env)
+char	**env_search(char **env, char *to_search, int name_size)
 {
-	int	name_size;
-	int	iter;
+	while (*env)
+	{
+		if (ft_strnstr(*env, to_search, name_size)
+			&& (!*env[name_size] || *env[name_size] == '='))
+			return(env);
+		env++;
+	}
+	return (NULL);
+}
+
+int	env_replace(char *str, t_envir *env)
+{
+	int		name_size;
+	char	**to_replace;
 
 	name_size = 0;
 	while (str[name_size] && str[name_size] != '=')
 		name_size++;
-	if (str[name_size])
-		name_size++;
-	iter = 0;
-	while (env->e_envp[iter])
+	to_replace = env_search(env->envp, str, name_size);
+	if (!to_replace)
+		return (0);
+	if (str[name_size] || !*to_replace[name_size])
 	{
-		if (ft_strnstr(env->e_envp[iter], str, name_size))
-		{
-			free(env->e_envp[iter]);
-			env->e_envp[iter] = ft_strdup(str);
-			if (ft_strnstr("PATH=", str, 5))
-				update_paths(env);
-			str[0] = '\0';
-			return (1);
-		}
-		iter++;
+		free(*to_replace);
+		*to_replace = ft_strdup(str);
+		if (ft_strnstr("PATH=", str, 5))
+			update_paths(env);
 	}
-	return (0);
+	str[0] = '\0';
+	return (1);
 }
 
-void	update_env(t_envir *env, char **argv, int new_var)
+void	env_update(t_envir *env, char **argv, int new_var)
 {
 	char	**new_env;
 	int		old_var;
@@ -167,22 +171,66 @@ void	update_env(t_envir *env, char **argv, int new_var)
 		new_env[iter] = env->e_envp[iter];
 		iter++;
 	}
-	while (*argv)
+	if (new_var)
 	{
-		if (*argv[0])
-			new_env[iter++] = ft_strdup(*argv);
-		argv++;
+		while (*argv)
+		{
+			if (*argv[0])
+				new_env[iter++] = ft_strdup(*argv);
+			argv++;
+		}
 	}
+	new_env[iter] = NULL;
 	free(env->e_envp);
 	env->e_envp = new_env;
+}
+
+void	env_remove(char *to_remove, t_envir *env, int name_size)
+{
+	char	**old_var;
+
+	old_var = env_search(env->envp, to_remove, name_size);
+	if (!old_var)
+		return ;
+	free(*old_var);
+	while (*(old_var + sizeof(char *)))
+		*old_var = *(old_var + sizeof(char *));
+}
+
+int	ft_unset(t_envir *env, char **argv)
+{
+	int		ret;
+	int		name_size;
+
+	ret = 0;
+	while (*argv)
+	{
+		if (!is_valid_id(*argv))
+		{
+			ret = 1;
+			ft_putstr_fd("minishell: unset: not a valid identifier: `", STDERR_FILENO);
+			ft_putstr_fd(*argv, STDERR_FILENO);
+			ft_putendl_fd("'", STDERR_FILENO);
+			argv++;
+			break ;
+		}
+		name_size = 0;
+		while (*argv[name_size] && *argv[name_size] != '=')
+			name_size++;
+		env_remove(*argv, env, name_size);
+		argv++;
+	}
+	env_update(env, NULL, 0);
+	return (ret);
 }
 
 int	ft_export(t_envir *env, char **argv, int wfd)
 {
 	int		new_var;
+	int		ret;
 	char	**iter;
 
-	
+	ret = 0;
 	new_var = 0;
 	if (!*argv)
 		ft_env(env->e_envp, 2, wfd);
@@ -191,15 +239,16 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 	{
 		if (!is_valid_id(iter))
 		{
+			ret = 1;
 			ft_putstr_fd("minishell: export: not a valid identifier: `", STDERR_FILENO);
 			ft_putstr_fd(*iter, STDERR_FILENO);
 			ft_putendl_fd("'", STDERR_FILENO);
 			*iter[0] = '\0';
 		}
-		else if (!search_n_replace(iter, env))
+		else if (!env_replace(iter, env))
 			new_var++;
 		iter++;
 	}
 	update_env(env, argv, new_var);
-	return (0);
+	return (ret);
 }
