@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:04 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/14 16:03:42 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:11:15 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,11 @@ int	update_env(char *dir, t_envir *env)
 {
 	char	*aux;
 	
-	if (dir)
+	if (dir) //ESTAS COMPROBACIONES ESTÁN POR SI ACASO NOS BORRAN EL DIRECTORIO EN EL QUE ESTAMOS, TAL VEZ NO SEAN NECESARIAS
 	{
 		aux = ft_strjoin("OLDPWD=", dir);
-		ft_export(env, aux, 0);
+		// env_home_export(aux, env, 0);
+		ft_export(env,aux,  0);
 		free(dir);
 		free(aux);
 	}
@@ -94,6 +95,7 @@ int	update_env(char *dir, t_envir *env)
 	if (dir)
 	{
 		aux = ft_strjoin("PWD=", dir);
+		// env_home_export(aux, env, 0);
 		ft_export(env, aux, 0);
 		free(dir);
 		free(aux);

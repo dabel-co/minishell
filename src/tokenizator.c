@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/08 19:46:40 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:08:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_exec	*create_node(char **order, t_envir *env)
 	ret->in_fd = take_all_heredoc(order);
 	if (g_err > 0)
 		return (ret);
+	// *order = expand_line(*order, env);
 	*order = expand_line(*order, env, 0, 0);
 	take_all_redir(order, ret);
 	if (!ret->err_msg)

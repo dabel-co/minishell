@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/14 16:33:15 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:07:11 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ int	exec_binode(t_exec *node, t_envir *env)
 		if (ft_strcmp(node->argv[0], "cd"))
 			return (ft_cd(node->argv[1], env));
 		else if (ft_strcmp(node->argv[0], "export"))
+			// return (ft_export(env, node->argv, node->out_fd));
 			return (ft_export(env, node->argv[1], node->out_fd));
 		else if (ft_strcmp(node->argv[0], "unset"))
+			// return (ft_unset(env, node->argv));
 			return (ft_unset(env, node->argv[1]));
 		else if (ft_strcmp(node->argv[0], "echo"))
 			return (ft_echo(node->argv, node->out_fd));
 		else if (ft_strcmp(node->argv[0], "env"))
+			// return (ft_env(env->e_envp, node->out_fd));
 			return (ft_env(env->e_envp, 0, node->out_fd));
 		else if (ft_strcmp(node->argv[0], "pwd"))
 			return (ft_pwd(node->out_fd));

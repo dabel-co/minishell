@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/09 13:02:27 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:08:58 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,38 @@ char	*expand_line(char *str, t_envir *env, int i, int p)
 	free(str);
 	return (result);
 }
+
+// char	*expand_line(char *line, t_envir *env)
+// {
+// 	char	*ret;
+// 	char	*var;
+// 	int		start;
+// 	int		ind;
+
+// 	ret = NULL;
+// 	ind = 0;
+// 	while (line[ind])
+// 	{
+// 		start = ind;
+// 		while (line[ind])
+// 		{
+// 			if (line[ind] == '\'')
+// 				while (line[++ind] != '\''); //DE ESTO SE VA A QUEJAR LA NORMA
+// 			if (line[ind] == '$' && line[ind + 1] && !ft_strchr(" =", line[ind + 1]))
+// 				break ;
+// 			ind++;
+// 		}
+// 		ret = ft_strjoin_free(ret, ft_substr(line, start, (ind - start)));
+// 		if (line[ind])
+// 			ind++;
+// 		start = ind;
+// 		while (line[ind] && !ft_strchr(" =\"\'", line[ind]))
+// 			ind++;
+// 		var = env_retrieve(ft_substr(line, start, (ind - start)), env, 1);
+// 		if (var)
+// 			ret = ft_strjoin_free(ret, var);
+// 		free(var);
+// 	}
+// 	free(line);
+// 	return (ret);
+// }

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/14 16:49:00 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/15 14:05:59 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,25 @@ char	**env_search(char **env, char *to_search, int name_size)
 	while (*env)
 	{
 		if (ft_strnstr(*env, to_search, name_size)
-			&& (!*env[name_size] || *env[name_size] == '='))
+			&& (!env[0][name_size] || env[0][name_size] == '='))
 			return(env);
 		env++;
 	}
 	return (NULL);
+}
+
+char	*env_retrieve(char *var, t_envir *env, int free_flag)
+{
+	int		name_size;
+	char	**var_value;
+
+	name_size = ft_strlen(var);
+	var_value = env_search(env->e_envp, var, name_size);
+	if (free_flag)
+		free(var);
+	if (!var_value || !var_value[0][name_size] || !var_value[0][name_size + 1])
+		return (NULL);
+	return (ft_strdup(&var_value[0][name_size + 1]));
 }
 
 int	env_replace(char *str, t_envir *env)
@@ -145,7 +159,7 @@ int	env_replace(char *str, t_envir *env)
 	to_replace = env_search(env->e_envp, str, name_size);
 	if (!to_replace)
 		return (0);
-	if (str[name_size] || !*to_replace[name_size])
+	if (str[name_size] || !to_replace[0][name_size])
 	{
 		free(*to_replace);
 		*to_replace = ft_strdup(str);
@@ -195,17 +209,26 @@ void	env_remove(char *to_remove, t_envir *env, int name_size)
 		*old_var = *(old_var + sizeof(char *));
 }
 
-int	ft_env(t_envir *env, int wfd)
+void	env_home_export(char *new_var, t_envir *env, int free_flag)
 {
-	char **print;
+	char	*to_export[2];
 
-	print = env->e_envp;
-	while (*print)
+	to_export[0] = new_var;
+	to_export[1] = NULL;
+	ft_export(env, to_export, 0);
+	if (free_flag)
+		free(new_var);
+}
+
+int	ft_env(char **env_print, int wfd)
+{
+	while (*env_print)
 	{
-		if (ft_strchr(*print, '='))
-			ft_putendl_fd(*print, wfd);
-		print++;
+		if (ft_strchr(*env_print, '='))
+			ft_putendl_fd(*env_print, wfd);
+		env_print++;
 	}
+	return (0);
 }
 
 int	ft_unset(t_envir *env, char **argv)
@@ -226,7 +249,7 @@ int	ft_unset(t_envir *env, char **argv)
 			break ;
 		}
 		name_size = 0;
-		while (*argv[name_size] && *argv[name_size] != '=')
+		while (argv[0][name_size] && argv[0][name_size] != '=')
 			name_size++;
 		env_remove(*argv, env, name_size);
 		argv++;
@@ -244,7 +267,7 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 	ret = 0;
 	new_var = 0;
 	if (!*argv)
-		ft_env(env->e_envp, 2, wfd);
+		ft_env(env->e_envp, /2, /wfd);
 	iter = argv;
 	while (*iter)
 	{
@@ -254,7 +277,7 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 			ft_putstr_fd("minishell: export: not a valid identifier: `", STDERR_FILENO);
 			ft_putstr_fd(*iter, STDERR_FILENO);
 			ft_putendl_fd("'", STDERR_FILENO);
-			*iter[0] = '\0';
+			iter[0][0] = '\0';
 		}
 		else if (!env_replace(*iter, env))
 			new_var++;

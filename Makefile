@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/03/09 12:44:01 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/03/15 14:03:58 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,6 @@ FILES =	minishell \
 		pwd \
 		cd \
 		echo \
-		unset \
-		env \
 		export \
 		expand_line \
 		exec_list \
@@ -35,7 +33,9 @@ FILES =	minishell \
 		take_keyword \
 		line_parse \
 		free_func \
-		err_func
+		err_func \
+		unset \
+		env
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

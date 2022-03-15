@@ -88,6 +88,7 @@ void	update_shlvl(t_envir *env)
 	if (env->e_envp[i] == NULL)
 	{
 		ft_export(env, "SHLVL=1", 0);
+		// env_home_export("SHLVL=1", env, 0);
 		return ;
 	}
 	while (env->e_envp[i][shlvl] != '=')
@@ -99,6 +100,7 @@ void	update_shlvl(t_envir *env)
 	number = ft_itoa(shlvl);
 	aux = ft_strjoin("SHLVL=", number);
 	ft_export(env, aux, 0);
+	// env_home_export(aux, env, 0);
 	free(number);
 	free(aux);
 }
