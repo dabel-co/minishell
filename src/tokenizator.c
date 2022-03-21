@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/15 14:08:43 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:42:03 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ void	get_args(char **order, t_envir *env, t_exec *node)
 	}
 }
 
+void	update_underscore(char *line, t_envir *env)
+{
+	int		ind;
+	char	*new_val;
+
+	ind = ft_strlen(line);
+	ind--;
+	while (ind > 0 && line[ind] != ' ')
+		ind--;
+	if (line[ind] == ' ')
+		ind++;
+	new_val = ft_strdup(&line[ind]);
+	env_home_export(ft_strjoin("_=", new_val), env, 1);
+	free(new_val);
+}
+
 t_exec	*create_node(char **order, t_envir *env)
 {
 	t_exec	*ret;
@@ -59,8 +75,14 @@ t_exec	*create_node(char **order, t_envir *env)
 	ret->in_fd = take_all_heredoc(order);
 	if (g_err > 0)
 		return (ret);
-	// *order = expand_line(*order, env);
-	*order = expand_line(*order, env, 0, 0);
+	*order = expand_line(*order, env);
+	// printf("order here is %p and is pointing to%p\n", order, *order);
+	// printf("order plus one here is %p and is pointing to%p\n", (order + sizeof(char)), *(order + sizeof(char)));
+	if (order[0][0] && !*(order + sizeof(char)))
+	 	//printf("I'm last and I'm %s?\n", *order); //UPDATE_UNDERSCORE VA AQUÍ
+		update_underscore(*order, env);
+	// *order = expand_line(*order, env, 0, 0);
+	//ft_putendl_fd(*(order + sizeof(char*)), STDERR_FILENO);
 	take_all_redir(order, ret);
 	if (!ret->err_msg)
 		get_args(order, env, ret);

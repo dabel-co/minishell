@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:03:44 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/11 18:50:40 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:15:02 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,12 @@ void	handle_signals_heredoc(int sig)
 	}
 }
 
-void	check_signal_mode(char *str)
-{
-	if (ft_strcmp(str, "pepe"))
-		signal(SIGINT, handle_signals);
-	else if (ft_strcmp(str, "heredoc"))
-		signal(SIGINT, handle_signals_heredoc);
-	else
-	{
-		signal(SIGINT, handle_signals_subprocess);
-		signal(SIGQUIT, handle_signals_subprocess);
-	}
-}
+// void	handle_sigquit(int sig)
+// {
+// 	if (sig == 3)
+// 		kill(0, SIGQUIT);
+// }
+
 void	handle_signals(int sig)
 {
 	if (sig == 2)
@@ -63,4 +57,23 @@ void	handle_signals(int sig)
 	}
 	if (sig == 3)
 		rl_redisplay();
+}
+
+void	check_signal_mode(int mode)
+{
+	if (mode == 0)
+	{
+		signal(SIGINT, handle_signals);
+		// signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 1)
+	{
+		signal(SIGINT, SIG_IGN);
+		// signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == 2)
+	{
+		signal(SIGINT, handle_signals_heredoc);
+		// signal(SIGQUIT, SIG_IGN);
+	}
 }

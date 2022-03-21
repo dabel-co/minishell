@@ -67,6 +67,7 @@ char	**get_paths(char **envp)
 			return (ft_split(paths + sizeof(char) * 5, ':'));
 		i++;
 	}
+	// HABRÍA QUE HACER LAS MODIFCACIONES PARA QUE DEVUELVA NULL CUANDO NO ENCUENTRE PATH SIN QUE SE ROMPA TODO
 	result = (char **)malloc(sizeof(char *) * 2);
 	result[0] = (char *)malloc(sizeof(char));
 	result[0][0] = '\0';
@@ -87,8 +88,8 @@ void	update_shlvl(t_envir *env)
 		i++;
 	if (env->e_envp[i] == NULL)
 	{
-		ft_export(env, "SHLVL=1", 0);
-		// env_home_export("SHLVL=1", env, 0);
+		// ft_export(env, "SHLVL=1", 0);
+		env_home_export("SHLVL=1", env, 0);
 		return ;
 	}
 	while (env->e_envp[i][shlvl] != '=')
@@ -99,8 +100,8 @@ void	update_shlvl(t_envir *env)
 		shlvl = 1;
 	number = ft_itoa(shlvl);
 	aux = ft_strjoin("SHLVL=", number);
-	ft_export(env, aux, 0);
-	// env_home_export(aux, env, 0);
+	// ft_export(env, aux, 0);
+	env_home_export(aux, env, 0);
 	free(number);
 	free(aux);
 }

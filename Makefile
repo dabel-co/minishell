@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/03/15 14:03:58 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/03/16 14:51:46 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,8 @@ FILES =	minishell \
 		line_parse \
 		free_func \
 		err_func \
-		unset \
-		env
+		env \
+#		unset
 
 C = $(addprefix ./src/, $(addsuffix .c, $(FILES)))
 all: $(NAME)

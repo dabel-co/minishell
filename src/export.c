@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/15 14:05:59 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:31:44 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,82 +40,82 @@ int	find_env(char *env, char *str)
 	return (-1);
 }
 
-static char	**new_env_aux(char **aux, char *str, int i)
-{
-	int	p;
+// static char	**new_env_aux(char **aux, char *str, int i)
+// {
+// 	int	p;
 
-	p = 0;
-	while (str[p] != '\0')
-	{
-		aux[i][p] = str[p];
-		p++;
-	}
-	aux[i][p] = '\0';
-	aux [i + 1] = NULL;
-	return (aux);
-}
+// 	p = 0;
+// 	while (str[p] != '\0')
+// 	{
+// 		aux[i][p] = str[p];
+// 		p++;
+// 	}
+// 	aux[i][p] = '\0';
+// 	aux [i + 1] = NULL;
+// 	return (aux);
+// }
 
-static char	**new_env(char **env, int size, char *str)
-{
-	int		i;
-	int		p;
-	char	**aux;
+// static char	**new_env(char **env, int size, char *str)
+// {
+// 	int		i;
+// 	int		p;
+// 	char	**aux;
 
-	i = 0;
-	aux = (char **)malloc((size) * sizeof(char *));
-	while (env[i])
-	{
-		p = 0;
-		aux[i] = (char *)malloc((ft_strlen(env[i]) + 1) * sizeof(char));
-		while (env[i][p] != '\0')
-		{
-			aux[i][p] = env[i][p];
-			p++;
-		}
-		aux[i][p] = '\0';
-		i++;
-	}
-	aux[i] = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
-	return (new_env_aux(aux, str, i));
-}
+// 	i = 0;
+// 	aux = (char **)malloc((size) * sizeof(char *));
+// 	while (env[i])
+// 	{
+// 		p = 0;
+// 		aux[i] = (char *)malloc((ft_strlen(env[i]) + 1) * sizeof(char));
+// 		while (env[i][p] != '\0')
+// 		{
+// 			aux[i][p] = env[i][p];
+// 			p++;
+// 		}
+// 		aux[i][p] = '\0';
+// 		i++;
+// 	}
+// 	aux[i] = (char *)malloc((ft_strlen(str) + 1) * sizeof(char));
+// 	return (new_env_aux(aux, str, i));
+// }
 
-int	ft_export(t_envir *env, char *str, int wfd)
-{
-	int		i;
-	char	**aux;
+// int	ft_export(t_envir *env, char *str, int wfd)
+// {
+// 	int		i;
+// 	char	**aux;
 
-	i = 0;
-	if (!str)
-		ft_env(env->e_envp, 2, wfd);
-	if (!str || str[1] == '$')
-		return (0);
-	if (str[0] == '$') //fix this thingy
-		str++;
-	while (env->e_envp[i] && find_env(env->e_envp[i], str))
-		i++;
-	if (env->e_envp[i] != NULL)
-		ft_unset(env, str);
-	aux = new_env(env->e_envp, ft_env(env->e_envp, 1, 0) + 2, str);
-	i = 0;
-	while (env->e_envp[i])
-	{
-		free(env->e_envp[i]);
-		i++;
-	}
-	free(env->e_envp);
-	env->e_envp = aux;
-	if (ft_strncmp("PATH=", str, 5))
-		update_paths(env);
-	return (0);
-}
+// 	i = 0;
+// 	if (!str)
+// 		ft_env(env->e_envp, 2, wfd);
+// 	if (!str || str[1] == '$')
+// 		return (0);
+// 	if (str[0] == '$') //fix this thingy
+// 		str++;
+// 	while (env->e_envp[i] && find_env(env->e_envp[i], str))
+// 		i++;
+// 	if (env->e_envp[i] != NULL)
+// 		ft_unset(env, str);
+// 	aux = new_env(env->e_envp, ft_env(env->e_envp, 1, 0) + 2, str);
+// 	i = 0;
+// 	while (env->e_envp[i])
+// 	{
+// 		free(env->e_envp[i]);
+// 		i++;
+// 	}
+// 	free(env->e_envp);
+// 	env->e_envp = aux;
+// 	if (ft_strncmp("PATH=", str, 5))
+// 		update_paths(env);
+// 	return (0);
+// }
 
-/*int	is_valid_id(char *str)
+int	is_valid_id(char *str)
 {
 	if (!*str || ft_isdigit(*str))
 		return (0);
 	while (*str && *str != '=')
 	{
-		if (*str == '$' || *str == ' ')
+		if (!ft_isalnum(*str) && *str != '_')
 			return (0);
 		str++;
 	}
@@ -124,14 +124,21 @@ int	ft_export(t_envir *env, char *str, int wfd)
 
 char	**env_search(char **env, char *to_search, int name_size)
 {
+	char	*name;
+
+	name = ft_substr(to_search, 0, name_size);
 	while (*env)
 	{
-		if (ft_strnstr(*env, to_search, name_size)
+		if (ft_strnstr(*env, name, name_size)
 			&& (!env[0][name_size] || env[0][name_size] == '='))
-			return(env);
+			break ;
 		env++;
 	}
-	return (NULL);
+	free(name);
+	if (!*env){
+		ft_putendl_fd("Ops, seems like I couldn't find it", STDERR_FILENO);
+		return (NULL);}
+	return(env);
 }
 
 char	*env_retrieve(char *var, t_envir *env, int free_flag)
@@ -211,10 +218,11 @@ void	env_remove(char *to_remove, t_envir *env, int name_size)
 
 void	env_home_export(char *new_var, t_envir *env, int free_flag)
 {
-	char	*to_export[2];
+	char	*to_export[3];
 
-	to_export[0] = new_var;
-	to_export[1] = NULL;
+	to_export[0] = NULL;
+	to_export[1] = new_var;
+	to_export[2] = NULL;
 	ft_export(env, to_export, 0);
 	if (free_flag)
 		free(new_var);
@@ -237,6 +245,7 @@ int	ft_unset(t_envir *env, char **argv)
 	int		name_size;
 
 	ret = 0;
+	argv++;
 	while (*argv)
 	{
 		if (!is_valid_id(*argv))
@@ -266,8 +275,9 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 
 	ret = 0;
 	new_var = 0;
+	argv++;
 	if (!*argv)
-		ft_env(env->e_envp, /2, /wfd);
+		ft_env(env->e_envp, /*2, */wfd);
 	iter = argv;
 	while (*iter)
 	{
@@ -285,4 +295,4 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 	}
 	env_update(env, argv, new_var);
 	return (ret);
-}*/
+}

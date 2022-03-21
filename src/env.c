@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 11:37:38 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/15 14:09:48 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:51:22 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ char	*get_env_value(char *str, t_envir *env)
 /* Mode = 0 will make this function behave like a regular env,
  * Mode = 2 will make it display the output of a export with no parameters */
 
-int	ft_env(char **str, int mode, int wfd)
-{
-	int	i;
+// int	ft_env(char **str, int mode, int wfd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		if (mode == 2)
-			ft_putstr_fd("declare -x ", wfd);
-		if ((mode == 0 && ft_strchr(str[i], '=')) || mode == 2)
-			ft_putendl_fd(str[i], wfd);
-		i++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (mode == 2)
+// 			ft_putstr_fd("declare -x ", wfd);
+// 		if ((mode == 0 && ft_strchr(str[i], '=')) || mode == 2)
+// 			ft_putendl_fd(str[i], wfd);
+// 		i++;
+// 	}
+// 	return (i);
+// }
