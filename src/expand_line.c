@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/17 17:52:56 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:48:19 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ int	find_env_expand(char *env, char *str)
 // 	return (ft_strdup(var_name));
 // }
 
-static char	*get_var_value(char *line, t_envir *env, int	*ind)
+static char	*get_var_value(char *line, t_envir *env, int *ind, char limiter)
 {
 	int		name_size;
-
+	
 	if (!line[*ind])
 		return (NULL);
 	*ind += 1;
@@ -123,6 +123,8 @@ static char	*get_var_value(char *line, t_envir *env, int	*ind)
 		*ind += 1;	
 		return (ft_itoa(env->zyzz));
 	}
+	if ((line[*ind] == '\'' || line[*ind] == '\"') && line[*ind] != limiter)
+		return (NULL);
 	if (!line[*ind] || (!ft_isalnum(line[*ind]) && line[*ind] != '_'))
 		return (ft_strdup("$"));
 	name_size = 0;
@@ -167,30 +169,86 @@ static char	*get_var_value(char *line, t_envir *env, int	*ind)
 // 	return (ret);
 // }
 
+int		find_next_var(char *line, int ind, char *limiter)
+{
+	while (line[ind])
+	{
+		if (!*limiter && (line[ind] == '\'' || line[ind] == '\"'))
+			*limiter = line[ind];
+		else if (line[ind] == *limiter)
+			*limiter = '\0';
+		if (line[ind] == '$' && *limiter != '\'')
+			break ;
+		ind++;
+	}
+	
+	// while (line[ind] && line[ind] != '$')
+	// 	if (line[ind++] == '\'')
+	// 		while(line[ind])
+	// 			if (line[ind++] == '\'')
+	// 				break ;
+	return (ind);
+}
+
 char	*expand_line(char *line, t_envir *env)
 {
 	char	*ret;
-	char	*var;
+	char	*new;
 	int		start;
 	int		ind;
+	char	limiter;
 
 	ret = NULL;
 	ind = 0;
+	limiter = '\0';
 	line = ft_strtrim_free(line, " ");
+	if (!*line)
+		return (line);
 	while (line[ind])
 	{
 		start = ind;
-		while (line[ind] && line[ind] != '$')
-			if (line[ind++] == '\'')
-				while (line[ind++] != '\'');
-		ret = ft_strjoin_free(ret, ft_substr(line, start, (ind - start)));
-		var = get_var_value(line, env, &ind);
-		if (var)
-			ret = ft_strjoin_free(ret, var);
-		free(var);
+		ind = find_next_var(line, ind, &limiter);
+		new = ft_substr(line, start, (ind - start));
+		ret = ft_strjoin_free(ret, new);
+		free(new);
+		new = get_var_value(line, env, &ind, limiter);
+		if (new)
+			ret = ft_strjoin_free(ret, new);
+		free(new);
 	}
 	free(line);
-	if (!ret)
-		return (ft_strdup(""));
 	return (ret);
 }
+
+// char	*expand_line(char *line, t_envir *env)
+// {
+// 	char	*ret;
+// 	char	*new;
+// 	int		start;
+// 	int		ind;
+
+// 	ret = NULL;
+// 	ind = 0;
+// 	line = ft_strtrim_free(line, " ");
+// 	if (!*line)
+// 		return (line);
+// 	while (line[ind])
+// 	{
+// 		start = ind;
+// 		ind = find_next_var(line, ind);
+// 		// while (line[ind] && line[ind] != '$')
+// 		// 	if (line[ind++] == '\'')
+// 		// 		while (line[ind++] != '\'');
+// 		new = ft_substr(line, start, (ind - start));
+// 		ret = ft_strjoin_free(ret, new);
+// 		free(new);
+// 		new = get_var_value(line, env, &ind);
+// 		if (new)
+// 			ret = ft_strjoin_free(ret, new);
+// 			// ret = ft_strjoin_free(ft_strjoin_free(\
+// 			// ft_strjoin_free(ret, "'"), new), "'");
+// 		free(new);
+// 	}
+// 	free(line);
+// 	return (ret);
+// }

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:04 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/16 14:50:26 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:41:33 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,25 @@ int	ft_cd(char *path, t_envir *env)
 {
 	char	*dir;
 	char	*err_prompt;
+	char	**home;
 
 	if (!path)
-		path = get_env_value("$HOME", env);//la función que sea que recoge el 
+	{
+		home = env_search(env->e_envp, "HOME", 4);
+		if (home)
+			path = *home + 5;//la función que sea que recoge el 
+	}
 	if (!path)
 	{
 		ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO);
 		return (1);
 	}
+	if (!*path)
+		path = ".";
 	dir = getcwd(NULL, 0);
 	if (!chdir(path))
 		return (update_env(dir, env));
-	err_prompt = ft_strjoin("cd: ", path);
+	err_prompt = ft_strjoin("minishell: cd: ", path);
 	perror(err_prompt);
 	free(err_prompt);
 	free(dir);

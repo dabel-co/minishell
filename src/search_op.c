@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 16:09:53 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/02/28 16:47:15 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:46:50 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ char	*search_op(char *comm, char search)
 	limiter = '\0';
 	while (*comm && (*comm != search || limiter))
 	{
-		if (*comm == '\\')
-			comm++;
-		else if (*comm == '\'' || *comm == '\"')
+		if (*comm == '\'' || *comm == '\"')
 		{
 			if (!limiter)
 				limiter = *comm;

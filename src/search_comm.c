@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:45:56 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/08 16:57:46 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:36:25 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_builtin(char *str)
 {
 	char	**built_in;
 
-	built_in = (char *[]){"cd", "export", "unset", "echo", "env", "pwd", NULL};
+	built_in = (char *[]){"cd", "export", "unset", "echo", "env", "pwd", "exit", NULL};
 	while (*built_in)
 		if (ft_strcmp(*built_in++, str))
 			return (1);
@@ -55,18 +55,22 @@ char	*search_comm(char *comm, char **paths, t_exec *exec)
 	i = is_builtin(comm);
 	if (i)
 		return (NULL);
-	while (paths[i] && paths[i][0]) //Y ESA SEGUNDA COMPROBACIÓN A QUÉ DEMONIOS VIENE
+	if (paths)
 	{
-		ret = ft_strjoin(paths[i], "/");
-		ret = strjoin_free(ret, comm);
-		//ft_putnbr_fd(access(ret, F_OK), 1);
-		//ft_putstr_fd(" -> ", 1);
-		//ft_putstr_fd(ret, 1);
-		if (access(ret, F_OK) == 0)
-			return (ret);
-		free(ret);
-		i++;
+		while (paths[i] && paths[i][0]) //Y ESA SEGUNDA COMPROBACIÓN A QUÉ DEMONIOS VIENE
+		{
+			ret = ft_strjoin(paths[i], "/");
+			ret = strjoin_free(ret, comm);
+			//ft_putnbr_fd(access(ret, F_OK), 1);
+			//ft_putstr_fd(" -> ", 1);
+			//ft_putstr_fd(ret, 1);
+			if (access(ret, F_OK) == 0)
+				return (ret);
+			free(ret);
+			i++;
+		}
 	}
 	exec->err_msg = err_file(comm, "command not found");
+	// AQUÍ EL ERROR CAMBIA A 127
 	return (NULL);
 }

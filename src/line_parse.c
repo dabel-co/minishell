@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:46:47 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/07 18:46:41 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:49:07 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,31 +46,31 @@
 // 	return (ret);
 // }
 
-char	*sp_tty()
-{
-	char	buffer[2];
-	char	*keeper;
-	char	*iter;
-	char	*ret;
+// char	*sp_tty()
+// {
+// 	char	buffer[2];
+// 	char	*keeper;
+// 	char	*iter;
+// 	char	*ret;
 
-	buffer[1] = '\0';
-	ret = NULL;
-	while (1)
-	{
-		keeper = readline("> ");
-		if (!keeper)
-			break ;
-		ret = ft_strjoin_free(ret, keeper);
-		iter = keeper;
-		while (*iter && *iter == ' ')
-			iter++;
-		if (*iter)
-			break;
-		free(keeper);
-	}
-	free(keeper);
-	return (ret);
-}
+// 	buffer[1] = '\0';
+// 	ret = NULL;
+// 	while (1)
+// 	{
+// 		keeper = readline("> ");
+// 		if (!keeper)
+// 			break ;
+// 		ret = ft_strjoin_free(ret, keeper);
+// 		iter = keeper;
+// 		while (*iter && *iter == ' ')
+// 			iter++;
+// 		if (*iter)
+// 			break;
+// 		free(keeper);
+// 	}
+// 	free(keeper);
+// 	return (ret);
+// }
 
 char	*syntax_err(char problem)
 {
@@ -109,15 +109,15 @@ char	*check_pipe(char **line, int *ind)
 	*ind += 1;
 	while (line[0][*ind] && line[0][*ind] == ' ')
 		*ind += 1;
-	if (!line[0][*ind])
-	{
-		err = sp_tty();
-		*line = ft_strjoin_free(*line, err);
-		free(err);
-		err = NULL;
-		while (line[0][*ind] && line[0][*ind] == ' ')
-			*ind += 1;
-	}
+	// if (!line[0][*ind])
+	// {
+	// 	err = sp_tty();
+	// 	*line = ft_strjoin_free(*line, err);
+	// 	free(err);
+	// 	err = NULL;
+	// 	while (line[0][*ind] && line[0][*ind] == ' ')
+	// 		*ind += 1;
+	// }
 	if (!line[0][*ind] || line[0][*ind] == '|')
 		return (syntax_err(line[0][*ind]));
 	return (NULL);
@@ -150,6 +150,8 @@ int	line_parse(char **line)
 			err = check_pipe(line, &ind);
 		else if (line[0][ind] == '>' || line[0][ind] == '<')
 			err = check_redir(line, &ind);
+		else if (line[0][ind] > 8 && line[0][ind] < 14)
+			line[0][ind++] = ' ';
 		else
 			ind++;
 	}

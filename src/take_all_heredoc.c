@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:52:30 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/21 16:25:13 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:21:22 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,32 @@
 // 		free(keeper);
 // }
 
-static void	rdline_hdoc(int wfd, char *eof)
+static void	rdline_hdoc(int wfd, char *eof, t_envir *env)
 {
 	char	*keeper;
+	char	qtd_mode;
 
+	qtd_mode = 0;
 	check_signal_mode(2);
-	// signal(SIGINT, SIG_DFL);
+	if (ft_strchr(eof, '\'') || ft_strchr(eof, '\"'))
+	{
+		qtd_mode++;
+		eof = remove_quotes(eof);
+	}
 	while (1)
 	{
 		keeper = readline("> ");
 		if (!keeper || ft_strcmp(keeper, eof) || g_err == 1)
 			break ;
+		if (!qtd_mode)
+			// keeper = expand_line(keeper, env);
+			keeper = expand_line(keeper, env);
 		write(wfd, keeper, ft_strlen(keeper));
 		write(wfd, "\n", 1);
 		free(keeper);
 	}
 	free(keeper);
+	free(eof);
 	check_signal_mode(0);
 }
 
@@ -203,17 +213,16 @@ static void	rdline_hdoc(int wfd, char *eof)
 // 	return(fd);
 // }
 
-int     take_heredoc(char **comm, char *input)
+int     take_heredoc(char **comm, char *input, t_envir *env)
 {
 	char    *keyword;
 	int     end;
 	int		pip[2];
 
-	keyword = remove_quotes(take_keyword(input, &end));
+	keyword = take_keyword(input, &end);
 	if (pipe(pip) < 0)
 		ft_putendl_fd("error creando pipe", 1); //EN ESTE CASO HABRÍA QUE CERRAR EL EXTREMO DE LECTURA Y DEVOLVER -1 PODRÍAMOS REDEFINIR EL EXTREMO DE LECTURA COMO -1 PARA QUE LA FUNCIÓN SIGA SU CURSO
-	rdline_hdoc(pip[WR_END], keyword);
-	free(keyword);
+	rdline_hdoc(pip[WR_END], keyword, env);
 	if (search_op(&input[2], '<') || g_err == 1) //AQUÍ PODEMOS RECONVERTIR A 0 EL RD END
 	{
 		close(pip[RD_END]);
@@ -255,7 +264,7 @@ int     take_heredoc(char **comm, char *input)
 //     return (take_all_heredoc(comm));
 // }
 
-int take_all_heredoc(char **comm)
+int take_all_heredoc(char **comm, t_envir *env)
 {
 	char	*input;
 	char	limiter;
@@ -275,8 +284,8 @@ int take_all_heredoc(char **comm)
 	}
 	if (!*input)
 		return (0);
-	fd = take_heredoc(comm, input);
+	fd = take_heredoc(comm, input, env);
 	if (fd != 0 || g_err == 1)
 		return (fd);
-	return (take_all_heredoc(comm));
+	return (take_all_heredoc(comm, env));
 }

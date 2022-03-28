@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:24:27 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/07 14:57:43 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:34:25 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	*append_free(int *index, int new)
 {
 	int	ind;
 	int	*ret;
-	
+
 	ind = 0;
 	while (index[ind] != -1)
 		ind++;
@@ -78,9 +78,7 @@ int	*index_str(int *index, char *order, char limit)
 	limiter = '\0';
 	while (order[index[0]] && (order[index[0]] != limit || limiter))
 	{
-		if (order[index[0]] == '\\')
-			index[0]++;
-		else if (order[index[0]] == '\'' || order[index[0]] == '\"')
+		if (order[index[0]] == '\'' || order[index[0]] == '\"')
 		{
 			if (!limiter)
 				limiter = order[index[0]];

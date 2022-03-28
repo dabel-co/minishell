@@ -6,12 +6,12 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/03/16 14:51:46 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/03/28 14:57:19 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-FLAGS = -Wall -Werror -Wextra #-g3 -fsanitize=address
+FLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 CC = cc
 READLINE = -lreadline
 FILES =	minishell \

@@ -34,6 +34,8 @@
 # define ERR_SYNT_Q "minishell: syntax error near unclosed quotes: "
 # define ERR_SYNT_T "minishell: syntax error near unexpected token: `"
 
+# define AUX_PATH "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin"
+
 int	g_err;
 
 typedef struct s_exec
@@ -64,10 +66,10 @@ int		ft_unset(t_envir *env, char **argv);
 // int		ft_export(t_envir *env, char *str, int wfd);
 int		ft_export(t_envir *env, char **argv, int wfd);
 int		find_env(char *env, char *str);
-void	update_paths(t_envir *env);
+//void	update_paths(t_envir *env);
 //char	*expand(char *str, t_envir *env);
 char	**get_env(char **envp);
-char	**get_paths(char **envp);
+char	**update_paths(t_envir *env);
 void	update_shlvl(t_envir *env);
 char	**check_path(t_envir *env);
 char	**init_split(char *str);
@@ -77,7 +79,7 @@ char	*get_env_value(char *str, t_envir *env);
 int		find_env_expand(char *env, char *str);
 t_exec	*tokenizator(char **orders, t_envir *env);
 char	**smart_split(char *order, char limit);
-int		take_all_heredoc(char **comm);
+int		take_all_heredoc(char **comm, t_envir *env);
 int		take_all_redir(char **order, t_exec *execord);
 char	*search_op(char *comm, char search);
 int		exec_list(t_exec *list, t_envir *env, int subp_count);
@@ -92,7 +94,7 @@ void	free_node(t_exec *node);
 void	free_array(char **array);
 char	*err_syntax(char problem);
 char	*err_file(char *filename, char *error);
-int		is_valid_id(char *str);
+int		is_valid_id(char *str, int unset_mode);
 char	**env_search(char **env, char *to_search, int name_size);
 char	*env_retrieve(char *var, t_envir *env, int free_flag);
 int		env_replace(char *str, t_envir *env);

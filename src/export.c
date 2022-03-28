@@ -6,25 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/21 14:31:44 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 16:06:44 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	update_paths(t_envir *env)
-{
-	int	i;
-
-	i = 0;
-	while (env->paths[i])
-	{
-		free(env->paths[i]);
-		i++;
-	}
-	free(env->paths);
-	env->paths = get_paths(env->e_envp);
-}
 
 int	find_env(char *env, char *str)
 {
@@ -109,7 +95,7 @@ int	find_env(char *env, char *str)
 // 	return (0);
 // }
 
-int	is_valid_id(char *str)
+int	is_valid_id(char *str, int unset_mode)
 {
 	if (!*str || ft_isdigit(*str))
 		return (0);
@@ -119,6 +105,8 @@ int	is_valid_id(char *str)
 			return (0);
 		str++;
 	}
+	if (*str && unset_mode)
+		return (0);
 	return (1);
 }
 
@@ -135,9 +123,8 @@ char	**env_search(char **env, char *to_search, int name_size)
 		env++;
 	}
 	free(name);
-	if (!*env){
-		ft_putendl_fd("Ops, seems like I couldn't find it", STDERR_FILENO);
-		return (NULL);}
+	if (!*env)
+		return (NULL);
 	return(env);
 }
 
@@ -170,8 +157,6 @@ int	env_replace(char *str, t_envir *env)
 	{
 		free(*to_replace);
 		*to_replace = ft_strdup(str);
-		if (ft_strnstr("PATH=", str, 5))
-			update_paths(env);
 	}
 	str[0] = '\0';
 	return (1);
@@ -191,17 +176,13 @@ void	env_update(t_envir *env, char **argv, int new_var)
 	while (++iter < old_var)
 		new_env[iter] = env->e_envp[iter];
 	if (new_var)
-	{
 		while (*argv)
-		{
 			if (*argv[0])
-				new_env[iter++] = ft_strdup(*argv);
-			argv++;
-		}
-	}
+				new_env[iter++] = ft_strdup(*argv++);
 	new_env[iter] = NULL;
 	free(env->e_envp);
 	env->e_envp = new_env;
+	env->paths = update_paths(env);
 }
 
 void	env_remove(char *to_remove, t_envir *env, int name_size)
@@ -212,8 +193,12 @@ void	env_remove(char *to_remove, t_envir *env, int name_size)
 	if (!old_var)
 		return ;
 	free(*old_var);
-	while (*(old_var + sizeof(char *)))
-		*old_var = *(old_var + sizeof(char *));
+	while (*(old_var + 1))
+	{
+		*old_var = *(old_var + 1);
+		old_var++;
+	}
+	*old_var = NULL;
 }
 
 void	env_home_export(char *new_var, t_envir *env, int free_flag)
@@ -221,9 +206,10 @@ void	env_home_export(char *new_var, t_envir *env, int free_flag)
 	char	*to_export[3];
 
 	to_export[0] = NULL;
-	to_export[1] = new_var;
+	to_export[1] = ft_strdup(new_var);
 	to_export[2] = NULL;
 	ft_export(env, to_export, 0);
+	free(to_export[1]);
 	if (free_flag)
 		free(new_var);
 }
@@ -248,12 +234,12 @@ int	ft_unset(t_envir *env, char **argv)
 	argv++;
 	while (*argv)
 	{
-		if (!is_valid_id(*argv))
+		if (!is_valid_id(*argv, 1))
 		{
 			ret = 1;
-			ft_putstr_fd("minishell: unset: not a valid identifier: `", STDERR_FILENO);
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 			ft_putstr_fd(*argv, STDERR_FILENO);
-			ft_putendl_fd("'", STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			argv++;
 			break ;
 		}
@@ -281,12 +267,12 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 	iter = argv;
 	while (*iter)
 	{
-		if (!is_valid_id(*iter))
+		if (!is_valid_id(*iter, 0))
 		{
 			ret = 1;
-			ft_putstr_fd("minishell: export: not a valid identifier: `", STDERR_FILENO);
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 			ft_putstr_fd(*iter, STDERR_FILENO);
-			ft_putendl_fd("'", STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 			iter[0][0] = '\0';
 		}
 		else if (!env_replace(*iter, env))

@@ -139,10 +139,7 @@ void	readfromprompt(t_envir *env)
 	}
 	g_err = 0;
 	if (line_parse(&new_comm))
-	{
-		//subp_count = 0;
 		exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
-	}
 	if (new_comm[0])
 		add_history(new_comm);
 	//update_underscore(new_comm, env);
@@ -152,13 +149,12 @@ void	readfromprompt(t_envir *env)
 void	readfromfile(t_envir *env)
 {
 	int		nbytes;
-	int		last_pid;
 	char	*new_comm;
 
 	ioctl(STDIN_FILENO, FIONREAD, &nbytes);
 	while (nbytes)
 	{
-		new_comm = readline(NULL);
+		new_comm = readline("BESTMINISHELL@EVER$ ");
 		if (ft_strcmp(new_comm, "exit"))
 		{
 			free(new_comm);
@@ -167,7 +163,7 @@ void	readfromfile(t_envir *env)
 		if (line_parse(&new_comm))
 		{
 			g_err = 0;
-			last_pid = exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
+			exec_list(tokenizator(smart_split(new_comm, '|'), env), env, 0);
 		}
 		free(new_comm);
 		ioctl(STDIN_FILENO, FIONREAD, &nbytes);
@@ -189,10 +185,9 @@ int	main(int argc, char **argv, char **envp)
 	// signal(SIGINT, handle_signals);
 	signal(SIGQUIT, SIG_IGN);
 	env.e_envp = get_env(envp);
-	if (!check_path(&env))
-		env.paths = get_paths(envp);
-	else
-		env.paths = check_path(&env);
+	env.paths = update_paths(&env);
+	if (!env.paths)
+		env.paths = ft_split(AUX_PATH, ':');
 	update_shlvl(&env);
 	//atexit(hola);
 	if (isatty(STDIN_FILENO))

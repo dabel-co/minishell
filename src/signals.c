@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:03:44 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/21 16:15:02 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/23 13:29:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	handle_signals(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == 3)
-		rl_redisplay();
+	// if (sig == 3)
+	// 	rl_redisplay();
 }
 
 void	check_signal_mode(int mode)

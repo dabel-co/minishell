@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/21 16:47:31 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/28 17:31:19 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,21 @@ int	exec_spnode(t_exec *node, t_envir *env, int *subp_count)
 {
 	pid_t	pidC;
 
-	pidC = fork();
 	signal(SIGINT, SIG_IGN);
+	pidC = fork();
 	if (pidC == -1)
-		ft_putendl_fd("error creando fork", 1); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
+		perror("minishell: fork"); //TENEMOS QUE DISCUTIR QUÉ HACER EN ESTOS CASOS
 	else if (pidC == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (node->in_fd)
-		{
-			dup2(node->in_fd, STDIN_FILENO);
+		if (node->next)
+			close(node->next->in_fd);
+		if (node->in_fd && dup2(node->in_fd, STDIN_FILENO) != -1)
 			close(node->in_fd);
-		}
-		if (node->out_fd)
-		{
-			dup2(node->out_fd, STDOUT_FILENO);
+		if (node->out_fd && node->out_fd != STDOUT_FILENO && \
+			dup2(node->out_fd, STDOUT_FILENO) != -1)
 			close(node->out_fd);
-		}
 		if (!execve(node->exec_path, node->argv, env->e_envp))
 			perror(node->argv[0]);
 		exit(0);
@@ -125,8 +123,12 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 	t_exec	*next;
 	
 	ret = 1;
+	if (!list)
+		return (subp_wait(0, 1, env));
 	if (list->next)
 		set_pipe(list);
+	else if (!list->out_fd)
+		list->out_fd = STDOUT_FILENO;
 	if (list->err_msg)
 		ft_putendl_fd(list->err_msg, STDERR_FILENO);
 	else if (list->exec_path) //AQUÍ SERÍA INTERESANTE MODIFICARLO PARA QUE SI HAY UN ERROR CREANDO FORK LA COSA SALGA SIN PROBLEMA
@@ -135,7 +137,9 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 		ret = exec_binode(list, env);
 	next = list->next;
 	free_node(list);
-	if (next)
+	if (ret == -1)
+		free_list(next);
+	else if (next)
 		return (exec_list(next, env, subp_count));
 	return (subp_wait(subp_count, ret, env));
 }
