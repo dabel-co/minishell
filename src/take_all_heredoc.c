@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:52:30 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/28 17:21:22 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/30 20:09:26 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,23 @@
 // 		free(keeper);
 // }
 
+char	*in_quote(char *str, char *quoting)
+{
+	char	*ret;
+	
+	if (quoting)
+	{
+		ret = ft_strjoin(quoting, str);
+		ret = ft_strjoin_free(ret, quoting);
+		free(str);
+		return (ret);
+	}
+	str[ft_strlen(str) - 1] = '\0';
+	ret = ft_strdup(str + 1);
+	free(str);
+	return(ret);
+}
+
 static void	rdline_hdoc(int wfd, char *eof, t_envir *env)
 {
 	char	*keeper;
@@ -135,7 +152,7 @@ static void	rdline_hdoc(int wfd, char *eof, t_envir *env)
 			break ;
 		if (!qtd_mode)
 			// keeper = expand_line(keeper, env);
-			keeper = expand_line(keeper, env);
+			keeper = in_quote(expand_line(in_quote(keeper, "\""), env), NULL);
 		write(wfd, keeper, ft_strlen(keeper));
 		write(wfd, "\n", 1);
 		free(keeper);

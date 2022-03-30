@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:58:10 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/08 15:36:18 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:06:40 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ int	open_redir(char *redir, char *filename, t_exec *execord)
 // 	*order = ft_strcrop_free(*order, (redir - *order), ind);
 // }
 
-void	take_redir(char *redir, char **order, t_exec *execord)
+void	take_redir(char *redir, char **order, t_exec *execord, t_envir *env)
 {
 	int		fd;
 	int		end;
 	char	*filename;
 
-	filename = remove_quotes(take_keyword(redir, &end));
+	filename = remove_quotes(expand_line(take_keyword(redir, &end), env));
 	fd = open_redir(redir, filename, execord);
 	if (fd && redir[0] == '>')
 		execord->out_fd = fd;
@@ -105,7 +105,7 @@ void	take_redir(char *redir, char **order, t_exec *execord)
 // 	return (take_all_redir(order, execord));
 // }
 
-int	take_all_redir(char **order, t_exec *execord)
+int	take_all_redir(char **order, t_exec *execord, t_envir *env)
 {
 	char	*redir;
 	char	limiter;
@@ -126,6 +126,6 @@ int	take_all_redir(char **order, t_exec *execord)
 	}
 	if (!*redir)
 		return (1);
-	take_redir(redir, order, execord);
-	return (take_all_redir(order, execord));
+	take_redir(redir, order, execord, env);
+	return (take_all_redir(order, execord, env));
 }

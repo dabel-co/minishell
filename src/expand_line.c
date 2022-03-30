@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/28 17:48:19 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:57:44 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static char	*get_var_value(char *line, t_envir *env, int *ind, char limiter)
 		*ind += 1;	
 		return (ft_itoa(env->zyzz));
 	}
-	if ((line[*ind] == '\'' || line[*ind] == '\"') && line[*ind] != limiter)
+	if ((line[*ind] == '\'' || line[*ind] == '\"') && !limiter)
 		return (NULL);
 	if (!line[*ind] || (!ft_isalnum(line[*ind]) && line[*ind] != '_'))
 		return (ft_strdup("$"));

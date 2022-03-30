@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/28 16:38:15 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/30 18:12:23 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	get_args(char **order, t_envir *env, t_exec *node)
 		iter = node->argv;
 		while (*iter)
 		{
-			*iter = remove_quotes(*iter);
+			*iter = remove_quotes(expand_line(*iter, env));
 			iter++;
 		}
 		last_bar = ft_strrchr(node->argv[0], '/');
@@ -51,7 +51,7 @@ void	get_args(char **order, t_envir *env, t_exec *node)
 		{
 			node->exec_path = node->argv[0];
 			check_exec_path(node);
-			node->argv[0] = strdup(last_bar + sizeof(char));
+			node->argv[0] = strdup(last_bar + 1);
 		}
 		else
 			node->exec_path = search_comm(node->argv[0], env->paths, node);
@@ -62,14 +62,25 @@ void	update_underscore(char *line, t_envir *env)
 {
 	int		ind;
 	char	*new_val;
+	char	limiter;
 
 	ind = ft_strlen(line);
 	ind--;
+	limiter = '\0';
 	while (ind > 0 && line[ind] != ' ')
+	{
+		if (line[ind] == '\'' || line[ind] == '\"')
+		{
+			limiter = line[ind--];
+			while (line[ind] != limiter)
+				ind--;
+			limiter = '\0';
+		}
 		ind--;
+	}
 	if (line[ind] == ' ')
 		ind++;
-	new_val = ft_strdup(&line[ind]);
+	new_val = remove_quotes(expand_line(ft_strdup(&line[ind]), env));
 	env_home_export(ft_strjoin("_=", new_val), env, 1);
 	free(new_val);
 }
@@ -85,10 +96,10 @@ t_exec	*create_node(char **order, t_envir *env)
 	ret->in_fd = take_all_heredoc(order, env);
 	if (g_err > 0)
 		return (ret);
-	*order = expand_line(*order, env);
+	//*order = expand_line(*order, env);
 	if (order[0][0] && !*(order + 1))
 		update_underscore(*order, env);
-	take_all_redir(order, ret);
+	take_all_redir(order, ret, env);
 	if (!ret->err_msg)
 		get_args(order, env, ret);
 	return (ret);

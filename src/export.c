@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/28 16:06:44 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/30 19:33:43 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int	env_replace(char *str, t_envir *env)
 	{
 		free(*to_replace);
 		*to_replace = ft_strdup(str);
+		if (ft_strnstr(str, "PATH=", 5))
+			env->paths = update_paths(env);
 	}
 	str[0] = '\0';
 	return (1);
@@ -175,14 +177,20 @@ void	env_update(t_envir *env, char **argv, int new_var)
 	iter = -1;
 	while (++iter < old_var)
 		new_env[iter] = env->e_envp[iter];
-	if (new_var)
-		while (*argv)
-			if (*argv[0])
-				new_env[iter++] = ft_strdup(*argv++);
+	old_var = 0;
+	while (argv && *argv)
+	{
+		if (*argv[0])
+			new_env[iter++] = ft_strdup(*argv);
+		if (ft_strnstr(*argv, "PATH=", 5))
+			old_var++;
+		argv++;
+	}
 	new_env[iter] = NULL;
 	free(env->e_envp);
 	env->e_envp = new_env;
-	env->paths = update_paths(env);
+	if (old_var)
+		env->paths = update_paths(env);
 }
 
 void	env_remove(char *to_remove, t_envir *env, int name_size)
@@ -199,6 +207,8 @@ void	env_remove(char *to_remove, t_envir *env, int name_size)
 		old_var++;
 	}
 	*old_var = NULL;
+	if (ft_strnstr(to_remove, "PATH", 4))
+		env->paths = update_paths(env);
 }
 
 void	env_home_export(char *new_var, t_envir *env, int free_flag)
@@ -261,8 +271,7 @@ int	ft_export(t_envir *env, char **argv, int wfd)
 
 	ret = 0;
 	new_var = 0;
-	argv++;
-	if (!*argv)
+	if (!*++argv)
 		ft_env(env->e_envp, /*2, */wfd);
 	iter = argv;
 	while (*iter)

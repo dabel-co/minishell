@@ -80,7 +80,7 @@ int		find_env_expand(char *env, char *str);
 t_exec	*tokenizator(char **orders, t_envir *env);
 char	**smart_split(char *order, char limit);
 int		take_all_heredoc(char **comm, t_envir *env);
-int		take_all_redir(char **order, t_exec *execord);
+int		take_all_redir(char **order, t_exec *execord, t_envir *env);
 char	*search_op(char *comm, char search);
 int		exec_list(t_exec *list, t_envir *env, int subp_count);
 char	*remove_quotes(char *str);
