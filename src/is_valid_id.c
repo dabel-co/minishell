@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_quotes.c                                    :+:      :+:    :+:   */
+/*   is_valid_id.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/23 12:35:43 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/31 18:38:28 by vguttenb         ###   ########.fr       */
+/*   Created: 2022/03/31 15:37:56 by vguttenb          #+#    #+#             */
+/*   Updated: 2022/03/31 18:39:04 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_quotes(char *str)
+int	is_valid_id(char *str, int unset_mode)
 {
-	char	limiter;
-	char	*iter;
-	char	*copy;
-
-	iter = str;
-	copy = str;
-	limiter = '\0';
-	while (*iter)
+	if (!*str || ft_isdigit(*str))
+		return (0);
+	while (*str && *str != '=')
 	{
-		if (limiter && *iter == limiter)
-			limiter = '\0';
-		else if (!limiter && (*iter == '\'' || *iter == '\"'))
-			limiter = *iter;
-		else
-			*copy++ = *iter;
-		iter++;
+		if (!ft_isalnum(*str) && *str != '_')
+			return (0);
+		str++;
 	}
-	*copy = '\0';
-	copy = ft_strdup(str);
-	free(str);
-	return (copy);
+	if (*str && unset_mode)
+		return (0);
+	return (1);
 }

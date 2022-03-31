@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 12:40:19 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/14 16:48:13 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:38:36 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_pwd(int wfd)
 {
 	char	*dir;
- 
+
 	dir = NULL;
 	dir = getcwd(dir, 0);
 	if (!dir)

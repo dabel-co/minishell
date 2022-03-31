@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_quotes.c                                    :+:      :+:    :+:   */
+/*   home_export.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/23 12:35:43 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/31 18:38:28 by vguttenb         ###   ########.fr       */
+/*   Created: 2022/03/31 15:36:37 by vguttenb          #+#    #+#             */
+/*   Updated: 2022/03/31 16:31:47 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_quotes(char *str)
+void	home_export(char *new_var, t_envir *env, int free_flag)
 {
-	char	limiter;
-	char	*iter;
-	char	*copy;
+	char	*to_export[3];
 
-	iter = str;
-	copy = str;
-	limiter = '\0';
-	while (*iter)
-	{
-		if (limiter && *iter == limiter)
-			limiter = '\0';
-		else if (!limiter && (*iter == '\'' || *iter == '\"'))
-			limiter = *iter;
-		else
-			*copy++ = *iter;
-		iter++;
-	}
-	*copy = '\0';
-	copy = ft_strdup(str);
-	free(str);
-	return (copy);
+	to_export[0] = NULL;
+	to_export[1] = ft_strdup(new_var);
+	to_export[2] = NULL;
+	ft_export(env, to_export);
+	free(to_export[1]);
+	if (free_flag)
+		free(new_var);
 }

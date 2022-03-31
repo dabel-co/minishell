@@ -6,22 +6,13 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:24:27 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/28 16:34:25 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 17:11:04 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*void	print_index(int *index)
-{
-	while (*index != -1)
-	{
-		ft_putnbr_fd(*index++, 1);
-		ft_putchar_fd('\n', 1);
-	}
-}*/
-
-int	*append_free(int *index, int new)
+static int	*append_free(int *index, int new)
 {
 	int	ind;
 	int	*ret;
@@ -29,7 +20,7 @@ int	*append_free(int *index, int new)
 	ind = 0;
 	while (index[ind] != -1)
 		ind++;
-	ret = (int*)malloc(sizeof(int) * (ind + 2));
+	ret = (int *)malloc(sizeof(int) * (ind + 2));
 	ret[ind + 1] = -1;
 	ret[ind] = new;
 	while (--ind >= 0)
@@ -38,38 +29,7 @@ int	*append_free(int *index, int new)
 	return (ret);
 }
 
-// int	*index_str(int *index, char *order, char limit)
-// {
-// 	char	limiter;
-
-// 	index = append_free(index, index[0]);
-// 	index[1]++;
-// 	while (order[index[0]] && order[index[0]] != limit)
-// 	{
-// 		if (order[index[0]] == '\\')
-// 			index[0]++;
-// 		else if (order[index[0]] == '\'' || order[index[0]] == '\"')
-// 		{
-// 			limiter = order[index[0]];
-// 			index[0]++;
-// 			while (order[index[0]] != limiter)
-// 			{
-// 				if (order[index[0]] == '\\')
-// 					index[0]++;
-// 				index[0]++;
-// 			}
-// 		}
-// 		index[0]++;
-// 	}
-// 	index = append_free(index, index[0]);
-// 	while (order[index[0]] && order[index[0]] == limit)
-// 		index[0]++;
-// 	if (!order[index[0]])
-// 		return (index);
-// 	return (index_str(index, order, limit));
-// }
-
-int	*index_str(int *index, char *order, char limit)
+static int	*index_str(int *index, char *order, char limit)
 {
 	char	limiter;
 
@@ -102,18 +62,19 @@ char	**smart_split(char *order, char limit)
 	int		ind;
 	int		ind2;
 
-	index = (int*)malloc(sizeof(int) * 3);
+	index = (int *)malloc(sizeof(int) * 3);
 	index[0] = 0;
 	index[1] = 0;
 	index[2] = -1;
 	order = ft_strtrim(order, " ");
 	index = index_str(index, order, limit);
-	ret = (char**)malloc(sizeof(char*) * (index[1] + 1));
+	ret = (char **)malloc(sizeof(char *) * (index[1] + 1));
 	ind = 2;
 	ind2 = 0;
 	while (index[ind] != -1)
 	{
-		ret[ind2++] = ft_substr(order, index[ind], (index[ind + 1] - index[ind]));
+		ret[ind2++] = ft_substr(order, index[ind], \
+		(index[ind + 1] - index[ind]));
 		ind += 2;
 	}
 	ret[ind2] = NULL;
