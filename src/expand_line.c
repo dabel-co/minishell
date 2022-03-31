@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/30 19:57:44 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 13:00:23 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,11 +173,11 @@ int		find_next_var(char *line, int ind, char *limiter)
 {
 	while (line[ind])
 	{
-		if (!*limiter && (line[ind] == '\'' || line[ind] == '\"'))
+		if ((line[ind] == '\'' || line[ind] == '\"') && !*limiter)
 			*limiter = line[ind];
-		else if (line[ind] == *limiter)
+		else if ((line[ind] == '\'' || line[ind] == '\"') && line[ind] == *limiter)
 			*limiter = '\0';
-		if (line[ind] == '$' && *limiter != '\'')
+		else if (line[ind] == '$' && *limiter != '\'')
 			break ;
 		ind++;
 	}
@@ -190,17 +190,15 @@ int		find_next_var(char *line, int ind, char *limiter)
 	return (ind);
 }
 
-char	*expand_line(char *line, t_envir *env)
+char	*expand_line(char *line, t_envir *env, char limiter)
 {
 	char	*ret;
 	char	*new;
 	int		start;
 	int		ind;
-	char	limiter;
 
 	ret = NULL;
 	ind = 0;
-	limiter = '\0';
 	line = ft_strtrim_free(line, " ");
 	if (!*line)
 		return (line);

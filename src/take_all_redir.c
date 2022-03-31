@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:58:10 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/30 18:06:40 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 12:47:24 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	take_redir(char *redir, char **order, t_exec *execord, t_envir *env)
 	int		end;
 	char	*filename;
 
-	filename = remove_quotes(expand_line(take_keyword(redir, &end), env));
+	filename = remove_quotes(expand_line(take_keyword(redir, &end), env, '\0'));
 	fd = open_redir(redir, filename, execord);
 	if (fd && redir[0] == '>')
 		execord->out_fd = fd;

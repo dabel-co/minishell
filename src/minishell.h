@@ -74,7 +74,7 @@ void	update_shlvl(t_envir *env);
 char	**check_path(t_envir *env);
 char	**init_split(char *str);
 // char	*expand_line(char *str, t_envir *env, int i, int p);
-char	*expand_line(char *str, t_envir *env);
+char	*expand_line(char *str, t_envir *env, char limiter);
 char	*get_env_value(char *str, t_envir *env);
 int		find_env_expand(char *env, char *str);
 t_exec	*tokenizator(char **orders, t_envir *env);

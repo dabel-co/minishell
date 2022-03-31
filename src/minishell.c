@@ -129,7 +129,7 @@ void	readfromprompt(t_envir *env)
 	char	*new_comm;
 	//int		subp_count;
 
-	new_comm = readline("SUSSYBAKA@WEEABOSHELL$ ");
+	new_comm = readline("BESTMINISHELL@EVER$ ");
 	if (!new_comm || ft_strcmp(new_comm, "exit"))
 	{
 		free(new_comm);

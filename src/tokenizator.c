@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 12:52:31 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/30 18:12:23 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 12:47:03 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	get_args(char **order, t_envir *env, t_exec *node)
 		iter = node->argv;
 		while (*iter)
 		{
-			*iter = remove_quotes(expand_line(*iter, env));
+			*iter = remove_quotes(expand_line(*iter, env, '\0'));
 			iter++;
 		}
 		last_bar = ft_strrchr(node->argv[0], '/');
@@ -80,7 +80,7 @@ void	update_underscore(char *line, t_envir *env)
 	}
 	if (line[ind] == ' ')
 		ind++;
-	new_val = remove_quotes(expand_line(ft_strdup(&line[ind]), env));
+	new_val = remove_quotes(expand_line(ft_strdup(&line[ind]), env, '\0'));
 	env_home_export(ft_strjoin("_=", new_val), env, 1);
 	free(new_val);
 }
