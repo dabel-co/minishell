@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:46:47 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/31 18:38:51 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/03/31 19:56:06 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	line_parse(char **line)
 
 	ind = 0;
 	err = NULL;
+	if (ft_strnstr(*line, " ", ft_strlen(*line)))
+		err = ft_strdup("minishell: syntax error near non-unicode character");
 	while (line[0][ind] && !err)
 	{
 		if (line[0][ind] == '\'' || line[0][ind] == '\"')

@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/03/31 19:28:44 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/03/31 19:38:17 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,8 @@ SRC = $(addprefix ./src/, $(addsuffix .c, $(CFILES)))
 
 all: $(NAME)
 
-$(NAME): $(SRC) $(LIB)
-	$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIB)
+$(NAME): $(SRC) $(LIBFT)
+	$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIBFT)
 	
 $(LIBFT):
 	@if test -d libft; then ( cd libft ; git pull ) ; else git clone https://github.com/dabel-co/libft.git; fi
