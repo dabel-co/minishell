@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/03/31 19:38:17 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/01 19:00:07 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,15 +47,19 @@ SRC = $(addprefix ./src/, $(addsuffix .c, $(CFILES)))
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT)
-	$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIBFT)
+	@echo -n "compiling minishell: "
+	@$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIBFT)
+	@echo "\e[0;32mminishell compiled\e[0;0m"
 	
 $(LIBFT):
-	@if test -d libft; then ( cd libft ; git pull ) ; else git clone https://github.com/dabel-co/libft.git; fi
-	@make extra -C ./libft
+	@if test -d libft; then ( cd libft ; git pull ) ; else git clone -q https://github.com/dabel-co/libft.git; fi
+	@echo -n "compiling libft: "
+	@make extra --no-print-directory -C ./libft
+	@echo "\e[0;32mlibft compiled\e[0;0m"
 	
 clean:
 	rm -f $(NAME)
-	rm -rf minishell.dSYM
+	rm -rf minishell.dSYM 
 	
 fclean: clean
 	make fclean -C ./libft

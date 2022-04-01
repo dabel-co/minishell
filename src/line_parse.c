@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:46:47 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/31 19:56:06 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:32:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ static char	*check_quotes(char **line, int *ind)
 
 static char	*check_pipe(char **line, int *ind)
 {
-	char	*err;
-
-	err = NULL;
 	*ind += 1;
 	while (line[0][*ind] && line[0][*ind] == ' ')
 		*ind += 1;
