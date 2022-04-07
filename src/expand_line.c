@@ -6,24 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 11:59:02 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/31 18:41:03 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:03:33 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	find_env_expand(char *env, char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (env[i] == str[i + 1])
-// 		i++;
-// 	if (env[i] == '=' && (str[i + 1] == ' ' || str[i + 1] == '\0'
-// 			|| str[i + 1] == '$' || str[i + 1] == '"'))
-// 		return (0);
-// 	return (-1);
-// }
 
 static char	*get_var_value(char *line, t_envir *env, int *ind, char limiter)
 {

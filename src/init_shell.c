@@ -6,25 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/03/09 12:04:20 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:03:18 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char	**check_path(t_envir *env)
-// {
-// 	int		i;
-// 	char	*aux;
-
-// 	i = 0;
-// 	aux = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:";
-// 	while (find_env(env->e_envp[i], "PATH=") && env->e_envp[i] != NULL)
-// 		i++;
-// 	if (env->e_envp[i] == NULL)
-// 		return (get_paths(&aux));
-// 	return (NULL);
-// }
 
 char	**get_env(char **envp)
 {

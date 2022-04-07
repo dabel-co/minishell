@@ -6,25 +6,11 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 11:27:36 by dabel-co          #+#    #+#             */
-/*   Updated: 2022/03/31 16:30:57 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:03:41 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	find_env(char *env, char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!env || !str || env == NULL)
-// 		return (-1);
-// 	while (env[i] == str[i] && str[i] != '=' && env[i] != '\0')
-// 		i++;
-// 	if (env[i] == '=' || (env[i] == '\0' && str[i] == '='))
-// 		return (0);
-// 	return (-1);
-// }
 
 int	ft_export(t_envir *env, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 16:54:59 by marvin            #+#    #+#             */
-/*   Updated: 2022/03/09 13:07:07 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/04/07 13:04:16 by dabel-co         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ void	readfromfile(t_envir *env)
 	}
 }
 
-void	hola(void)
-{
-	system("leaks -q minishell");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_envir	env;
@@ -74,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!env.paths)
 		env.paths = ft_split(AUX_PATH, ':');
 	update_shlvl(&env);
-	atexit(hola);
 	if (isatty(STDIN_FILENO))
 		while (1)
 			readfromprompt(&env);
