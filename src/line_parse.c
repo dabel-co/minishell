@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:46:47 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/01 18:32:29 by marvin           ###   ########.fr       */
+/*   Updated: 2022/04/07 14:29:50 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	line_parse(char **line)
 	ind = 0;
 	err = NULL;
 	if (ft_strnstr(*line, " ", ft_strlen(*line)))
-		err = ft_strdup("minishell: syntax error near non-unicode character");
+		err = ft_strdup("minishell: syntax error near non std ascii character");
 	while (line[0][ind] && !err)
 	{
 		if (line[0][ind] == '\'' || line[0][ind] == '\"')

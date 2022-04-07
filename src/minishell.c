@@ -16,7 +16,7 @@ void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
 
-	new_comm = readline("BESTMINISHELL@EVER$ ");
+	new_comm = readline(env->prompt);
 	if (!new_comm || ft_strcmp(new_comm, "exit"))
 	{
 		free(new_comm);
@@ -40,7 +40,7 @@ void	readfromfile(t_envir *env)
 	ioctl(STDIN_FILENO, FIONREAD, &nbytes);
 	while (nbytes)
 	{
-		new_comm = readline("BESTMINISHELL@EVER$ ");
+		new_comm = readline(env->prompt);
 		if (ft_strcmp(new_comm, "exit"))
 		{
 			free(new_comm);
@@ -56,6 +56,16 @@ void	readfromfile(t_envir *env)
 	}
 }
 
+char	*get_prompt(t_envir *env)
+{
+	char	*user;
+
+	user = env_retrieve("USER", env, 0);
+	if (!user)
+		user = ft_strdup("ghost");
+	return (ft_strjoin_free(user, "@minishell$ "));
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_envir	env;
@@ -66,6 +76,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	env.e_envp = get_env(envp);
 	env.paths = update_paths(&env);
+	env.prompt = get_prompt(&env);
 	if (!env.paths)
 		env.paths = ft_split(AUX_PATH, ':');
 	update_shlvl(&env);

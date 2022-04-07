@@ -52,6 +52,7 @@ typedef struct s_envir
 {
 	char	**paths;
 	char	**e_envp;
+	char	*prompt;
 	int		zyzz;
 }				t_envir;
 

@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:53:48 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/07 11:55:36 by dabel-co         ###   ########.fr       */
+/*   Updated: 2022/04/07 14:38:17 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@ void	m_exit(t_envir *env)
 		free_array(env->paths);
 	if (env->e_envp)
 		free_array(env->e_envp);
+	if (env->prompt)
+		free(env->prompt);
 	exit(0);
 }
