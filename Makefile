@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/04/07 14:46:33 by dabel-co         ###   ########.fr        #
+#    Updated: 2022/04/07 17:56:03 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,22 +40,23 @@ CFILES =	minishell \
 		env_func \
 		unset \
 		home_export \
-		is_valid_id
+		is_valid_id \
+		is_all_num
 
 SRC = $(addprefix ./src/, $(addsuffix .c, $(CFILES)))
 
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT)
-	@echo "compiling minishell..."
+	@echo -n "compiling minishell: "
 	@$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIBFT)
-	@echo "minishell compiled"
+	@echo "\e[0;32mminishell compiled\e[0;0m"
 	
 $(LIBFT):
 	@if test -d libft; then ( cd libft ; git pull ) ; else git clone -q https://github.com/dabel-co/libft.git; fi
-	@echo "compiling libft..."
+	@echo -n "compiling libft: "
 	@make extra --no-print-directory -C ./libft
-	@echo "libft compiled"
+	@echo "\e[0;32mlibft compiled\e[0;0m"
 	
 clean:
 	rm -f $(NAME)
@@ -64,6 +65,9 @@ clean:
 fclean: clean
 	make fclean -C ./libft
 	
+g : fclean
+	rm -rf ./libft
+
 re: clean all
 
 .PHONY : all clean fclean re

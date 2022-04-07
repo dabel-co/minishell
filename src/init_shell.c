@@ -54,14 +54,6 @@ char	**update_paths(t_envir *env)
 	return (ret);
 }
 
-int	is_all_num(char *str)
-{
-	while (*str)
-		if (!ft_isdigit(*str++))
-			return (0);
-	return (1);
-}
-
 void	update_shlvl(t_envir *env)
 {
 	char	*number;

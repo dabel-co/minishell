@@ -95,5 +95,6 @@ void	env_update(t_envir *env, char **argv, int new_var);
 void	env_remove(char *to_remove, t_envir *env, int name_size);
 void	home_export(char *new_var, t_envir *env, int free_flag);
 void	m_exit(t_envir *env);
+int		is_all_num(char *str);
 
 #endif

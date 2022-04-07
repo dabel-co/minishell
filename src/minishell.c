@@ -12,12 +12,40 @@
 
 #include "minishell.h"
 
+int	check_exit(char *comm, t_envir *env)
+{
+	char **args;
+
+	if (search_op(comm, '|'))
+		return (0);
+	args = smart_split(ft_strdup(comm), ' ');
+	if (!ft_strcmp(args[0], "exit"))
+		return (0);
+	if (!args[1])
+		return (1);
+	if (!is_all_num(args[1]))
+	{
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required", STDERR_FILENO);
+		env->zyzz = 255;
+		return (1);
+	}
+	if (!args[2])
+	{
+		env->zyzz = ft_atoi(args[1]);
+		return (1);
+	}
+	ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
+	return (0);
+}
+
 void	readfromprompt(t_envir *env)
 {
 	char	*new_comm;
 
 	new_comm = readline(env->prompt);
-	if (!new_comm || ft_strcmp(new_comm, "exit"))
+	if (!new_comm || check_exit(new_comm, env))
 	{
 		free(new_comm);
 		rl_clear_history();

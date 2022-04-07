@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   m_exit.c                                           :+:      :+:    :+:   */
+/*   is_all_num.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 14:53:48 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/07 17:43:38 by vguttenb         ###   ########.fr       */
+/*   Created: 2022/04/07 17:55:27 by vguttenb          #+#    #+#             */
+/*   Updated: 2022/04/07 17:55:45 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	m_exit(t_envir *env)
+int	is_all_num(char *str)
 {
-	if (env->paths)
-		free_array(env->paths);
-	if (env->e_envp)
-		free_array(env->e_envp);
-	if (env->prompt)
-		free(env->prompt);
-	exit(env->zyzz);
+	while (*str)
+		if (!ft_isdigit(*str++))
+			return (0);
+	return (1);
 }
