@@ -6,7 +6,7 @@
 #    By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/02 20:21:22 by dabel-co          #+#    #+#              #
-#    Updated: 2022/04/07 17:56:03 by vguttenb         ###   ########.fr        #
+#    Updated: 2022/04/13 16:21:03 by vguttenb         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,22 +41,23 @@ CFILES =	minishell \
 		unset \
 		home_export \
 		is_valid_id \
-		is_all_num
+		is_all_num \
+		check_exit
 
 SRC = $(addprefix ./src/, $(addsuffix .c, $(CFILES)))
 
 all: $(NAME)
 
 $(NAME): $(SRC) $(LIBFT)
-	@echo -n "compiling minishell: "
+	@echo "compiling minishell..."
 	@$(CC) -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include $(FLAGS) $(SRC) $(READLINE) -o $(NAME) $(LIBFT)
-	@echo "\e[0;32mminishell compiled\e[0;0m"
+	@echo "minishell compiled"
 	
 $(LIBFT):
 	@if test -d libft; then ( cd libft ; git pull ) ; else git clone -q https://github.com/dabel-co/libft.git; fi
-	@echo -n "compiling libft: "
+	@echo "compiling libft..."
 	@make extra --no-print-directory -C ./libft
-	@echo "\e[0;32mlibft compiled\e[0;0m"
+	@echo "libft compiled"
 	
 clean:
 	rm -f $(NAME)

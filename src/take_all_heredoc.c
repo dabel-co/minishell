@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:52:30 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/03/31 17:09:59 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:53:51 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int	take_heredoc(char **comm, char *input, t_envir *env)
 	{
 		close(pip[RD_END]);
 		pip[RD_END] = 0;
+		env->zyzz = g_err;
 	}
 	*comm = ft_strcrop_free(*comm, (input - *comm), end);
 	close(pip[WR_END]);

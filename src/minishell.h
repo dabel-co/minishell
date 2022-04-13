@@ -76,7 +76,7 @@ char	**smart_split(char *order, char limit);
 int		take_all_heredoc(char **comm, t_envir *env);
 int		take_all_redir(char **order, t_exec *execord, t_envir *env);
 char	*search_op(char *comm, char search);
-int		exec_list(t_exec *list, t_envir *env, int subp_count);
+int		exec_list(t_exec *list, t_envir *env, int subp_count, char first_comm);
 char	*remove_quotes(char *str);
 void	handle_signals(int sig);
 void	handle_signals_heredoc(int sig);
@@ -94,7 +94,8 @@ int		env_replace(char *str, t_envir *env);
 void	env_update(t_envir *env, char **argv, int new_var);
 void	env_remove(char *to_remove, t_envir *env, int name_size);
 void	home_export(char *new_var, t_envir *env, int free_flag);
-void	m_exit(t_envir *env);
+void	m_exit(t_envir *env, char *to_free);
 int		is_all_num(char *str);
+int		check_exit(t_exec *node, t_envir *env);
 
 #endif

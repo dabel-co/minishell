@@ -6,13 +6,13 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/07 17:01:43 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:12:27 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_binode(t_exec *node, t_envir *env)
+static int	exec_binode(t_exec *node, t_envir *env, char first_comm)
 {
 	if (node->argv)
 	{
@@ -28,6 +28,11 @@ static int	exec_binode(t_exec *node, t_envir *env)
 			return (ft_env(env->e_envp, node->out_fd));
 		else if (ft_strcmp(node->argv[0], "pwd"))
 			return (ft_pwd(node->out_fd));
+		else if (first_comm && check_exit(node, env))
+		{
+			free_node(node);
+			m_exit(env, NULL);
+		}
 	}
 	return (0);
 }
@@ -104,12 +109,12 @@ static int	subp_wait(int subp_count, int last_pid, t_envir *env)
 	return (1);
 }
 
-int	exec_list(t_exec *list, t_envir *env, int subp_count)
+int	exec_list(t_exec *list, t_envir *env, int subp_count, char first_comm)
 {
 	int		ret;
 	t_exec	*next;
 
-	ret = 1;
+	ret = env->zyzz;
 	if (!list)
 		return (subp_wait(0, 1, env));
 	if (list->next)
@@ -121,12 +126,12 @@ int	exec_list(t_exec *list, t_envir *env, int subp_count)
 	else if (list->exec_path)
 		ret = exec_spnode(list, env, &subp_count);
 	else
-		ret = exec_binode(list, env);
+		ret = exec_binode(list, env, first_comm);
 	next = list->next;
 	free_node(list);
 	if (next && ret == -1)
 		free_list(next);
 	else if (next)
-		return (exec_list(next, env, subp_count));
+		return (exec_list(next, env, subp_count, 0));
 	return (subp_wait(subp_count, ret, env));
 }
