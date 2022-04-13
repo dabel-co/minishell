@@ -6,7 +6,7 @@
 /*   By: vguttenb <vguttenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 17:44:12 by vguttenb          #+#    #+#             */
-/*   Updated: 2022/04/13 16:12:27 by vguttenb         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:33:05 by vguttenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	exec_binode(t_exec *node, t_envir *env, char first_comm)
 			return (ft_env(env->e_envp, node->out_fd));
 		else if (ft_strcmp(node->argv[0], "pwd"))
 			return (ft_pwd(node->out_fd));
-		else if (first_comm && check_exit(node, env))
+		else if (first_comm && !node->next && check_exit(node, env))
 		{
 			free_node(node);
 			m_exit(env, NULL);
